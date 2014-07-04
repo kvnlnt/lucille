@@ -53,3 +53,20 @@ Lucille.prototype.displayPrev = function(){
 	this.display();
 
 };
+
+Lucille.prototype.displayOrientation = function(mode) {
+
+	this.orientation = mode;
+	this.renderFretboardRefresh();
+	this.display();
+
+};
+
+Lucille.prototype.displayMenu = function(show){
+
+	var klass = true === show ? 'menu' : 'menu hide';
+	var menu = this.lucille.menu;
+	menu.attr('class',klass);
+
+};
+

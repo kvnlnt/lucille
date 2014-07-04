@@ -1,6 +1,5 @@
-Lucille.prototype.render = function() {
+Lucille.prototype.render = function(reload) {
 
-	var voicing = this.calcVoicing();
 	this.lucille = this.renderChart();
 	this.lucille.background = this.renderBackground();
 	this.lucille.fretboard = this.renderFretboard();
@@ -8,6 +7,8 @@ Lucille.prototype.render = function() {
 	this.lucille.frets = this.renderFrets();
 	this.lucille.frettings = this.renderFrettings();
 	this.lucille.buttons = this.renderButtons();
+	this.lucille.menu = this.renderMenu();
+	this.lucille.options = this.renderOptions();
 
 };
 
@@ -38,6 +39,15 @@ Lucille.prototype.renderFretboard = function(){
 	fretboard.attr({'class':'fretboard','transform':'translate('+x+','+y+')'});
 
 	return fretboard;
+
+};
+
+Lucille.prototype.renderFretboardRefresh = function(){
+
+	this.lucille.fretboard.clear();
+	this.lucille.strings = this.renderStrings();
+	this.lucille.frets = this.renderFrets();
+	this.lucille.frettings = this.renderFrettings();
 
 };
 
@@ -99,6 +109,60 @@ Lucille.prototype.renderFrettings = function(){
 
 };
 
+Lucille.prototype.renderMenu = function(){
+
+	// params
+	var layout = this.calcLayout();
+	var menu = this.lucille.g().attr('class','menu');
+	var w = layout.chart.width * .9;
+	var h = layout.chart.height - (layout.chart.width - w);
+	var x = (layout.chart.width - w)/2;
+	var y = (layout.chart.height - h)/2;
+
+	// elements
+	var background = menu.rect(x,y,w,h).attr('class','background');
+	var title = menu.text(layout.chart.width/2, 60, 'Title').attr('class','title');
+	var close = menu.g().attr({'class':'button close'});
+	close.click(function(){ this.displayMenu(false); }, this);
+	var closeW = w * .9;
+	var closeH = 50;
+	var closeX = (w - closeW);
+	var closeY = h - closeH;
+	var closeTarget = close.rect(closeX, closeY, closeW, closeH).attr('class','closeTarget touchTarget');
+	var closeText = close.text(layout.chart.width/2, closeY + 25, 'Close').attr('class','closeText');
+	var form = menu.g().attr({'class':'form', 'transform':'translate('+closeX+',100)'});
+
+	return menu;
+
+};
+
+Lucille.prototype.renderOptions = function(){
+
+	var that = this;
+	var layout = this.calcLayout();
+	var title = this.lucille.menu.select('.title').node.textContent = 'Options';
+	var closeTarget = this.lucille.menu.select('.closeTarget');
+	var closeText = this.lucille.menu.select('.closeText').node.textContent = 'Done';
+	var form = this.lucille.menu.select('.menu .form');
+
+	var lefty = form.g().attr('class','button lefty');
+	var w = closeTarget.attr('width')/2;
+	lefty.rect(0,0,w,50).attr('class','touchTarget');
+	lefty.text(w/2,25,'lefty');
+	lefty.click(function(){ that.displayOrientation('lefty'); },this);
+
+	var righty = form.g().attr('class','button righty active');
+	righty.rect(w,0,w,50).attr('class','touchTarget');
+	righty.text(w + w/2,25,'righty');
+	righty.click(function(){ that.displayOrientation('righty'); },this);
+
+	// var options = this.lucille.menu.g().attr('class','options');
+	// var text = options.text(layout.chart.width/2, 60, 'options').attr('class','title');
+
+	// return options;
+
+};
+
 Lucille.prototype.renderButtons = function(){
 
 	var layout = this.calcLayout();
@@ -133,6 +197,16 @@ Lucille.prototype.renderButtons = function(){
 	var playTarget = play.rect(-25,-25,50,50).attr('class','touchTarget');
 	var playText = play.text(0, 0, '');
 	playText.node.innerHTML = '&#xf028';
+
+	// settings
+	var settingsX = layout.chart.width - ((layout.chart.width - layout.fretboard.width) / 2) / 2;
+	var settingsY = ((layout.chart.width - layout.fretboard.width) / 2) / 2;
+	var settings = buttons.g();
+		settings.click(function(){ this.displayMenu(true); }, this);
+		settings.attr({ 'class':'button settings', 'transform':'translate('+settingsX+','+settingsY+')' });
+	var settingsTarget = settings.rect(-25,-25,50,50).attr('class','touchTarget');
+	var settingsText = settings.text(0, 0, '');
+	settingsText.node.innerHTML = '&#xf0c9';
 
 	return buttons.selectAll('.button');
 

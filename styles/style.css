@@ -2,7 +2,7 @@
   font-family: 'VarelaRound';
   font-style: normal;
   font-weight: 400;
-  src: local('VarelaRound'), local('VarelaRound-Regular'), url(fonts/Varela_Round/VarelaRound-Regular.woff) format('woff');
+  src: local('VarelaRound'), local('VarelaRound-Regular'), url(../fonts/Varela_Round/VarelaRound-Regular.woff) format('woff');
 }
 
 .lucille {
@@ -14,8 +14,19 @@
 	display: none;
 }
 
+.lucille text {
+	alignment-baseline:central;
+    text-anchor:middle;
+}
+
 .lucille .button {
 	font-family:'FontAwesome';
+	cursor: pointer;
+	text-transform: uppercase;
+}
+
+.lucille .button:hover {
+	fill:#FFFFFF;
 }
 
 .lucille .button .touchTarget {
@@ -29,9 +40,9 @@
 	cursor: pointer;
 }
 
-.lucille text {
-	alignment-baseline:central;
-    text-anchor:middle;
+.lucille .button.settings {
+	font-size: 1rem;
+	cursor: pointer;
 }
 
 .lucille .string{
@@ -47,4 +58,33 @@
 .lucille .fretting .string {
 	stroke:#000000;
 	stroke-width:5;
+}
+
+.lucille .menu {
+}
+
+.lucille .menu .background {
+	fill:#FFFFFF;
+	stroke:#f2f2f2;
+	stroke-width:3;
+}
+
+.lucille .menu .title {
+	font-size: 1.25rem;
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+.lucille .menu .button .touchTarget {
+	fill:#FFFFFF;
+	stroke:#000000;
+	stroke-width:1;
+}
+
+.lucille .menu .button.active .touchTarget{
+	fill:#BBBBBB;
+}
+
+.lucille .menu .button:hover text{
+	fill:#999999;
 }
