@@ -1,0 +1,50 @@
+@font-face {
+  font-family: 'VarelaRound';
+  font-style: normal;
+  font-weight: 400;
+  src: local('VarelaRound'), local('VarelaRound-Regular'), url(fonts/Varela_Round/VarelaRound-Regular.woff) format('woff');
+}
+
+.lucille {
+	font-family:'VarelaRound';
+	font-size: 1rem;
+}
+
+.lucille .hide {
+	display: none;
+}
+
+.lucille .button {
+	font-family:'FontAwesome';
+}
+
+.lucille .button .touchTarget {
+	fill:#999999;
+}
+
+.lucille .button.next,
+.lucille .button.prev,
+.lucille .button.play {
+	font-size: 2rem;
+	cursor: pointer;
+}
+
+.lucille text {
+	alignment-baseline:central;
+    text-anchor:middle;
+}
+
+.lucille .string{
+	stroke:#000000;
+	stroke-width:2;
+}
+
+.lucille .fret {
+	stroke:#000000;
+	stroke-width:2;
+}
+
+.lucille .fretting .string {
+	stroke:#000000;
+	stroke-width:5;
+}
