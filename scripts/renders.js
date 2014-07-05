@@ -128,11 +128,11 @@ Lucille.prototype.renderFrettings = function(){
 	var frettings = this.lucille.fretboard.g().attr('class','frettings');
 	var radius    = layout.strings.spacing/2 - 1;
 
-	_.times(layout.strings.x1.length,function(n){
+	_.times(layout.strings.x1.length, function(n){
 
 		var x        = layout.strings.x1[n];
 		var y        = layout.fretboard.height/2;
-		var fretting = frettings.g().attr({'class':'fretting'});
+		var fretting = frettings.g().attr({ 'class':'fretting' });
 		var dot      = fretting.circle(x,y,radius).attr('class','dot');
 		var string   = fretting.line(x,y,x,that.fretboard.height).attr('class','string');
 

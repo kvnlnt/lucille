@@ -21,8 +21,8 @@ Lucille.prototype.display = function(){
 
 		// fretting line
 		var line 		= fretting.select('.string');
-		var lineClass 	= -1 === pos ? 'string hide' : 'string';
-		var lineY 		= frets.y[loc] - (frets.spacing/2);
+		var lineClass 	= null === voice.fret ? 'string hide' : 'string';
+		var lineY 		= 0 === voice.fret ? layout.strings.y1[i] : frets.y[loc] - (frets.spacing/2);
 
 		line.attr({ class:lineClass });
 		line.animate({ y1:lineY }, 700, mina.backout);
