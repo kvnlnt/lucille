@@ -83,8 +83,8 @@ Lucille.prototype.displaySettings = function(){
 		fields:[
 			{
 				name:'orientation',
-				values:['righty','lefty'],
-				selected:_.indexOf(['righty','lefty'], this.orientation)
+				values:['RIGHTY','LEFTY'],
+				selected:_.indexOf(['RIGHTY','LEFTY'], this.orientation)
 			}
 		]
 
@@ -110,7 +110,7 @@ Lucille.prototype.displayChordPicker = function(){
 		fields:[
 			{
 				name:'root',
-				values:['C','D','E'],
+				values:['C','C# / Db','D','D# / Eb','E','F','F# / Gb','G','G# / Ab','A','A# / Bb','B'],
 				selected:0
 			}
 		]
