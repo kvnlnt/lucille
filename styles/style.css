@@ -29,10 +29,6 @@
 	fill:#FFFFFF;
 }
 
-.lucille .button .touchTarget {
-	fill:#999999;
-}
-
 .lucille .button.next,
 .lucille .button.prev,
 .lucille .button.play {
@@ -41,7 +37,7 @@
 }
 
 .lucille .button.settings {
-	font-size: 1rem;
+	font-size: 1.5rem;
 	cursor: pointer;
 }
 
@@ -58,33 +54,4 @@
 .lucille .fretting .string {
 	stroke:#000000;
 	stroke-width:5;
-}
-
-.lucille .menu {
-}
-
-.lucille .menu .background {
-	fill:#FFFFFF;
-	stroke:#f2f2f2;
-	stroke-width:3;
-}
-
-.lucille .menu .title {
-	font-size: 1.25rem;
-	text-transform: uppercase;
-	font-weight: bold;
-}
-
-.lucille .menu .button .touchTarget {
-	fill:#FFFFFF;
-	stroke:#000000;
-	stroke-width:1;
-}
-
-.lucille .menu .button.active .touchTarget{
-	fill:#BBBBBB;
-}
-
-.lucille .menu .button:hover text{
-	fill:#999999;
 }

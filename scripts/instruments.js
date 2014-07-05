@@ -1,10 +1,16 @@
-var Instrument = {
+Lucille.prototype.Instrument = (function(){
 
-	guitar:{
+	var instrument = {
 
-		strings:6,
-        tuning:['E','B','G','D','A','E']
-        
-	}
+		guitar:{
 
-};
+			strings:6,
+	        tuning:['E','B','G','D','A','E']
+	        
+		}
+
+	};
+
+	return instrument;	
+
+}());

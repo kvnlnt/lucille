@@ -62,11 +62,17 @@ Lucille.prototype.displayOrientation = function(mode) {
 
 };
 
-Lucille.prototype.displayMenu = function(show){
+Lucille.prototype.displaySettings = function(){
 
-	var klass = true === show ? 'menu' : 'menu hide';
-	var menu = this.lucille.menu;
-	menu.attr('class',klass);
+	var cb = function(pickl){
+        console.log('values', pickl);
+    };
+
+	var settingsPickl = this.lucille.g();
+    var pickl = new Pickl({ 
+        svg:settingsPickl,
+        callback:cb
+    });
 
 };
 
