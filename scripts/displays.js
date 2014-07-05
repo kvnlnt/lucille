@@ -27,6 +27,18 @@ Lucille.prototype.display = function(){
 		line.attr({ class:lineClass });
 		line.animate({ y1:lineY }, 700, mina.backout);
 
+		// fretting tab
+		var tab 		= fretting.select('.tab');
+		var tabFret     = null === voice.fret ? 'X' : voice.fret;
+
+		tab.node.textContent = tabFret;
+
+		// fretting tab
+		var note 		= fretting.select('.note');
+		var noteNote    = null === voice.note ? 'X' : voice.note;
+
+		note.node.textContent = noteNote;
+
 	});
 
 };
