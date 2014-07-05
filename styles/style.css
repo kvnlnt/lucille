@@ -20,9 +20,7 @@
 }
 
 .lucille .button {
-	font-family:'FontAwesome';
 	cursor: pointer;
-	text-transform: uppercase;
 }
 
 .lucille .button:hover {
@@ -32,13 +30,23 @@
 .lucille .button.next,
 .lucille .button.prev,
 .lucille .button.play {
+	font-family:'FontAwesome';
 	font-size: 2rem;
 	cursor: pointer;
 }
 
 .lucille .button.settings {
+	font-family:'FontAwesome';
 	font-size: 1.5rem;
 	cursor: pointer;
+}
+
+.lucille .chord .root {
+	font-size: 3rem;
+}
+
+.lucille .chord .type {
+	font-size: 1.10rem;
 }
 
 .lucille .string{

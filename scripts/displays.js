@@ -90,3 +90,43 @@ Lucille.prototype.displaySettings = function(){
 
 };
 
+Lucille.prototype.displayChordPicker = function(){
+
+	var root = {
+
+		name:'Root',
+		fields:[
+			{
+				name:'root',
+				values:['C','D','E'],
+				selected:0
+			}
+		]
+
+	};
+
+	var type = {
+
+		name:'Type',
+		fields:[
+			{
+				name:'type',
+				values:['Major','Minor','Aug','Dim'],
+				selected:0
+			}
+		]
+
+	};
+
+	var config       = {};
+	config.title     = 'Settings';
+	config.colors    = { background:'#e2e2e2' };
+	config.fieldsets = [root, type];
+
+	var that          = this;
+	var callback      = function(settings){ that.updateChord(settings); };
+	var settingsPickl = this.lucille.g();
+	var pickl         = new Pickl({ svg:settingsPickl, callback:callback, config:config });
+
+};
+

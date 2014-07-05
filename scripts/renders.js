@@ -3,6 +3,7 @@ Lucille.prototype.render = function(reload) {
 	this.lucille            = this.renderChart();
 	this.lucille.theme      = this.renderTheme();
 	this.lucille.background = this.renderBackground();
+	this.lucille.chord      = this.renderChord();
 	this.lucille.fretboard  = this.renderFretboard();
 	this.lucille.strings    = this.renderStrings();
 	this.lucille.frets      = this.renderFrets();
@@ -43,12 +44,27 @@ Lucille.prototype.renderBackground = function(){
 
 };
 
+Lucille.prototype.renderChord = function(){
+
+	var x          = (this.chart.width - 100) / 2;
+	var y          = 10;
+	var chord      = this.lucille.g().attr({ 'class':'chord button', 'transform':'translate('+x+','+y+')'});
+	var background = chord.rect(0,0,100,100).attr('class','touchTarget');
+	var root       = chord.text(50, 50, this.tab.root).attr('class','root');
+	var type       = chord.text(50, 90, this.tab.type).attr('class','type');
+
+	chord.click(this.displayChordPicker, this);
+
+	return chord;
+
+};
+
 Lucille.prototype.renderFretboard = function(){
 
 	var layout    = this.calcLayout();
 	var fretboard = this.lucille.g();
 	var x         = (layout.chart.width - layout.fretboard.width)/2;
-	var y         = (layout.chart.height - layout.fretboard.height)/2;
+	var y         = (layout.chart.height - layout.fretboard.height)/2 + 15;
 
 	fretboard.attr({'class':'fretboard','transform':'translate('+x+','+y+')'});
 

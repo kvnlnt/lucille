@@ -1,8 +1,5 @@
 Lucille.prototype.updateSettings = function(settings){
 
-	console.log('settings', settings);
-	console.log('this', this);
-
 	// orientation
 	if(this.orientation != settings.orientation){
 	
@@ -11,5 +8,11 @@ Lucille.prototype.updateSettings = function(settings){
 		this.display();
 
 	}
+
+};
+
+Lucille.prototype.updateChord = function(settings){
+
+	console.log('chord', settings);
 
 };
