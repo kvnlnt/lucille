@@ -127,14 +127,19 @@ Lucille.prototype.renderFrettings = function(){
 	var layout    = this.calcLayout();
 	var frettings = this.lucille.fretboard.g().attr('class','frettings');
 	var radius    = layout.strings.spacing/2 - 1;
+	var voicing   = this.calcVoicing();
 
 	_.times(layout.strings.x1.length, function(n){
 
-		var x        = layout.strings.x1[n];
-		var y        = layout.fretboard.height/2;
-		var fretting = frettings.g().attr({ 'class':'fretting' });
-		var dot      = fretting.circle(x,y,radius).attr('class','dot');
-		var string   = fretting.line(x,y,x,that.fretboard.height).attr('class','string');
+		var x         = layout.strings.x1[n];
+		var y         = layout.fretboard.height/2;
+		var fretting  = frettings.g().attr({ 'class':'fretting' });
+		var dot       = fretting.circle(x,y,radius).attr('class','dot');
+		var string    = fretting.line(x,y,x,that.fretboard.height).attr('class','string');
+		var tabY 	  = layout.strings.y1[n] - 15;
+		var tabLabel  = fretting.text(x, tabY, 'X').attr('class','label');
+		var noteY     = layout.strings.y2[n] + 15;
+		var noteLabel = fretting.text(x, noteY, 'X').attr('class','label');
 
 	});
 
@@ -171,7 +176,7 @@ Lucille.prototype.renderButtons = function(){
 
 	// play
 	var playX      = layout.chart.width/2;
-	var playY      = layout.chart.height - ((layout.chart.height - layout.fretboard.height) / 2) / 2;
+	var playY      = layout.chart.height - ((layout.chart.height - layout.fretboard.height) / 2) / 2 + 10;
 	var play       = buttons.g();
 	var playTarget = play.rect(-25,-25,50,50).attr('class','touchTarget');
 	var playText   = play.text(0, 0, '');

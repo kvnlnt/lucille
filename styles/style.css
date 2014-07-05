@@ -70,3 +70,7 @@
 	stroke-width:5;
 	stroke-linecap:round;
 }
+
+.lucille .fretting .label {
+	font-size:.8rem;
+}
