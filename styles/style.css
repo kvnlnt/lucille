@@ -52,14 +52,21 @@
 .lucille .string{
 	stroke:#000000;
 	stroke-width:2;
+	stroke-linecap:round;
 }
 
 .lucille .fret {
 	stroke:#000000;
 	stroke-width:2;
+	opacity: 0.25;
+}
+
+.lucille .fret:last-child {
+	opacity: 0;
 }
 
 .lucille .fretting .string {
 	stroke:#000000;
 	stroke-width:5;
+	stroke-linecap:round;
 }
