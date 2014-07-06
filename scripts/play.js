@@ -18,7 +18,10 @@ Lucille.prototype.playString = function(n){
 	var dir      = 1;
 	var strength = 5;
 
-	string.data('active', false);
+	// prevent over clicks
+	if(void 0 === string.data('active')){
+		string.data('active', false);
+	}
 
 	// start vibration
 	var start = function (val){
