@@ -77,68 +77,63 @@ Lucille.prototype.displayOrientation = function(mode) {
 
 Lucille.prototype.displaySettings = function(){
 
-	var orientation = {
+	// Picker Settings
+	var orientationField        = {};
+	orientationField.name       = 'orientation';
+	orientationField.values     = ['RIGHTY','LEFTY'];
+	orientationField.selected   = _.indexOf(['RIGHTY','LEFTY'], this.orientation);
 
-		name:'Orientation',
-		fields:[
-			{
-				name:'orientation',
-				values:['RIGHTY','LEFTY'],
-				selected:_.indexOf(['RIGHTY','LEFTY'], this.orientation)
-			}
-		]
+	var pickSettingsFieldset    = {};
+	pickSettingsFieldset.name   = 'Orientation';
+	pickSettingsFieldset.fields = [orientationField];
 
-	};
+	var picker                  = {};
+	picker.title                = 'Settings';
+	picker.colors               = { background:'#e2e2e2' };
+	picker.fieldsets            = [pickSettingsFieldset];
 
-	var config       = {};
-	config.title     = 'Settings';
-	config.colors    = { background:'#e2e2e2' };
-	config.fieldsets = [orientation];
-
-	var that          = this;
-	var callback      = function(settings){ that.updateSettings(settings); };
-	var settingsPickl = this.lucille.g();
-	var pickl         = new Pickl({ svg:settingsPickl, callback:callback, config:config });
+	var that                    = this;
+	var callback                = function(settings){ that.updateSettings(settings); };
+	var settingsPickl           = this.lucille.g();
+	var pickl                   = new Pickl({ svg:settingsPickl, callback:callback, config:picker });
 
 };
 
 Lucille.prototype.displayChordPicker = function(){
 
-	var root = {
+	// Picker Settings
+	var rootField        	= {};
+	rootField.name          = 'root';
+	rootField.values        = ['C','D','E','F','G','A','B'];
+	rootField.selected      = 0;
 
-		name:'Root',
-		fields:[
-			{
-				name:'root',
-				values:['C','C# / Db','D','D# / Eb','E','F','F# / Gb','G','G# / Ab','A','A# / Bb','B'],
-				selected:0
-			}
-		]
+	var accField            = {};
+	accField.name           = 'accidental';
+	accField.values         = ['','#','b'];
+	accField.selected       = 0;
 
-	};
+	var typeField           = {};
+	typeField.name          = 'type';
+	typeField.values        = ['Major','Minor','Aug','Dim'],
+	typeField.selected      = 0;
 
-	var type = {
+	var pickRootFieldset    = {};
+	pickRootFieldset.name   = 'Root';
+	pickRootFieldset.fields = [rootField, accField];
 
-		name:'Type',
-		fields:[
-			{
-				name:'type',
-				values:['Major','Minor','Aug','Dim'],
-				selected:0
-			}
-		]
+	var pickTypeFieldSet    = {};
+	pickTypeFieldSet.name   = 'Type';
+	pickTypeFieldSet.fields = [typeField];
 
-	};
+	var picker              = {};
+	picker.title            = 'Select Chord';
+	picker.colors           = { background:'#e2e2e2' };
+	picker.fieldsets        = [pickRootFieldset, pickTypeFieldSet];
 
-	var config       = {};
-	config.title     = 'Settings';
-	config.colors    = { background:'#e2e2e2' };
-	config.fieldsets = [root, type];
-
-	var that          = this;
-	var callback      = function(settings){ that.updateChord(settings); };
-	var settingsPickl = this.lucille.g();
-	var pickl         = new Pickl({ svg:settingsPickl, callback:callback, config:config });
+	var that                = this;
+	var callback            = function(settings){ that.updateChord(settings); };
+	var settingsPickl       = this.lucille.g();
+	var pickl               = new Pickl({ svg:settingsPickl, callback:callback, config:picker });
 
 };
 

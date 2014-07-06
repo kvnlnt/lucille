@@ -1,21 +1,6 @@
 var Lucille = function(options){
 
-	// DEFAULTS
-
-	    var defaults         = {};
-	    defaults.chart       = { width: 320, height: 520 };
-	    defaults.fretboard   = { width:120, height:250 };
-	    defaults.orientation = 'RIGHTY';
-	    defaults.instrument  = this.Instrument.guitar;
-	    defaults.tab         = this.Fixture.guitar;
-	    defaults.theme       = this.Fixture.theme.plain;
-
-    // SETTINGS
-    
-    	_.extend(this, defaults, options);
-
-    // INIT
-
+    	this.config(options);
     	this.render();
     	this.display();
 
