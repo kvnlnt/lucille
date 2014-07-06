@@ -40,7 +40,7 @@ Lucille.prototype.calcStringLayout = function(){
         }
 
         // reverse
-        if('righty' === this.orientation){
+        if('RIGHTY' === this.orientation){
             x1.reverse();
             x2.reverse();
             y1.reverse();
