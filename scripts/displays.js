@@ -102,38 +102,61 @@ Lucille.prototype.displaySettings = function(){
 Lucille.prototype.displayChordPicker = function(){
 
 	// Picker Settings
-	var rootField        	= {};
-	rootField.name          = 'root';
-	rootField.values        = ['C','D','E','F','G','A','B'];
-	rootField.selected      = 0;
+	var rootField        	      = {};
+	rootField.name                = 'root';
+	rootField.values              = ['C','D','E','F','G','A','B'];
+	rootField.selected            = 0;
 
-	var accField            = {};
-	accField.name           = 'accidental';
-	accField.values         = ['','#','b'];
-	accField.selected       = 0;
+	var accField                  = {};
+	accField.name                 = 'accidental';
+	accField.values               = ['','#','b'];
+	accField.selected             = 0;
 
-	var typeField           = {};
-	typeField.name          = 'type';
-	typeField.values        = ['Major','Minor','Aug','Dim'],
-	typeField.selected      = 0;
+	var thirdField                = {};
+	thirdField.name               = 'thirdQuality';
+	thirdField.values             = ['Major','Minor','Augmented','Diminished','Sus2','Sus4'],
+	thirdField.selected           = 0;
 
-	var pickRootFieldset    = {};
-	pickRootFieldset.name   = 'Root';
-	pickRootFieldset.fields = [rootField, accField];
+	var seventhField              = {};
+	seventhField.name             = 'seventhQuality';
+	seventhField.values           = ['M7','m7','dim7','half-dim7', 'm6'],
+	seventhField.selected         = 0;
 
-	var pickTypeFieldSet    = {};
-	pickTypeFieldSet.name   = 'Type';
-	pickTypeFieldSet.fields = [typeField];
+	var alterationField           = {};
+	alterationField.name          = 'alternation';
+	alterationField.values        = ['b5','#5','b9','#9'];
+	alterationField.selected      = 0;
 
-	var picker              = {};
-	picker.title            = 'Select Chord';
-	picker.colors           = { background:'#e2e2e2' };
-	picker.fieldsets        = [pickRootFieldset, pickTypeFieldSet];
+	var extensionField            = {};
+	extensionField.name           = 'extension';
+	extensionField.values         = ['9', '11', '#11', 'b13', '13'],
+	extensionField.selected       = 0;
 
-	var that                = this;
-	var callback            = function(settings){ that.updateChord(settings); };
-	var settingsPickl       = this.lucille.g();
-	var pickl               = new Pickl({ svg:settingsPickl, callback:callback, config:picker });
+	var pickRootFieldset          = {};
+	pickRootFieldset.name         = 'Root';
+	pickRootFieldset.fields       = [rootField, accField];
+
+	var pickTypeFieldSet          = {};
+	pickTypeFieldSet.name         = 'Type';
+	pickTypeFieldSet.fields       = [thirdField, seventhField];
+
+	var pickAlterationFieldset    = {};
+	pickAlterationFieldset.name   = 'Alteration';
+	pickAlterationFieldset.fields = [alterationField];
+
+	var pickExtensionFieldset     = {};
+	pickExtensionFieldset.name    = 'Extension';
+	pickExtensionFieldset.fields  = [extensionField];
+
+	var picker                    = {};
+	picker.title                  = 'Chord';
+	picker.colors                 = { background:'#e2e2e2' };
+	picker.fieldsets              = [pickRootFieldset, pickTypeFieldSet, pickAlterationFieldset, pickExtensionFieldset];
+
+	var that                      = this;
+	var callback                  = function(settings){ that.updateChord(settings); };
+	var settingsPickl             = this.lucille.g();
+	var pickl                     = new Pickl({ svg:settingsPickl, callback:callback, config:picker });
 
 };
 
