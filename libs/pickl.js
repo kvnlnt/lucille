@@ -2,11 +2,12 @@ var Pickl = function(options){
 
 	// DEFAULTS
 
-	    var defaults = {};
-	    	defaults.form = { width:320, height:520 };
-	    	defaults.config = this.Fixture;
-	    	defaults.svg = null;
-	    	defaults.callback = function(picks){ console.log(picks); };
+	    var defaults      = {};
+	    defaults.form     = { width:320, height:520 };
+	    defaults.config   = this.Config;
+	    defaults.theme    = this.Config.themes.plain;
+	    defaults.svg      = null;
+	    defaults.callback = function(picks){ console.log(picks); };
 
     // SETTINGS
     
@@ -16,55 +17,49 @@ var Pickl = function(options){
 
     	this.render();
 
-};;Pickl.prototype.Fixture = (function(){
+};;Pickl.prototype.Config = (function(){
 
-	var config = {};
-	config.title = 'Options';
-	config.colors = { background:'#e2e2e2' };
-	config.fieldsets = [
+	var themes                       = {};
+	themes.plain                     = {};
+	themes.plain.background          = '#e2e2e2';
+	themes.plain.fieldset            = '#666666';
+	themes.plain.touchTarget         = '#f2f2f2';
+	themes.plain.touchTargetOver     = '#000000';
+	themes.plain.buttonTextColor     = '#999999';
+	themes.plain.buttonTextColorOver = '#e2e2e2';
+	themes.plain.buttonStroke        = '#e2e2e2';
+	themes.plain.modalBackground     = '#f2f2f2';
 
-		{
+	var f1        = {};
+	f1.name       = 'Orientation';
+	f1.values     = ['righty','lefty'];
+	f1.selected   = 0;
 
-			name:'Orientation',
-			fields:[
-				{
-					name:'orientation',
-					values:['righty','lefty'],
-					selected:0
-				}
-			]
+	var f2        = {};
+	f2.name       = 'Instrument';
+	f2.values     = ['guitar','banjo','ukelele'];
+	f2.selected   = 0;
 
-		},
+	var f3        = {};
+	f3.name       = 'Strings';
+	f3.values     = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+	f3.selected   = 0;
 
-		{
-
-			name:'Instrument',
-			fields:[
-				{
-					name:'instrument',
-					values:['guitar','banjo','ukelele'],
-					selected:0
-				},
-				{
-					name:'strings',
-					values:['5 string','6 string','7 string'],
-					selected:1
-				}
-			]
-
-		}
-
-	];
+	var config    = {};
+	config.themes = themes;
+	config.title  = 'Options';
+	config.fields = [f1, f2, f3];
 
 	return config;
 
 }());;Pickl.prototype.render = function(){
 
-	this.pickl = this.renderForm();
+	this.pickl            = this.renderForm();
+	this.pickl.theme      = this.renderTheme();
 	this.pickl.background = this.renderBackground();
-	this.pickl.title = this.renderTitle();
-	this.pickl.close = this.renderClose();
-	this.pickl.fieldsets = this.renderFieldsets();
+	this.pickl.title      = this.renderTitle();
+	this.pickl.close      = this.renderClose();
+	this.pickl.fields     = this.renderFields();
 
 };
 
@@ -72,16 +67,39 @@ Pickl.prototype.renderForm = function(){
 
 	var form = null === this.svg ? Snap(this.form.width, this.form.height) : this.svg;
 	var klass = form.attr('class') + ' pickl';
-	form.attr({ 'class':klass });
+	form.attr({ 'class':klass, 'transform':'translate('+this.form.width+',0)' });
 
 	return form;
+
+};
+
+Pickl.prototype.renderTheme = function(){
+
+	var theme = $('<style>');
+		theme.attr('type','text/css');
+		theme.attr('class','picklTheme');
+		theme.append('.pickl .background { fill: '+this.theme.background+'; }');
+		theme.append('.pickl .fieldset { fill: '+this.theme.fieldset+'; }');
+
+		theme.append('.pickl .button > .touchTarget, .pickl .field .touchTarget { fill: '+this.theme.touchTarget+'; }');
+		theme.append('.pickl .button > .touchTarget { stroke: '+this.theme.buttonStroke+'; }');
+		theme.append('.pickl .button:hover .touchTarget { fill: '+this.theme.touchTargetOver+'; }');
+		theme.append('.pickl .button:hover text { fill: '+this.theme.buttonTextColorOver+'; }');
+
+		theme.append('.pickl .button > .arrow > .touchTarget { fill: '+this.theme.touchTarget+' }');
+		
+		
+
+	$('head').append(theme);
+
+	return theme;
 
 };
 
 Pickl.prototype.renderBackground = function(){
 
 	var background = this.pickl.rect(0,0,this.form.width,this.form.height);
-	background.attr({ 'fill':this.config.colors.background });
+	background.attr({ 'class':'background' });
 
 	return background;
 
@@ -98,13 +116,13 @@ Pickl.prototype.renderTitle = function(){
 
 Pickl.prototype.renderClose = function(){
 
-	var close = this.pickl.g().attr('class','button close');
-	var x = this.form.width * .15 / 2;
-	var y = this.form.height - 70;
-	var w = this.form.width * .85;
-	var h = 50;
+	var close  = this.pickl.g().attr('class','button close');
+	var x      = this.form.width * .15 / 2;
+	var y      = this.form.height - 70;
+	var w      = this.form.width * .85;
+	var h      = 50;
 	var target = close.rect(x,y,w,h).attr({ 'class':'touchTarget' });
-	var text = close.text(this.form.width/2, y + 25, 'close');
+	var text   = close.text(this.form.width/2, y + 25, 'close');
 
 	close.click(this.save, this);
 
@@ -112,94 +130,113 @@ Pickl.prototype.renderClose = function(){
 
 };
 
-Pickl.prototype.renderFieldsets = function(){
+Pickl.prototype.renderFields = function(){
 
-	var that = this;
-	var layout = this.calcLayout();
-	var fieldsets = this.pickl.g().attr('class','fieldsets');
+	var that   = this;
+	var layout = this.calcLayout().fields;
+	var fields = this.pickl.g().attr('class','fields');
+	var y      = 90;
 
-	_.each(this.config.fieldsets, function(fieldset, i){
+	_.each(this.config.fields, function(field, i){
 
-		var fieldsetX = layout.fieldsets[i].x;
-		var fieldsetY = layout.fieldsets[i].y + 100;
-		var fieldsetGroup = fieldsets.g().attr({ 'class':'fieldset', 'transform':'translate('+fieldsetX+','+fieldsetY+')' });
-		var fieldsetTitle = fieldsetGroup.text(that.form.width/2,0,fieldset.name);
+		var fieldGroup  = fields.g().attr({ 'class':'field button', 'transform':'translate('+layout.x+','+y+')' });
+		var fieldTarget = fieldGroup.rect(0,0,layout.width, 40).attr({ 'class':'touchTarget' });
+		var fieldTitle  = fieldGroup.text(layout.x + 70,20, field.name).attr({ 'class':'title' });
+		var fieldValue  = fieldGroup.text(layout.x + 80, 20, field.values[field.selected]).attr('class','value');		
+		y 			   += 41;
 
-		_.each(fieldset.fields, function(field, j){
-
-			var fieldX = layout.fieldsets[i].fields[j].x;
-			var fieldY = layout.fieldsets[i].fields[j].y + 20;
-			var fieldW = layout.fieldsets[i].fields[j].width;
-			var fieldGroup = fieldsetGroup.g().attr({ 'class':'button field', 'transform':'translate('+fieldX+','+fieldY+')' });
-			var fieldTarget = fieldGroup.rect(0,0,fieldW,40).attr({ 'class':'touchTarget' });
-			var fieldName = fieldGroup.text(fieldW/2,20,field.values[field.selected]);
-			fieldGroup.click(function(){ that.displayNext(field, fieldName) }, that);
-
-		});
+		fieldGroup.click(function(){that.displayOptions(i)},that);
 
 	});
 
-	return fieldsets.selectAll('.fieldset');
+	return fields.selectAll('.field');
+
+};
+
+Pickl.prototype.renderOptions = function(fieldIndex){
+
+	var that        = this;
+	var layout      = that.calcLayout().fields;
+	var options     = this.pickl.g().attr({ 'class':'options' });
+	var config      = this.config.fields[fieldIndex];
+	var background  = options.rect(0,0,that.form.width, that.form.height).attr('class','background');
+	var title       = options.text(that.form.width/2, 27, config.name).attr('class','title options');
+	var fields      = options.g().attr({ 'class':'fields' });
+	var selected    = config.values[config.selected];
+	var y           = 50;
+	var x           = layout.x - 1;
+	var field       = this.pickl.fields[fieldIndex];
+
+	options.attr({ 'transform':'translate('+this.form.width+',0)' });
+
+	// option fields
+	_.each(config.values, function(value, i){
+
+		var fieldGroup  = fields.g().attr({ 'class':'field', 'transform':'translate('+x+','+y+')' });
+		var fieldTarget = fieldGroup.rect(0,0,layout.width/2, 40).attr({ 'class':'touchTarget' });
+		var fieldText   = fieldGroup.text(40,20, value).attr({ 'class':'value' });
+		var klass       = value === selected ? 'check selected' : 'check';
+		var check       = fieldGroup.g().attr({ 'class':klass});
+		var checkTarget = check.rect(0,0,40,40).attr({ 'class':'touchTarget' });
+		var checkMark   = check.text(10,20,'*').attr({ 'class':'value' });
+
+		checkMark.node.innerHTML = '&#xf00c';
+		y = i % 2 === 0 ? y : y + 41;
+		x = i % 2 === 0 ? layout.width/2 + layout.x + 1 : layout.x - 1;
+
+		check.click(function(){ 
+			config.selected = i;
+			options.animate({ 'transform':'translate('+this.form.width+',0)'}, 200, mina.easeout, function(){ this.remove(); });
+			that.pickl.fields[fieldIndex].select('.value').node.textContent = value;
+		}, that);
+
+	});
+
+	return options;
+
 
 };;Pickl.prototype.calcLayout = function(){
 
 	var layout = {};
-	layout.fieldsets = this.calcFieldsets();
+	layout.fields = this.calcFields();
 
 	return layout;
 
 };
 
-Pickl.prototype.calcFieldsets = function(){
+Pickl.prototype.calcFields = function(){
 
-	var that = this;
-	var fieldsetHeight = 90;
+	var height = 40;
+	var width  = this.form.width * .85;
+	var x      = this.form.width * .15/2;
 
-	var fieldsets = _.map(this.config.fieldsets, function(fieldset, y){
+	return {
+		height:height,
+		width:width,
+		x:x
+	}
 
-		var fieldWidth = (that.form.width * .85) / fieldset.fields.length;
-		var startX = (that.form.width * .15)/2;
-		var fields = _.map(fieldset.fields, function(field, x){
+};;Pickl.prototype.display = function(){
 
-			return {
-				width:fieldWidth,
-				x:startX + (fieldWidth * x),
-				y:0
-			}
+	this.pickl.animate({ 'transform':'translate(0,0)'}, 200, mina.easein);
 
-		});
+};
 
-		return { 
-			x:0,
-			y:fieldsetHeight * y,
-			fields:fields
-		}
+Pickl.prototype.displayOptions = function(fieldIndex){
 
-	});
-
-	return fieldsets;
-
-};;Pickl.prototype.displayNext = function(field, text){
-
-	var curr = field.selected;
-	var total = field.values.length - 1;
-	var next = curr + 1 > total ? 0 : curr + 1;
-
-	field.selected = next;
-
-	text.node.textContent = field.values[next];
+	// console.log(field);
+	var options = this.renderOptions(fieldIndex);
+	options.animate({'transform':'translate(0,0)'}, 200, mina.easin);
 
 };;Pickl.prototype.save = function(){
 
 	var picks = {};
 
-	_.each(this.config.fieldsets, function(fieldset){
-		_.each(fieldset.fields, function(field){
-			picks[field.name] = field.values[field.selected];
-		});
+	_.each(this.config.fields, function(field){
+		picks[field.name] = field.values[field.selected];
 	});
 	
 	this.callback(picks);
-	this.pickl.remove();
+	this.pickl.animate({ 'transform':'translate('+this.form.width+',0)'}, 200, mina.easein);
 
 };

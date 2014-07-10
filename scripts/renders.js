@@ -9,6 +9,8 @@ Lucille.prototype.render = function(reload) {
 	this.lucille.frets      = this.renderFrets();
 	this.lucille.frettings  = this.renderFrettings();
 	this.lucille.buttons    = this.renderButtons();
+	this.lucille.settings   = this.renderSettings();
+	this.lucille.picker     = this.renderPicker();
 
 };
 
@@ -53,7 +55,7 @@ Lucille.prototype.renderChord = function(){
 	var root       = chord.text(50, 50, this.tab.root).attr('class','root');
 	var type       = chord.text(50, 90, this.tab.type).attr('class','type');
 
-	chord.click(this.displayChordPicker, this);
+	chord.click(function(){ this.lucille.picker.display(); }, this);
 
 	return chord;
 
@@ -196,10 +198,58 @@ Lucille.prototype.renderButtons = function(){
 	var settingsTarget          = settings.rect(-25,-25,50,50).attr('class','touchTarget');
 	var settingsText            = settings.text(0, 0, '');
 
-	settings.click(this.displaySettings, this);
+	settings.click(function(){ this.lucille.settings.display(); }, this);
 	settings.attr({ 'class':'button settings', 'transform':'translate('+settingsX+','+settingsY+')' });
 	settingsText.node.innerHTML = '&#xf0c9';
 
 	return buttons.selectAll('.button');
+
+};
+
+Lucille.prototype.renderSettings = function(){
+
+	var orientation      = {};
+	orientation.name     = 'orientation';
+	orientation.values   = ['RIGHTY','LEFTY'];
+	orientation.selected = 0;
+
+	var picker           = {};
+	picker.title         = 'settings';
+	picker.colors        = { background:'#e2e2e2' };
+	picker.fields        = [orientation];
+
+	var that             = this;
+	var callback         = function(settings){ that.updateSettings(settings); };
+	var settingsPickl    = this.lucille.g();
+	var pickl            = new Pickl({ svg:settingsPickl, callback:callback, config:picker });
+
+	return pickl;
+
+};
+
+Lucille.prototype.renderPicker = function(){
+
+	// Picker Settings
+	var rootField        	      = {};
+	rootField.name              = 'root';
+	rootField.values            = ['C','C#/Db','D','D#/Eb','E','F','F#/Gb','G','G#/Ab','A','A#/Bb','B'];
+	rootField.selected          = 0;
+
+	var typeField               = {};
+	typeField.name              = 'thirdQuality';
+	typeField.values            = ['Major','Minor','Augmented','Diminished','Sus2','Sus4',7,8,9,10,11,'Major','Minor','Augmented','Diminished','Sus2','Sus4',7,8,9,10,11],
+	typeField.selected          = 0;
+
+	var picker                  = {};
+	picker.title                = 'Chord';
+	picker.colors               = { background:'#e2e2e2' };
+	picker.fields               = [rootField, typeField];
+
+	var that                    = this;
+	var callback                = function(settings){ that.updateChord(settings); };
+	var settingsPickl           = this.lucille.g();
+	var pickl                   = new Pickl({ svg:settingsPickl, callback:callback, config:picker });
+
+	return pickl;
 
 };

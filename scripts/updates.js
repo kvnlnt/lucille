@@ -1,6 +1,6 @@
 Lucille.prototype.updateSettings = function(settings){
 
-	console.log(settings);
+	console.log(settings, this);
 
 	// orientation
 	if(this.orientation != settings.orientation){
