@@ -5,7 +5,7 @@ Lucille.prototype.Instrument = (function(){
 		guitar:{
 
 			strings:6,
-	        tuning:['E','B','G','D','A','E']
+	        tuning:['e2','a2','d3','g3','b3','e4']
 	        
 		}
 

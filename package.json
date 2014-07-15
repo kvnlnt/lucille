@@ -1,0 +1,29 @@
+{
+  "name": "lucille",
+  "version": "0.0.0",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "grunt": "^0.4.5",
+    "grunt-curl": "^2.0.2",
+    "load-grunt-tasks": "^0.6.0",
+    "glob": "^4.0.4",
+    "time-grunt": "^0.4.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kvnlnt/lucille.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kvnlnt/lucille/issues"
+  },
+  "homepage": "https://github.com/kvnlnt/lucille"
+}

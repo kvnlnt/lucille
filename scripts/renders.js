@@ -213,10 +213,20 @@ Lucille.prototype.renderSettings = function(){
 	orientation.values   = ['RIGHTY','LEFTY'];
 	orientation.selected = 0;
 
+	var instrument       = {};
+	instrument.name      = 'instrument';
+	instrument.values    = ['Guitar','Banjo','Ukelele'];
+	instrument.selected  = 0;
+
+	var preview          = {};
+	preview.name         = 'preview';
+	preview.values       = ['Strum','Arpeggiate','Travis Pick'];
+	preview.selected     = 0;
+
 	var picker           = {};
 	picker.title         = 'settings';
 	picker.colors        = { background:'#e2e2e2' };
-	picker.fields        = [orientation];
+	picker.fields        = [orientation, instrument, preview];
 
 	var that             = this;
 	var callback         = function(settings){ that.updateSettings(settings); };
@@ -236,8 +246,9 @@ Lucille.prototype.renderPicker = function(){
 	rootField.selected          = 0;
 
 	var typeField               = {};
-	typeField.name              = 'thirdQuality';
-	typeField.values            = ['Major','Minor','Augmented','Diminished','Sus2','Sus4',7,8,9,10,11,'Major','Minor','Augmented','Diminished','Sus2','Sus4',7,8,9,10,11],
+	typeField.name              = 'type';
+	// typeField.values            = ['Major','Maj 6', 'Maj 6add9', 'Maj 7','Maj add9','Maj 9','Maj 13','sus 4','minor','min 6','min 6add9','min 7','min 9','min 11','min 13','Aug','Dim','Dom 7'],
+	typeField.values            = ['Major',"minor"];
 	typeField.selected          = 0;
 
 	var picker                  = {};
