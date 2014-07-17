@@ -13,3 +13,20 @@ Lucille.prototype.getTab = function(root, type, tuning){
 	return tab;
 
 };
+
+Lucille.prototype.getInstrument = function(name){
+
+	var instrument = null;
+
+	switch(name){
+		case 'Guitar':
+		instrument = this.Instrument.guitar;
+		break;
+		case 'Mandolin':
+		instrument = this.Instrument.mandolin;
+		break;
+	}
+
+	return instrument;
+
+};

@@ -130,7 +130,7 @@ Lucille.prototype.renderFrettings = function(){
 	var that      = this;
 	var layout    = this.calcLayout();
 	var frettings = this.lucille.fretboard.g().attr('class','frettings');
-	var radius    = layout.strings.spacing/2 - 1;
+	var radius    = 11;
 	var voicing   = this.calcVoicing();
 
 	_.times(layout.strings.x1.length, function(n){
@@ -217,8 +217,8 @@ Lucille.prototype.renderSettings = function(){
 
 	var instrument       = {};
 	instrument.name      = 'instrument';
-	instrument.values    = ['Guitar','Banjo','Ukelele'];
-	instrument.selected  = 0;
+	instrument.values    = ['Guitar','Mandolin'];
+	instrument.selected  = 1;
 
 	var preview          = {};
 	preview.name         = 'preview';
