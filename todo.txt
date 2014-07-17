@@ -1,0 +1,6 @@
+- default C chord from tabulous
+- default tuning to tabulous
+- add unplayed strings, alternate string options
+- add top and bottom fret padding
+- add string preview
+- add chord preview

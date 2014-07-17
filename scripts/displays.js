@@ -5,6 +5,9 @@ Lucille.prototype.display = function(){
 	var frets     = layout.frets;
 	var frettings = this.lucille.frettings;
 
+	// reset frets
+	this.renderFrets();
+
 	_.each(voicing, function(voice, i){
 
 		var fretting 	= frettings[i];

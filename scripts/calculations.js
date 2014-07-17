@@ -75,6 +75,6 @@ Lucille.prototype.calcFretLayout = function(){
         y:y,
         range:range,
         spacing:spacing
-    };
+    }
 
 };

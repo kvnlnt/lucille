@@ -107,14 +107,16 @@ Lucille.prototype.renderStrings = function(){
 
 Lucille.prototype.renderFrets = function(){
 
-	var layout = this.calcLayout();
-	var frets  = this.lucille.fretboard.g().attr('class','frets');
+	var refresh = null !== this.lucille.fretboard.select('.frets');
+	var layout  = this.calcLayout();
+	var frets   = true === refresh ? this.lucille.fretboard.select('.frets') : this.lucille.fretboard.g().attr('class','frets');
 
-	_.times(layout.frets.y.length,function(n){
+	// prep for 
+	frets.clear();
 
-		var y    = layout.frets.y[n];
+	_.each(layout.frets.y,function(y){
+
 		var fret = frets.line(0,y,layout.fretboard.width,y);
-
 		fret.attr({'class':'fret'});
 
 	});
