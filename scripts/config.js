@@ -11,8 +11,8 @@ Lucille.prototype.config = function(options){
     defaults.chart       = { width: 320, height: 520 };
     defaults.fretboard   = { width:120, height:250 };
     defaults.orientation = 'RIGHTY';
-    defaults.instrument  = this.Instrument.guitar;
-    defaults.tab         = this.Fixture.guitar;
+    defaults.instrument  = this.Instrument.guitar_drop_d;
+    defaults.tab         = this.getTab('C','Major', this.Instrument.guitar_drop_d.tuning);
     defaults.theme       = this.themes.plain;
 
     _.extend(this, defaults, options);
