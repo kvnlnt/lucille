@@ -1,10 +1,8 @@
 Lucille.prototype.updateSettings = function(settings){
 
 	this.orientation = settings.orientation
-	this.instrument = this.getInstrument(settings.instrument);
-	this.tab = this.getTab(this.tab.root, this.tab.type, this.instrument.tuning);
-
-	console.log(settings, this.instrument);
+	this.instrument  = this.getInstrument(settings.instrument);
+	this.tab         = this.getTab(this.tab.root, this.tab.type, this.instrument.tuning);
 
 	this.renderFretboardRefresh();
 	this.display();

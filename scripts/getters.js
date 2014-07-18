@@ -14,6 +14,12 @@ Lucille.prototype.getTab = function(root, type, tuning){
 
 };
 
+Lucille.prototype.getCurrentVoicing = function(){
+
+	return lucille.tab.voicings[lucille.tab.caged[0]];
+
+};
+
 Lucille.prototype.getInstrument = function(name){
 
 	var instrument = null;

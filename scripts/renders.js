@@ -218,7 +218,7 @@ Lucille.prototype.renderSettings = function(){
 	var instrument       = {};
 	instrument.name      = 'instrument';
 	instrument.values    = ['Guitar','Mandolin'];
-	instrument.selected  = 1;
+	instrument.selected  = 0;
 
 	var preview          = {};
 	preview.name         = 'preview';

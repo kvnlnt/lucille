@@ -9,6 +9,7 @@ Lucille.prototype.transToTabulousChordType = function(type) {
 			break
 		case 'minor':
 			translation = 'm';
+			break;
 
 	};
 
@@ -27,7 +28,8 @@ Lucille.prototype.transTabulousChordToVoicings = function(tabulous){
 			return {
 				fret:voicing.voicing[y],
 				finger:0,
-				note:fretting.toString(true).charAt(0).toUpperCase() + fretting.toString(true).charAt(1)
+				note:fretting.toString(true).charAt(0).toUpperCase() + fretting.toString(true).charAt(1),
+				obj:fretting
 			}
 
 		});

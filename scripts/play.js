@@ -2,6 +2,9 @@ Lucille.prototype.play = function(){
 
 	var that    = this;
 	var voicing = _.map(this.calcVoicing(),function(voice){ return voice.note });
+	var keys    = _.map(this.getCurrentVoicing(), function(voice){ return voice.obj.key(); });
+
+	console.log('play', keys);
 
 	_.each(voicing, function(voice, i){ 
 		if(null !== voice){
