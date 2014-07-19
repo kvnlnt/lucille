@@ -20,6 +20,9 @@ Lucille.prototype.playString = function(n){
 	var coord    = string.attr('x1');
 	var dir      = 1;
 	var strength = 5;
+	var key      = _.map(this.getCurrentVoicing(), function(voice){ return voice.obj.key(); })[n];
+
+	console.log('play', key);
 
 	// prevent over clicks
 	if(void 0 === string.data('active')){

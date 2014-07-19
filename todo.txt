@@ -1,3 +1,4 @@
+- add slash note selection for teoria
 - add unplayed strings, alternate string options
 - add top and bottom fret padding
 - add string preview

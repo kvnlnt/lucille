@@ -1,6 +1,8 @@
 Lucille.prototype.render = function(reload) {
 
-	this.lucille            = this.renderChart();
+	// render main version
+	this.svg                = Snap(this.chart.width, this.chart.height).attr('class','lucille');
+	this.lucille            = this.renderContainer();
 	this.lucille.theme      = this.renderTheme();
 	this.lucille.background = this.renderBackground();
 	this.lucille.chord      = this.renderChord();
@@ -12,14 +14,19 @@ Lucille.prototype.render = function(reload) {
 	this.lucille.settings   = this.renderSettings();
 	this.lucille.picker     = this.renderPicker();
 
+	// render minified version
+	this.lucille.minified   = this.renderMinified();
+	this.lucille.minified.background = this.renderMinifiedBackground();
+	this.lucille.minified.buttons = this.renderMinifiedButtons();
+	this.lucille.minified.title = this.renderMinifiedTitle();
+
 };
 
-Lucille.prototype.renderChart = function(){
+Lucille.prototype.renderContainer = function(){
 
-	var chart = Snap(this.chart.width, this.chart.height);
-	chart.attr({'class':'lucille'});
-
-	return chart;
+	var container = this.svg.g();
+	container.attr({'class':'main'});
+	return container;
 
 };
 
@@ -194,15 +201,26 @@ Lucille.prototype.renderButtons = function(){
 	playText.node.innerHTML = '&#xf028';
 
 	// settings
-	var settingsX               = layout.chart.width - ((layout.chart.width - layout.fretboard.width) / 2) / 2;
-	var settingsY               = ((layout.chart.width - layout.fretboard.width) / 2) / 2;
-	var settings                = buttons.g();
-	var settingsTarget          = settings.rect(-25,-25,50,50).attr('class','touchTarget');
-	var settingsText            = settings.text(0, 0, '');
+	var settingsX      = layout.chart.width - ((layout.chart.width - layout.fretboard.width) / 2) / 2;
+	var settingsY      = ((layout.chart.width - layout.fretboard.width) / 2) / 2;
+	var settings       = buttons.g();
+	var settingsTarget = settings.rect(-25,-25,50,50).attr('class','touchTarget');
+	var settingsText   = settings.text(0, 0, '');
 
 	settings.click(function(){ this.lucille.settings.display(); }, this);
 	settings.attr({ 'class':'button settings', 'transform':'translate('+settingsX+','+settingsY+')' });
 	settingsText.node.innerHTML = '&#xf0c9';
+
+	// collapse
+	var collapseX      = ((layout.chart.width - layout.fretboard.width) / 2) / 2;
+	var collapseY      = ((layout.chart.width - layout.fretboard.width) / 2) / 2;
+	var collapse       = buttons.g();
+	var collapseTarget = collapse.rect(-25,-25,50,50).attr('class','touchTarget');
+	var collapseText   = collapse.text(0, 0, '');
+
+	collapse.click(this.displayMinified, this);
+	collapse.attr({ 'class':'button collapse', 'transform':'translate('+collapseX+','+collapseY+')' });
+	collapseText.node.innerHTML = '&#xf068';
 
 	return buttons.selectAll('.button');
 
@@ -264,5 +282,71 @@ Lucille.prototype.renderPicker = function(){
 	var pickl                   = new Pickl({ svg:settingsPickl, callback:callback, config:picker });
 
 	return pickl;
+
+};
+
+Lucille.prototype.renderMinified = function(){
+
+	var minified = this.svg.g();
+	minified.attr({'class':'minified', 'display':'none'});
+
+	return minified;
+
+};
+
+Lucille.prototype.renderMinifiedBackground = function(){
+
+	var background = this.lucille.minified.rect(0,0,this.chart.width,50);
+	background.attr({'class':'background'});
+
+	return background;
+
+};
+
+Lucille.prototype.renderMinifiedButtons = function(){
+
+	// params
+	var layout  = this.calcLayout();
+	var x, y, buttons, button, buttonTarget, buttonText = null;
+
+	// expand button
+	x            = 25;
+	y            = 25;
+	buttons      = this.lucille.minified.g().attr('class', 'buttons');
+	button       = buttons.g();
+	buttonTarget = button.rect(-25,-25,50,50).attr('class','touchTarget');
+	buttonText   = button.text(0, 0, '');
+
+	button.click(this.displayMinifiedHidden, this);
+	button.attr({ 'class':'button collapse', 'transform':'translate('+x+','+y+')' });
+	buttonText.node.innerHTML = '&#xf067';
+
+	// play button
+	x            = layout.chart.width - 25;
+	y            = 25;
+	buttons      = this.lucille.minified.g().attr('class', 'buttons');
+	button       = buttons.g();
+	buttonTarget = button.rect(-25,-25,50,50).attr('class','touchTarget');
+	buttonText   = button.text(0, 0, '');
+
+	button.click(this.play, this);
+	button.attr({ 'class':'button collapse', 'transform':'translate('+x+','+y+')' });
+	buttonText.node.innerHTML = '&#xf028';
+
+	return buttons;
+
+};
+
+Lucille.prototype.renderMinifiedTitle = function(){
+
+	var layout = this.calcLayout();
+	var x      = this.chart.width / 2;
+	var y      = 25;
+	var root   = this.tab.root;
+	var type   = this.tab.type;
+	var title  = root + ' ' + type;
+	var text   = this.lucille.minified.text(x, y, title).attr({'class':'title'});
+
+	return text;
 
 };

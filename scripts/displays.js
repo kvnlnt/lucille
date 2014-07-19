@@ -78,3 +78,19 @@ Lucille.prototype.displayOrientation = function(mode) {
 
 };
 
+Lucille.prototype.displayMinified = function(){
+
+	this.lucille.minified.attr('display','');
+	this.lucille.attr('display','none');
+	this.svg.attr('height', 50);
+
+};
+
+Lucille.prototype.displayMinifiedHidden = function(){
+
+	this.lucille.minified.attr('display','none');
+	this.lucille.attr('display','');
+	this.svg.attr('height', this.chart.height);
+
+};
+

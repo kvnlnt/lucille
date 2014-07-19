@@ -35,7 +35,8 @@
 	cursor: pointer;
 }
 
-.lucille .button.settings {
+.lucille .button.settings,
+.lucille .button.collapse {
 	font-family:'FontAwesome';
 	font-size: 1.5rem;
 	cursor: pointer;
@@ -73,4 +74,8 @@
 
 .lucille .fretting .label {
 	font-size:.8rem;
+}
+
+.lucille .minified .title {
+	font-size: 1.15rem;
 }

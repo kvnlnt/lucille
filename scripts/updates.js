@@ -14,6 +14,7 @@ Lucille.prototype.updateChord = function(settings){
 	// update ui
 	this.updateRootText(settings.root);
 	this.updateTypeText(settings.type);
+	this.updateMinifiedTitle(settings.root, settings.type);
 	this.tab = this.getTab(settings.root, settings.type, this.instrument.tuning);
 	this.renderFretboardRefresh();
 	this.display();
@@ -26,4 +27,8 @@ Lucille.prototype.updateRootText = function(root){
 
 Lucille.prototype.updateTypeText = function(type){
 	this.lucille.chord.select('.type').node.textContent = type;
+};
+
+Lucille.prototype.updateMinifiedTitle = function(root, type){
+	this.lucille.minified.title.node.textContent = root + ' ' + type;
 };
