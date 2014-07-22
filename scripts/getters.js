@@ -36,3 +36,14 @@ Lucille.prototype.getInstrument = function(name){
 	return instrument;
 
 };
+
+Lucille.prototype.getPlayer = function(){
+
+	var audio = new Howl({
+	  urls: [this.audio],
+	  sprite: this.calcSpriteOffsets()
+	});
+
+	return audio;
+
+};

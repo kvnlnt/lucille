@@ -3,12 +3,16 @@ Lucille.prototype.play = function(){
 	var that    = this;
 	var voicing = _.map(this.calcVoicing(),function(voice){ return voice.note });
 	var keys    = _.map(this.getCurrentVoicing(), function(voice){ return voice.obj.key(); });
+	var notes   = _.map(this.getCurrentVoicing(), function(voice){ return voice.obj.toString(); });
+	var offsets = this.calcSpriteOffsets();
 
-	console.log('play', keys);
+	// console.log('play', notes, keys);
 
+	var delay = 65;
 	_.each(voicing, function(voice, i){ 
 		if(null !== voice){
-			that.playString(i);
+			window.setTimeout(function(){that.playString(i);}, delay);
+			delay += 65;
 		}
 	});
 
@@ -21,8 +25,12 @@ Lucille.prototype.playString = function(n){
 	var dir      = 1;
 	var strength = 5;
 	var key      = _.map(this.getCurrentVoicing(), function(voice){ return voice.obj.key(); })[n];
+	var note     = _.map(this.getCurrentVoicing(), function(voice){ return voice.obj.toString(); })[n];
 
-	console.log('play', key);
+	console.log('play', key, note);
+
+	// play note
+	this.player.play(note);
 
 	// prevent over clicks
 	if(void 0 === string.data('active')){

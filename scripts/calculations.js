@@ -78,3 +78,32 @@ Lucille.prototype.calcFretLayout = function(){
     }
 
 };
+
+Lucille.prototype.calcSpriteOffsets = function(){
+
+    var keys          = ['c','c#/db','d','d#/eb','e','f','f#/gb','g','g#/ab','a','a#/bb','b'];
+    var offset        = 0;
+    var sprite        = {};
+    var sample_length = 4000;
+    var octaves       = 5;
+    
+    _.times(octaves,function(n){
+
+        var octave = n+2;
+        _.each(keys, function(key){
+
+            var key_notes = key.split('/');
+            sprite[key_notes[0] + octave] = [offset, sample_length];
+            if(key_notes.length > 1){
+                sprite[key_notes[1] + octave] = [offset, sample_length];
+            } 
+            
+            offset += sample_length;
+
+        });
+
+    });
+
+    return sprite;
+
+};
