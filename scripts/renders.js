@@ -26,6 +26,7 @@ Lucille.prototype.renderContainer = function(){
 
 	var container = this.svg.g();
 	container.attr({'class':'main'});
+
 	return container;
 
 };
@@ -46,8 +47,22 @@ Lucille.prototype.renderTheme = function(){
 
 Lucille.prototype.renderBackground = function(){
 
+	var that       = this;
 	var background = this.lucille.rect(0,0,this.chart.width,this.chart.height);
 	background.attr({'class':'background'});
+
+	// swipe play
+	var hammertime = new Hammer(background.node, {
+		distance:100,
+		velocity:0.5
+	});
+
+	hammertime.on('swipe', function(ev) { 
+
+		var direction = 2 === ev.direction ? 'up' : 'down';
+		that.play(direction);
+
+	});
 
 	return background;
 
@@ -164,6 +179,7 @@ Lucille.prototype.renderFrettings = function(){
 
 Lucille.prototype.renderButtons = function(){
 
+	var that    = this;
 	var layout  = this.calcLayout();
 	var buttons = this.lucille.g().attr('class', 'buttons');
 
@@ -196,7 +212,7 @@ Lucille.prototype.renderButtons = function(){
 	var playTarget = play.rect(-25,-25,50,50).attr('class','touchTarget');
 	var playText   = play.text(0, 0, '');
 
-	play.click(this.play, this);
+	play.click(function(){ that.play(); }, this);
 	play.attr({ 'class':'button play', 'transform':'translate('+playX+','+playY+')' });
 	playText.node.innerHTML = '&#xf028';
 

@@ -1,15 +1,17 @@
-Lucille.prototype.play = function(){
+Lucille.prototype.play = function(direction){
 
-	var that    = this;
-	var voicing = _.map(this.calcVoicing(),function(voice){ return voice.note });
-	var keys    = _.map(this.getCurrentVoicing(), function(voice){ return voice.obj.key(); });
-	var notes   = _.map(this.getCurrentVoicing(), function(voice){ return voice.obj.toString(); });
-	var offsets = this.calcSpriteOffsets();
+	var that      = this;
+	var voicing   = _.map(this.calcVoicing(),function(voice){ return voice.note });
+	var keys      = _.map(this.getCurrentVoicing(), function(voice){ return voice.obj.key(); });
+	var notes     = _.map(this.getCurrentVoicing(), function(voice){ return voice.obj.toString(); });
+	var offsets   = this.calcSpriteOffsets();
+	var direction = direction || 'down';
+	var loopOrder = 'down' === direction ? _.eachRight : _.each;
 
 	// console.log('play', notes, keys);
 
 	var delay = 65;
-	_.eachRight(voicing, function(voice, i){ 
+	loopOrder(voicing, function(voice, i){ 
 		if(null !== voice){
 			window.setTimeout(function(){that.playString(i);}, delay);
 			delay += 65;
