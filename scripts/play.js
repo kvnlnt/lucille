@@ -9,7 +9,7 @@ Lucille.prototype.play = function(){
 	// console.log('play', notes, keys);
 
 	var delay = 65;
-	_.each(voicing, function(voice, i){ 
+	_.eachRight(voicing, function(voice, i){ 
 		if(null !== voice){
 			window.setTimeout(function(){that.playString(i);}, delay);
 			delay += 65;
@@ -27,7 +27,7 @@ Lucille.prototype.playString = function(n){
 	var key      = _.map(this.getCurrentVoicing(), function(voice){ return voice.obj.key(); })[n];
 	var note     = _.map(this.getCurrentVoicing(), function(voice){ return voice.obj.toString(); })[n];
 
-	console.log('play', key, note);
+	// console.log('play', key, note);
 
 	// play note
 	this.player.play(note);

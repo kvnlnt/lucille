@@ -1,6 +1,4 @@
-- A major plays A minor?
 - add slash note selection for teoria
-- add unplayed strings, alternate string options
+- deal with unplayed strings, alternate string options
 - add top and bottom fret padding
-- add string preview
-- add chord preview
+- optimize audio samples
