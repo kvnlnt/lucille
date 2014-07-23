@@ -322,6 +322,7 @@ Lucille.prototype.renderMinifiedBackground = function(){
 Lucille.prototype.renderMinifiedButtons = function(){
 
 	// params
+	var that    = this;
 	var layout  = this.calcLayout();
 	var x, y, buttons, button, buttonTarget, buttonText = null;
 
@@ -345,7 +346,7 @@ Lucille.prototype.renderMinifiedButtons = function(){
 	buttonTarget = button.rect(-25,-25,50,50).attr('class','touchTarget');
 	buttonText   = button.text(0, 0, '');
 
-	button.click(this.play, this);
+	button.click(function(){ that.play(); }, this);
 	button.attr({ 'class':'button collapse', 'transform':'translate('+x+','+y+')' });
 	buttonText.node.innerHTML = '&#xf028';
 
