@@ -1,11 +1,5 @@
 var Lucille = function(options){
 
-    // themes
-    this.themes = {};
-    this.themes.plain = {};
-    this.themes.plain.background = '#e2e2e2';
-    this.themes.plain.touchTargetBackground = '#e2e2e2';
-
     // params
     var defaults = {};
 
@@ -16,15 +10,15 @@ var Lucille = function(options){
     defaults.audio       = 'audio/acoustic_guitar.mp3',
     defaults.pattern     = 'strum',
     defaults.tab         = this.getTab('C','Major', this.Instrument.guitar.tuning);
-    defaults.theme       = this.themes.plain;
 
     // setup options
     _.extend(this, defaults, options);
 
     // computed params
-    this.player      = this.getPlayer();
+    this.player = this.getPlayer();
 
     // initializers
+    this.themeSetup(options.theme);
     this.render();
     this.display();
 

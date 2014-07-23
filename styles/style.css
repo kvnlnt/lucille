@@ -1,46 +1,12 @@
-@font-face {
-  font-family: 'VarelaRound';
-  font-style: normal;
-  font-weight: 400;
-  src: local('VarelaRound'), local('VarelaRound-Regular'), url(../fonts/Varela_Round/VarelaRound-Regular.woff) format('woff');
-}
 
-.lucille {
-	font-family:'VarelaRound';
-	font-size: 1rem;
-}
 
-.lucille .hide {
-	display: none;
-}
 
-.lucille text {
-	alignment-baseline:central;
-    text-anchor:middle;
-}
 
-.lucille .button {
-	cursor: pointer;
-}
 
-.lucille .button:hover {
-	fill:#FFFFFF;
-}
 
-.lucille .button.next,
-.lucille .button.prev,
-.lucille .button.play {
-	font-family:'FontAwesome';
-	font-size: 2rem;
-	cursor: pointer;
-}
 
-.lucille .button.settings,
-.lucille .button.collapse {
-	font-family:'FontAwesome';
-	font-size: 1.5rem;
-	cursor: pointer;
-}
+
+
 
 .lucille .chord .root {
 	font-size: 3rem;

@@ -2,6 +2,7 @@
 
 <head>
     <title>Lucille</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
     <link rel="stylesheet" href="fonts/font-awesome-4.0.3/css/font-awesome.min.css">
     <link rel="stylesheet" href="styles/style.css"/>
     <link rel="stylesheet" href="libs/pickl.css"/>
@@ -23,13 +24,14 @@
     <script type="text/javascript" src="scripts/updates.js"></script>
     <script type="text/javascript" src="scripts/translators.js"></script>
     <script type="text/javascript" src="scripts/getters.js"></script>
+    <script type="text/javascript" src="scripts/themes.js"></script>
 </head>
 
 <body>
     <h1>Lucille</h1>
     <script type="text/javascript">
     // create instance
-    var lucille = new Lucille();
+    var lucille = new Lucille({theme:{background:'#FF0000'}});
     </script>
 </body>
 

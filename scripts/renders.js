@@ -3,7 +3,6 @@ Lucille.prototype.render = function(reload) {
 	// render main version
 	this.svg                = Snap(this.chart.width, this.chart.height).attr('class','lucille');
 	this.lucille            = this.renderContainer();
-	this.lucille.theme      = this.renderTheme();
 	this.lucille.background = this.renderBackground();
 	this.lucille.chord      = this.renderChord();
 	this.lucille.fretboard  = this.renderFretboard();
@@ -28,20 +27,6 @@ Lucille.prototype.renderContainer = function(){
 	container.attr({'class':'main'});
 
 	return container;
-
-};
-
-Lucille.prototype.renderTheme = function(){
-
-	var theme = $('<style>');
-		theme.attr('type','text/css');
-		theme.attr('class','lucilleTheme');
-		theme.append('.lucille .background { fill: '+this.theme.background+'; }');
-		theme.append('.lucille .touchTarget { fill: '+this.theme.touchTargetBackground+'; }');
-
-	$('head').append(theme);
-
-	return theme;
 
 };
 
