@@ -6,10 +6,7 @@
 // 	touchTargetBackground:...
 // }
 
-Lucille.prototype.themeSetup = function(theme){
-
-	// passed in settings
-	theme = theme || {};
+Lucille.prototype.themeSetup = function(){
 
 	// default settings
 	var defaults                   = {};
@@ -17,7 +14,7 @@ Lucille.prototype.themeSetup = function(theme){
 	defaults.touchTargetBackground = '#e2e2e2';
 
 	// concat settings
-	var settings = _.extend(defaults, theme);
+	var settings = _.extend(defaults, this.theme);
 
 	// create load theme
 	this.themeLoad(settings);
