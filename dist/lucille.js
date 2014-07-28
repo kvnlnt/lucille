@@ -810,7 +810,7 @@ Lucille.prototype.getTab = function(root, type, tuning){
 
 Lucille.prototype.getCurrentVoicing = function(){
 
-	return lucille.tab.voicings[lucille.tab.caged[0]];
+	return this.tab.voicings[this.tab.caged[0]];
 
 };
 
