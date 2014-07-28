@@ -44,7 +44,7 @@ Lucille.prototype.themeLoad = function(){
 		// backgrounds
 
 			css += '.lucille .background { fill: '+style.background+'; }';
-			css += '.lucille .touchTarget { fill: '+style.touchTargetBackground+'; }';
+			css += '.lucille .touchTarget { fill: '+style.touchTargetBackground+'; cursor:pointer; }';
 
 		// fonts
 
@@ -65,7 +65,7 @@ Lucille.prototype.themeLoad = function(){
 
 		// buttons
 
-			css += ".lucille .button text { cursor: pointer; fill:"+style.fontColor+"; opacity:0.4; }";
+			css += ".lucille .buttons .button text { cursor: pointer; fill:"+style.fontColor+"; opacity:0.4; pointer-events:none; }";
 			css += ".lucille .button:hover text { opacity:1; }";
 			css += ".lucille .button.next, .lucille .button.prev, .lucille .button.play { font-family:'FontAwesome'; font-size: 2rem; cursor: pointer; }";
 			css += ".lucille .button.settings, .lucille .button.collapse { font-family:'FontAwesome'; font-size: 1.5rem; cursor: pointer; }";
@@ -73,7 +73,7 @@ Lucille.prototype.themeLoad = function(){
 		// chord
 
 			css += ".lucille .chord .root { font-size: 3rem; opacity:1; fill:"+style.chordFontColor+" }";
-			css += ".lucille .chord .type { font-size: 1.10rem; }";
+			css += ".lucille .chord .type { font-size: 1.10rem; opacity:.4; }";
 
 		// strings
 
