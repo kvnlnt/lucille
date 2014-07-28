@@ -7,6 +7,5 @@ module.exports = {
 	'libs/hammer.js'   : 'https://raw.githubusercontent.com/kvnlnt/hammer.js/master/hammer.min.js',
 	'libs/tabulous.js' : 'https://raw.githubusercontent.com/kvnlnt/Tabulous/master/dist/tabulous.min.js',
     'libs/pickl.js'    : 'https://raw.githubusercontent.com/kvnlnt/pickl/master/dist/pickl.min.js',
-    'libs/pickl.css'   : 'https://raw.githubusercontent.com/kvnlnt/pickl/master/dist/pickl.min.css',
 }
 

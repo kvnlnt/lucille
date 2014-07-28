@@ -10,7 +10,7 @@ var Lucille = function(options){
     defaults.audio       = 'audio/acoustic_guitar.mp3',
     defaults.pattern     = 'strum',
     defaults.tab         = this.getTab('C','Major', this.Instrument.guitar.tuning);
-    defaults.theme       = {};
+    defaults.theme       = 'zen';
 
     // setup options
     _.extend(this, defaults, options);
@@ -19,7 +19,7 @@ var Lucille = function(options){
     this.player = this.getPlayer();
 
     // initializers
-    this.themeSetup();
+    this.themeLoad();
     this.render();
     this.display();
 

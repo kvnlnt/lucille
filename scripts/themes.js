@@ -8,29 +8,32 @@
 //     chordFontColor:'#FF0000'
 // }
 
-Lucille.prototype.themeSetup = function(){
+Lucille.prototype.themes = (function(){
 
 	// default settings
-	var defaults                   = {};
-	defaults.background            = '#e2e2e2';
-	defaults.touchTargetBackground = '#e2e2e2';
-	defaults.fontColor             = '#000000';
-	defaults.chordFontColor        = '#000000';
+	var themes                         = {};
+	themes.plain                       = {};
+	themes.plain.background            = '#e2e2e2';
+	themes.plain.touchTargetBackground = '#e2e2e2';
+	themes.plain.fontColor             = '#000000';
+	themes.plain.chordFontColor        = '#000000';
+	themes.zen                         = {};
+	themes.zen.background              = '#000000';
+	themes.zen.touchTargetBackground   = '#000000';
+	themes.zen.fontColor               = '#FFFFFF';
+	themes.zen.chordFontColor          = '#FF0000';
 
-	// concat settings
-	var settings = _.extend(defaults, this.theme);
+    return themes;
 
-	// create load theme
-	this.themeLoad(settings);
+}());
 
-    return settings;
-
-};
-
-Lucille.prototype.themeLoad = function(settings){
+Lucille.prototype.themeLoad = function(){
 
 	// remove if exists
 	$('.lucilleTheme').remove();
+
+	// style
+	var style = this.themes[this.theme];
 
 	// theme
 	var css   = '';
@@ -40,8 +43,8 @@ Lucille.prototype.themeLoad = function(settings){
 
 		// backgrounds
 
-			css += '.lucille .background { fill: '+settings.background+'; }';
-			css += '.lucille .touchTarget { fill: '+settings.touchTargetBackground+'; }';
+			css += '.lucille .background { fill: '+style.background+'; }';
+			css += '.lucille .touchTarget { fill: '+style.touchTargetBackground+'; }';
 
 		// fonts
 
@@ -58,34 +61,34 @@ Lucille.prototype.themeLoad = function(settings){
 
 		// text basic
 
-			css += ".lucille text { alignment-baseline:central; text-anchor:middle; fill:"+settings.fontColor+" }";
+			css += ".lucille text { alignment-baseline:central; text-anchor:middle; fill:"+style.fontColor+" }";
 
 		// buttons
 
-			css += ".lucille .button text { cursor: pointer; fill:"+settings.fontColor+"; opacity:0.4; }";
+			css += ".lucille .button text { cursor: pointer; fill:"+style.fontColor+"; opacity:0.4; }";
 			css += ".lucille .button:hover text { opacity:1; }";
 			css += ".lucille .button.next, .lucille .button.prev, .lucille .button.play { font-family:'FontAwesome'; font-size: 2rem; cursor: pointer; }";
 			css += ".lucille .button.settings, .lucille .button.collapse { font-family:'FontAwesome'; font-size: 1.5rem; cursor: pointer; }";
 
 		// chord
 
-			css += ".lucille .chord .root { font-size: 3rem; opacity:1; fill:"+settings.chordFontColor+" }";
+			css += ".lucille .chord .root { font-size: 3rem; opacity:1; fill:"+style.chordFontColor+" }";
 			css += ".lucille .chord .type { font-size: 1.10rem; }";
 
 		// strings
 
-			css += ".lucille .string{ stroke:"+settings.fontColor+"; stroke-width:2; stroke-linecap:round; opacity:0.5; }";
+			css += ".lucille .string{ stroke:"+style.fontColor+"; stroke-width:2; stroke-linecap:round; opacity:0.5; }";
 
 		// frets
 			
-			css += ".lucille .fret { stroke:"+settings.fontColor+"; stroke-width:2; opacity: 0.25; }";
+			css += ".lucille .fret { stroke:"+style.fontColor+"; stroke-width:2; opacity: 0.25; }";
 			css += ".lucille .fret:last-child { opacity: 0; }"
 
 		// frettings
 
-			css += ".lucille .fretting .string { stroke:"+settings.fontColor+"; opacity:1; stroke-width:5; stroke-linecap:round; }";
+			css += ".lucille .fretting .string { stroke:"+style.fontColor+"; opacity:1; stroke-width:5; stroke-linecap:round; }";
 			css += ".lucille .fretting .label { font-size:.8rem; opacity:0.6; }";
-			css += ".lucille .fretting .dot { fill:"+settings.fontColor+"}";
+			css += ".lucille .fretting .dot { fill:"+style.fontColor+"}";
 
 		// mini view
 
