@@ -72,8 +72,8 @@ Lucille.prototype.themeLoad = function(){
 
 		// chord
 
-			css += ".lucille .chord .root { font-size: 3rem; opacity:1; fill:"+style.chordFontColor+" }";
-			css += ".lucille .chord .type { font-size: 1.10rem; opacity:.4; }";
+			css += ".lucille .chord .root { font-size: 3rem; opacity:1; fill:"+style.chordFontColor+"; pointer-events:none; }";
+			css += ".lucille .chord .type { font-size: 1.10rem; opacity:.4; pointer-events:none; }";
 
 		// strings
 

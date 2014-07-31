@@ -229,30 +229,37 @@ Lucille.prototype.renderButtons = function(){
 
 Lucille.prototype.renderSettings = function(){
 
-	var orientation      = {};
-	orientation.name     = 'orientation';
-	orientation.values   = ['RIGHTY','LEFTY'];
-	orientation.selected = 0;
 
-	var instrument       = {};
-	instrument.name      = 'instrument';
-	instrument.values    = ['Guitar','Mandolin'];
-	instrument.selected  = 0;
+	var config = {
 
-	var preview          = {};
-	preview.name         = 'preview';
-	preview.values       = ['Strum','Arpeggiate','Travis Pick'];
-	preview.selected     = 0;
+		title:'Settings',
+		fields:{
+			orientation:{
+				name:'orientation',
+				value:'righty',
+				enabled:true,
+				options:{
+					righty:{ name :'Right Handed', value :'RIGHTY' },
+					lefty:{  name :'Left Handed',  value :'LEFTY' }
+				}
+			},
+			tuning:{
+				name:'tuning',
+				value:'standard',
+				enabled:true,
+				options:{
+					standard:{ name :'Standard (EADGBE)', value :['e2','a2','d3','g3','b3','e4'] },
+					drop_d:{   name :'Drop D (DADGBE)',   value :['d2','a2','d3','g3','b3','e4'] }
+				}
+			}
+		}
 
-	var picker           = {};
-	picker.title         = 'settings';
-	picker.colors        = { background:'#e2e2e2' };
-	picker.fields        = [orientation, instrument, preview];
+	};
 
-	var that             = this;
-	var callback         = function(settings){ that.updateSettings(settings); };
-	var settingsPickl    = this.lucille.g();
-	var pickl            = new Pickl({ svg:settingsPickl, callback:callback, config:picker });
+	var that     = this;
+	var callback = function(settings){ that.updateSettings(settings); };
+	var svg      = this.lucille.g();
+	var pickl    = new Pickl({ svg:svg, callback:callback, config:config });
 
 	return pickl;
 
@@ -260,27 +267,51 @@ Lucille.prototype.renderSettings = function(){
 
 Lucille.prototype.renderPicker = function(){
 
-	// Picker Settings
-	var rootField        	      = {};
-	rootField.name              = 'root';
-	rootField.values            = ['C','C#/Db','D','D#/Eb','E','F','F#/Gb','G','G#/Ab','A','A#/Bb','B'];
-	rootField.selected          = 0;
+	var config = {
 
-	var typeField               = {};
-	typeField.name              = 'type';
-	// typeField.values            = ['Major','Maj 6', 'Maj 6add9', 'Maj 7','Maj add9','Maj 9','Maj 13','sus 4','minor','min 6','min 6add9','min 7','min 9','min 11','min 13','Aug','Dim','Dom 7'],
-	typeField.values            = ['Major',"minor"];
-	typeField.selected          = 0;
+		title:'Chord Picker',
+		fields:{
+			root:{
+				name:'root',
+				value:'c_n',
+				enabled:true,
+				options:{
+					c_n:{ name:'C',  value : 'C' },
+					c_s:{ name:'C#', value : 'C#' },
+					d_f:{ name:'Db', value : 'Db' },
+					d_n:{ name:'D',  value : 'D' },
+					d_s:{ name:'D#', value : 'D#' },
+					e_f:{ name:'Eb', value : 'Eb' },
+					e_n:{ name:'E',  value :'E' },
+					f_n:{ name:'F',  value :'F' },
+					f_s:{ name:'F#', value :'F#' },
+					g_b:{ name:'Gb', value :'Gb' },
+					g_n:{ name:'G',  value :'G' },
+					g_s:{ name:'G#', value :'G#' },
+					a_f:{ name:'Ab', value :'Ab' },
+					a_n:{ name:'A',  value :'A' },
+					a_s:{ name:'A#', value :'A#' },
+					b_b:{ name:'Bb', value :'Bb' },
+					b_n:{ name:'B',  value :'B' }
+				}
+			},
+			type:{
+				name:'type',
+				value:'major',
+				enabled:true,
+				options:{
+					major:{ name:'Major', value:'Major'},
+					minor:{ name:'minor', value:'minor'}
+				}
+			}
+		}
 
-	var picker                  = {};
-	picker.title                = 'Chord';
-	picker.colors               = { background:'#e2e2e2' };
-	picker.fields               = [rootField, typeField];
+	};
 
-	var that                    = this;
-	var callback                = function(settings){ that.updateChord(settings); };
-	var settingsPickl           = this.lucille.g();
-	var pickl                   = new Pickl({ svg:settingsPickl, callback:callback, config:picker });
+	var that     = this;
+	var callback = function(settings){ that.updateChord(settings); };
+	var svg      = this.lucille.g();
+	var pickl    = new Pickl({ svg:svg, callback:callback, config:config });
 
 	return pickl;
 

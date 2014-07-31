@@ -20,7 +20,7 @@ Lucille.prototype.getCurrentVoicing = function(){
 
 };
 
-Lucille.prototype.getInstrument = function(name){
+Lucille.prototype.getInstrument = function(instrument, tuning){
 
 	var instrument = null;
 
