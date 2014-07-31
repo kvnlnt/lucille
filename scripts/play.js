@@ -6,9 +6,14 @@ Lucille.prototype.play = function(direction){
 	var notes     = _.map(this.getCurrentVoicing(), function(voice){ return voice.obj.toString(); });
 	var offsets   = this.calcSpriteOffsets();
 	var direction = direction || 'down';
-	var loopOrder = 'down' === direction ? _.eachRight : _.each;
 
-	// console.log('play', notes, keys);
+	console.log(direction);
+
+	if(this.orientation === 'RIGHTY'){
+		var loopOrder = 'down' === direction ? _.eachRight : _.each;
+	} else {
+		var loopOrder = 'down' === direction ? _.each : _.eachRight;
+	}
 
 	var delay = 65;
 	loopOrder(voicing, function(voice, i){ 
