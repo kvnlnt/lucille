@@ -230,32 +230,7 @@ Lucille.prototype.renderButtons = function(){
 Lucille.prototype.renderSettings = function(){
 
 
-	var config = {
-
-		title:'Settings',
-		fields:{
-			orientation:{
-				name:'orientation',
-				value:'righty',
-				enabled:true,
-				options:{
-					righty:{ name :'Right Handed', value :'RIGHTY' },
-					lefty:{  name :'Left Handed',  value :'LEFTY' }
-				}
-			},
-			tuning:{
-				name:'tuning',
-				value:'standard',
-				enabled:true,
-				options:{
-					standard:{ name :'Standard (EADGBE)', value :['e2','a2','d3','g3','b3','e4'] },
-					drop_d:{   name :'Drop D (DADGBE)',   value :['d2','a2','d3','g3','b3','e4'] }
-				}
-			}
-		}
-
-	};
-
+	var config   = this.getSettingsConfig();
 	var that     = this;
 	var callback = function(settings){ that.updateSettings(settings); };
 	var svg      = this.lucille.g();
