@@ -3,8 +3,10 @@ Lucille.prototype.updateSettings = function(settings){
 	this.orientation       = settings.orientation;
 	this.instrument.tuning = settings.tuning;
 	this.tab               = this.getTab(this.tab.root, this.tab.type, this.instrument.tuning);
+	this.audio             = settings.preview;
 
 	this.renderFretboardRefresh();
+	this.player = this.getPlayer();
 	this.display();
 
 };

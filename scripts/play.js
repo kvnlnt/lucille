@@ -7,8 +7,6 @@ Lucille.prototype.play = function(direction){
 	var offsets   = this.calcSpriteOffsets();
 	var direction = direction || 'down';
 
-	console.log(direction);
-
 	if(this.orientation === 'RIGHTY'){
 		var loopOrder = 'down' === direction ? _.eachRight : _.each;
 	} else {
