@@ -37,14 +37,18 @@ Lucille.prototype.renderBackground = function(){
 	background.attr({'class':'background'});
 
 	// swipe play
-	var hammertime = new Hammer(background.node, {
-		distance:100,
-		velocity:0.5
+	var hammertime = new Hammer(background.node, { distance:50	});
+
+	hammertime.on('swiperight', function(ev) { 
+
+		var direction = 'RIGHTY' === that.orientation ? 'down' : 'up';
+		that.play(direction);
+
 	});
 
-	hammertime.on('swipe', function(ev) { 
+	hammertime.on('swipeleft', function(ev) { 
 
-		var direction = 2 === ev.direction ? 'up' : 'down';
+		var direction = 'RIGHTY' === that.orientation ? 'up' : 'down';
 		that.play(direction);
 
 	});
