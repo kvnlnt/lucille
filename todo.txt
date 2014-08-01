@@ -3,3 +3,4 @@
 - deal with unplayed strings, alternate string options
 - add top and bottom fret padding
 - optimize audio samples
+- add electric preview

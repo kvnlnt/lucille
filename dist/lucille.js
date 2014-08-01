@@ -6,10 +6,10 @@ var Lucille = function(options){
     defaults.chart       = { width: 320, height: 520 };
     defaults.fretboard   = { width:120, height:250 };
     defaults.orientation = 'RIGHTY';
-    defaults.instrument  = this.Instrument.guitar;
+    defaults.instrument  = this.Instrument;
     defaults.audio       = 'audio/acoustic_guitar.mp3',
     defaults.pattern     = 'strum',
-    defaults.tab         = this.getTab('C','Major', this.Instrument.guitar.tuning);
+    defaults.tab         = this.getTab('C','Major', this.Instrument.tuning);
     defaults.theme       = 'zen';
 
     // setup options
@@ -71,15 +71,7 @@ var Lucille = function(options){
 
 ;Lucille.prototype.Instrument = (function(){
 
-	var instrument = {
-
-		guitar         : { strings : 6, tuning : ['e2','a2','d3','g3','b3','e4'] },
-		guitar_drop_d  : { strings : 6, tuning : ['d2','a2','d3','g3','b3','e4'] },
-		mandolin       : { strings : 4, tuning : ['g3','d4','a4','e5']},
-		banjo_4_string : { strings : 4, tuning : []},
-		banjo_5_string : { strings : 5, tuning : []}
-
-	};
+	var instrument =  { strings : 6, tuning : ['e2','a2','d3','g3','b3','e4'] };
 
 	return instrument;	
 
@@ -231,14 +223,18 @@ Lucille.prototype.renderBackground = function(){
 	background.attr({'class':'background'});
 
 	// swipe play
-	var hammertime = new Hammer(background.node, {
-		distance:100,
-		velocity:0.5
+	var hammertime = new Hammer(background.node, { distance:50	});
+
+	hammertime.on('swiperight', function(ev) { 
+
+		var direction = 'RIGHTY' === that.orientation ? 'down' : 'up';
+		that.play(direction);
+
 	});
 
-	hammertime.on('swipe', function(ev) { 
+	hammertime.on('swipeleft', function(ev) { 
 
-		var direction = 2 === ev.direction ? 'up' : 'down';
+		var direction = 'RIGHTY' === that.orientation ? 'up' : 'down';
 		that.play(direction);
 
 	});
@@ -423,30 +419,12 @@ Lucille.prototype.renderButtons = function(){
 
 Lucille.prototype.renderSettings = function(){
 
-	var orientation      = {};
-	orientation.name     = 'orientation';
-	orientation.values   = ['RIGHTY','LEFTY'];
-	orientation.selected = 0;
 
-	var instrument       = {};
-	instrument.name      = 'instrument';
-	instrument.values    = ['Guitar','Mandolin'];
-	instrument.selected  = 0;
-
-	var preview          = {};
-	preview.name         = 'preview';
-	preview.values       = ['Strum','Arpeggiate','Travis Pick'];
-	preview.selected     = 0;
-
-	var picker           = {};
-	picker.title         = 'settings';
-	picker.colors        = { background:'#e2e2e2' };
-	picker.fields        = [orientation, instrument, preview];
-
-	var that             = this;
-	var callback         = function(settings){ that.updateSettings(settings); };
-	var settingsPickl    = this.lucille.g();
-	var pickl            = new Pickl({ svg:settingsPickl, callback:callback, config:picker });
+	var config   = this.getSettingsConfig();
+	var that     = this;
+	var callback = function(settings){ that.updateSettings(settings); };
+	var svg      = this.lucille.g();
+	var pickl    = new Pickl({ svg:svg, callback:callback, config:config });
 
 	return pickl;
 
@@ -454,27 +432,51 @@ Lucille.prototype.renderSettings = function(){
 
 Lucille.prototype.renderPicker = function(){
 
-	// Picker Settings
-	var rootField        	      = {};
-	rootField.name              = 'root';
-	rootField.values            = ['C','C#/Db','D','D#/Eb','E','F','F#/Gb','G','G#/Ab','A','A#/Bb','B'];
-	rootField.selected          = 0;
+	var config = {
 
-	var typeField               = {};
-	typeField.name              = 'type';
-	// typeField.values            = ['Major','Maj 6', 'Maj 6add9', 'Maj 7','Maj add9','Maj 9','Maj 13','sus 4','minor','min 6','min 6add9','min 7','min 9','min 11','min 13','Aug','Dim','Dom 7'],
-	typeField.values            = ['Major',"minor"];
-	typeField.selected          = 0;
+		title:'Chord Picker',
+		fields:{
+			root:{
+				name:'root',
+				value:'c_n',
+				enabled:true,
+				options:{
+					c_n:{ name:'C',  value : 'C' },
+					c_s:{ name:'C#', value : 'C#' },
+					d_f:{ name:'Db', value : 'Db' },
+					d_n:{ name:'D',  value : 'D' },
+					d_s:{ name:'D#', value : 'D#' },
+					e_f:{ name:'Eb', value : 'Eb' },
+					e_n:{ name:'E',  value :'E' },
+					f_n:{ name:'F',  value :'F' },
+					f_s:{ name:'F#', value :'F#' },
+					g_b:{ name:'Gb', value :'Gb' },
+					g_n:{ name:'G',  value :'G' },
+					g_s:{ name:'G#', value :'G#' },
+					a_f:{ name:'Ab', value :'Ab' },
+					a_n:{ name:'A',  value :'A' },
+					a_s:{ name:'A#', value :'A#' },
+					b_b:{ name:'Bb', value :'Bb' },
+					b_n:{ name:'B',  value :'B' }
+				}
+			},
+			type:{
+				name:'type',
+				value:'major',
+				enabled:true,
+				options:{
+					major:{ name:'Major', value:'Major'},
+					minor:{ name:'minor', value:'minor'}
+				}
+			}
+		}
 
-	var picker                  = {};
-	picker.title                = 'Chord';
-	picker.colors               = { background:'#e2e2e2' };
-	picker.fields               = [rootField, typeField];
+	};
 
-	var that                    = this;
-	var callback                = function(settings){ that.updateChord(settings); };
-	var settingsPickl           = this.lucille.g();
-	var pickl                   = new Pickl({ svg:settingsPickl, callback:callback, config:picker });
+	var that     = this;
+	var callback = function(settings){ that.updateChord(settings); };
+	var svg      = this.lucille.g();
+	var pickl    = new Pickl({ svg:svg, callback:callback, config:config });
 
 	return pickl;
 
@@ -652,8 +654,6 @@ Lucille.prototype.displayMinifiedHidden = function(){
 	var direction = direction || 'down';
 	var loopOrder = 'down' === direction ? _.eachRight : _.each;
 
-	// console.log('play', notes, keys);
-
 	var delay = 65;
 	loopOrder(voicing, function(voice, i){ 
 		if(null !== voice){
@@ -718,11 +718,13 @@ Lucille.prototype.playString = function(n){
 
 };;Lucille.prototype.updateSettings = function(settings){
 
-	this.orientation = settings.orientation
-	this.instrument  = this.getInstrument(settings.instrument);
-	this.tab         = this.getTab(this.tab.root, this.tab.type, this.instrument.tuning);
+	this.orientation       = settings.orientation;
+	this.instrument.tuning = settings.tuning;
+	this.tab               = this.getTab(this.tab.root, this.tab.type, this.instrument.tuning);
+	this.audio             = settings.preview;
 
 	this.renderFretboardRefresh();
+	this.player = this.getPlayer();
 	this.display();
 
 };
@@ -814,7 +816,7 @@ Lucille.prototype.getCurrentVoicing = function(){
 
 };
 
-Lucille.prototype.getInstrument = function(name){
+Lucille.prototype.getInstrument = function(instrument, tuning){
 
 	var instrument = null;
 
@@ -839,6 +841,61 @@ Lucille.prototype.getPlayer = function(){
 	});
 
 	return audio;
+
+};
+
+Lucille.prototype.getSettingsConfig = function(){
+
+	return {
+
+		title:'Settings',
+		fields:{
+			orientation:{
+				name:'orientation',
+				value:'righty',
+				enabled:true,
+				options:{
+					righty:{ name :'Right Handed', value :'RIGHTY' },
+					lefty:{  name :'Left Handed',  value :'LEFTY' }
+				}
+			},
+			tuning:{
+				name:'tuning',
+				value:'standard',
+				enabled:true,
+				options:{
+					standard      :{ name:'EADGBE / Standard' 	   , value :['e2','a2','d3','g3','b3','e4'] },
+					drop_d        :{ name:'DADGBE / Drop D'   	   , value :['d2','a2','d3','g3','b3','e4'] },
+					double_drop_d :{ name:'DADGBD / Dbl Drop D'    , value :['d1','a1','d2','g2','b2','d3'] },
+					drop_c        :{ name:'CGCFAD / Drop C'        , value :['c1','g1','c2','f2','a2','d3'] },
+					open_d        :{ name:'DADF#AD / Open D'       , value :['d1','a1','d2','f#2','a2','d3'] },
+					open_d_minor  :{ name:'DADFAD / Open D Minor'  , value :['d1','a1','d2','f2','a2','d3'] },
+					open_g        :{ name:'DGDGBD / Open G'        , value :['d1','g1','d2','g2','b2','d3'] },
+					open_g_minor  :{ name:'DGDGA#D / Open G Minor' , value :['d1','g1','d2','g2','a#2','d3'] },
+					open_c        :{ name:'CGCGCE / Open C'        , value :['c1','g1','c2','g2','c3','e3'] },
+					open_c_minor  :{ name:'CGCGCD# / Open C Minor' , value :['c1','g1','c2','g2','c3','d#3'] },
+					open_e        :{ name:'EBEG#BE / Open E'       , value :['e1','b1','e2','g#2','b2','e3'] },
+					open_a        :{ name:'EAC#EA3 / Open A'       , value :['e1','a1','c#2','e2','a2','e3'] },
+					baritone      :{ name:'ADGCEA / Baritone'      , value :['a0','d1','g1','c2','e2','a2'] },
+					pentatonic    :{ name:'ACDEGA / Pentatonic'    , value :['a1','c2','d2','e2','g2','a3'] },
+					ostrich       :{ name:'DDDDDD / Ostrich'       , value :['d1','d2','d2','d2','d3','d3'] },
+					dobro         :{ name:'GBDGBD / Dobro'         , value :['g1','b1','d2','g2','b2','d3'] },
+					mando_guitar  :{ name:'CGDAEB / Mandoguitar'   , value :['c1','g1','d2','a2','e3','b3'] },
+					rusty_cage    :{ name:'BADGBE / Rusty Cage'    , value :['b0','a1','d2','g2','b2','e3'] }
+				}
+			},
+			preview:{
+				name:'preview',
+				value:'acoustic',
+				enabled:true,
+				options:{
+					acoustic:{ name:'Acoustic Guitar', value:'audio/acoustic_guitar.mp3' },
+					electric:{ name:'Electric Guitar', value:'audio/electric_guitar.mp3' }
+				}
+			}
+		}
+
+	};
 
 };;// Usage:
 // Pass a theme object in options formatted like so, else defaults will be applied:
@@ -914,8 +971,8 @@ Lucille.prototype.themeLoad = function(){
 
 		// chord
 
-			css += ".lucille .chord .root { font-size: 3rem; opacity:1; fill:"+style.chordFontColor+" }";
-			css += ".lucille .chord .type { font-size: 1.10rem; opacity:.4; }";
+			css += ".lucille .chord .root { font-size: 3rem; opacity:1; fill:"+style.chordFontColor+"; pointer-events:none; }";
+			css += ".lucille .chord .type { font-size: 1.10rem; opacity:.4; pointer-events:none; }";
 
 		// strings
 
