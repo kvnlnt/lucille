@@ -1,4 +1,5 @@
-- alt chord types
+- alt chord types not rendering
+- chord type options out of order?
 - add slash note selection for teoria
 - add top and bottom fret padding
 - optimize audio samples
