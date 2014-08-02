@@ -24,7 +24,7 @@ Lucille.prototype.display = function(){
 
 		// fretting line
 		var line 		= fretting.select('.string');
-		var lineClass 	= null === voice.fret ? 'string hide' : 'string';
+		var lineClass 	= -1 === voice.fret ? 'string hide' : 'string';
 		var lineY 		= 0 === voice.fret ? layout.strings.y1[i] : frets.y[loc] - (frets.spacing/2);
 
 		line.attr({ class:lineClass });
@@ -32,7 +32,7 @@ Lucille.prototype.display = function(){
 
 		// fretting tab
 		var tab 		= fretting.select('.tab');
-		var tabFret     = null === voice.fret ? 'X' : voice.fret;
+		var tabFret     = -1 === voice.fret ? 'X' : voice.fret;
 
 		tab.node.textContent = tabFret;
 

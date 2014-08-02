@@ -1,12 +1,14 @@
 Lucille.prototype.play = function(direction){
 
-	var that      = this;
-	var voicing   = _.map(this.calcVoicing(),function(voice){ return voice.note });
-	var keys      = _.map(this.getCurrentVoicing(), function(voice){ return voice.obj.key(); });
-	var notes     = _.map(this.getCurrentVoicing(), function(voice){ return voice.obj.toString(); });
-	var offsets   = this.calcSpriteOffsets();
-	var direction = direction || 'down';
-	var loopOrder = 'down' === direction ? _.eachRight : _.each;
+	var that            = this;
+	var voicing         = _.map(this.calcVoicing(),function(voice){ return voice.note });
+	var currVoicing     = this.getCurrentVoicing();
+	var playableVoicing = _.filter(currVoicing,function(o){ return o.fret > -1});
+	var keys            = _.map(playableVoicing, function(voice){ return voice.obj.key(); });
+	var notes           = _.map(playableVoicing, function(voice){ return voice.obj.toString(); });
+	var offsets         = this.calcSpriteOffsets();
+	var direction       = direction || 'down';
+	var loopOrder       = 'down' === direction ? _.eachRight : _.each;
 
 	var delay = 65;
 	loopOrder(voicing, function(voice, i){ 
@@ -20,12 +22,13 @@ Lucille.prototype.play = function(direction){
 
 Lucille.prototype.playString = function(n){
 
-	var string   = this.lucille.frettings[n].select('.string');
-	var coord    = string.attr('x1');
-	var dir      = 1;
-	var strength = 5;
-	var key      = _.map(this.getCurrentVoicing(), function(voice){ return voice.obj.key(); })[n];
-	var note     = _.map(this.getCurrentVoicing(), function(voice){ return voice.obj.toString(); })[n];
+	var string          = this.lucille.frettings[n].select('.string');
+	var coord           = string.attr('x1');
+	var dir             = 1;
+	var strength        = 5;
+	var currVoicing     = this.getCurrentVoicing();
+	var key             = currVoicing[n].obj.key();
+	var note            = currVoicing[n].obj.toString();
 
 	// console.log('play', key, note);
 

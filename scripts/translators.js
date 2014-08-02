@@ -25,10 +25,12 @@ Lucille.prototype.transTabulousChordToVoicings = function(tabulous){
 		// loop voicing frettings
 		return _.map(voicing.data, function(fretting, y){
 
+			var note = null === fretting ? null : fretting.toString(true).charAt(0).toUpperCase() + fretting.toString(true).charAt(1);
+
 			return {
 				fret:voicing.voicing[y],
 				finger:0,
-				note:fretting.toString(true).charAt(0).toUpperCase() + fretting.toString(true).charAt(1),
+				note:note,
 				obj:fretting
 			}
 

@@ -67,6 +67,7 @@ Lucille.prototype.calcFretLayout = function(){
     range   = _.sortBy(voicing,function(voice){ return voice.fret; });
     range   = _.pluck(range, 'fret');
     range   = _.compact(range);
+    range   = _.filter(range,function(fret){ return fret > -1});
     range   = _.range(_.first(range), _.last(range)+1);
     spacing = this.fretboard.height / range.length;
     y       = _.times(range.length,function(fret){ return (fret+1) * spacing });

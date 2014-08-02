@@ -1,3 +1,4 @@
+- sharps not working?
 - fix audio preview instance tie to lucille namespace
 - add slash note selection for teoria
 - deal with unplayed strings, alternate string options
