@@ -96,6 +96,15 @@ Lucille.prototype.getSettingsConfig = function(){
 					acoustic:{ name:'Acoustic Guitar', value:'audio/acoustic_guitar.mp3' },
 					electric:{ name:'Electric Guitar', value:'audio/electric_guitar.mp3' }
 				}
+			},
+			algorithm:{
+				name:'Fingering',
+				value:'natural',
+				enabled:true,
+				options:{
+					natural:{ name:'Natural', value:'NATURAL' },
+					fret_by_fret:{ name:'Fret x Fret', value:'FRET_X_FRET'}
+				}
 			}
 		}
 

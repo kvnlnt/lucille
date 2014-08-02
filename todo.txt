@@ -1,7 +1,4 @@
-- sharps not working?
-- fix audio preview instance tie to lucille namespace
 - add slash note selection for teoria
-- deal with unplayed strings, alternate string options
 - add top and bottom fret padding
 - optimize audio samples
 - add electric preview
