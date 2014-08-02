@@ -9,7 +9,7 @@ var Lucille = function(options){
     defaults.instrument  = this.Instrument;
     defaults.audio       = 'audio/acoustic_guitar.mp3',
     defaults.pattern     = 'strum',
-    defaults.tab         = this.getTab('C','Major', this.Instrument.tuning);
+    defaults.tab         = this.getTab('D#','Major', this.Instrument.tuning);
     defaults.theme       = 'zen';
 
     // setup options
@@ -144,6 +144,7 @@ Lucille.prototype.calcFretLayout = function(){
     range   = _.sortBy(voicing,function(voice){ return voice.fret; });
     range   = _.pluck(range, 'fret');
     range   = _.compact(range);
+    range   = _.filter(range,function(fret){ return fret > -1});
     range   = _.range(_.first(range), _.last(range)+1);
     spacing = this.fretboard.height / range.length;
     y       = _.times(range.length,function(fret){ return (fret+1) * spacing });
@@ -574,7 +575,7 @@ Lucille.prototype.renderMinifiedTitle = function(){
 
 		// fretting line
 		var line 		= fretting.select('.string');
-		var lineClass 	= null === voice.fret ? 'string hide' : 'string';
+		var lineClass 	= -1 === voice.fret ? 'string hide' : 'string';
 		var lineY 		= 0 === voice.fret ? layout.strings.y1[i] : frets.y[loc] - (frets.spacing/2);
 
 		line.attr({ class:lineClass });
@@ -582,7 +583,7 @@ Lucille.prototype.renderMinifiedTitle = function(){
 
 		// fretting tab
 		var tab 		= fretting.select('.tab');
-		var tabFret     = null === voice.fret ? 'X' : voice.fret;
+		var tabFret     = -1 === voice.fret ? 'X' : voice.fret;
 
 		tab.node.textContent = tabFret;
 
@@ -646,13 +647,15 @@ Lucille.prototype.displayMinifiedHidden = function(){
 
 ;Lucille.prototype.play = function(direction){
 
-	var that      = this;
-	var voicing   = _.map(this.calcVoicing(),function(voice){ return voice.note });
-	var keys      = _.map(this.getCurrentVoicing(), function(voice){ return voice.obj.key(); });
-	var notes     = _.map(this.getCurrentVoicing(), function(voice){ return voice.obj.toString(); });
-	var offsets   = this.calcSpriteOffsets();
-	var direction = direction || 'down';
-	var loopOrder = 'down' === direction ? _.eachRight : _.each;
+	var that            = this;
+	var voicing         = _.map(this.calcVoicing(),function(voice){ return voice.note });
+	var currVoicing     = this.getCurrentVoicing();
+	var playableVoicing = _.filter(currVoicing,function(o){ return o.fret > -1});
+	var keys            = _.map(playableVoicing, function(voice){ return voice.obj.key(); });
+	var notes           = _.map(playableVoicing, function(voice){ return voice.obj.toString(); });
+	var offsets         = this.calcSpriteOffsets();
+	var direction       = direction || 'down';
+	var loopOrder       = 'down' === direction ? _.eachRight : _.each;
 
 	var delay = 65;
 	loopOrder(voicing, function(voice, i){ 
@@ -666,12 +669,13 @@ Lucille.prototype.displayMinifiedHidden = function(){
 
 Lucille.prototype.playString = function(n){
 
-	var string   = this.lucille.frettings[n].select('.string');
-	var coord    = string.attr('x1');
-	var dir      = 1;
-	var strength = 5;
-	var key      = _.map(this.getCurrentVoicing(), function(voice){ return voice.obj.key(); })[n];
-	var note     = _.map(this.getCurrentVoicing(), function(voice){ return voice.obj.toString(); })[n];
+	var string          = this.lucille.frettings[n].select('.string');
+	var coord           = string.attr('x1');
+	var dir             = 1;
+	var strength        = 5;
+	var currVoicing     = this.getCurrentVoicing();
+	var key             = currVoicing[n].obj.key();
+	var note            = currVoicing[n].obj.toString();
 
 	// console.log('play', key, note);
 
@@ -778,10 +782,12 @@ Lucille.prototype.transTabulousChordToVoicings = function(tabulous){
 		// loop voicing frettings
 		return _.map(voicing.data, function(fretting, y){
 
+			var note = null === fretting ? null : fretting.toString(true).charAt(0).toUpperCase() + fretting.toString(true).charAt(1);
+
 			return {
 				fret:voicing.voicing[y],
 				finger:0,
-				note:fretting.toString(true).charAt(0).toUpperCase() + fretting.toString(true).charAt(1),
+				note:note,
 				obj:fretting
 			}
 
@@ -891,6 +897,15 @@ Lucille.prototype.getSettingsConfig = function(){
 				options:{
 					acoustic:{ name:'Acoustic Guitar', value:'audio/acoustic_guitar.mp3' },
 					electric:{ name:'Electric Guitar', value:'audio/electric_guitar.mp3' }
+				}
+			},
+			algorithm:{
+				name:'Fingering',
+				value:'natural',
+				enabled:true,
+				options:{
+					natural:{ name:'Natural', value:'NATURAL' },
+					fret_by_fret:{ name:'Fret x Fret', value:'FRET_X_FRET'}
 				}
 			}
 		}
