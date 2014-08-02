@@ -1,3 +1,4 @@
+- alt chord types
 - add slash note selection for teoria
 - add top and bottom fret padding
 - optimize audio samples
