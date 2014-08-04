@@ -13,6 +13,7 @@ module.exports = {
 			'scripts/updates.js',
 			'scripts/translators.js',
 			'scripts/getters.js',
+			'scripts/destroyers.js',
 			'scripts/themes.js'],
       dest: 'dist/lucille.js',
     },

@@ -48,6 +48,30 @@ Lucille.prototype.getPlayer = function(){
 
 };
 
+Lucille.prototype.getDeleterConfig = function(){
+
+	var that = this;
+
+	return {
+
+		title:'Delete',
+		fields:{
+			confirm:{
+				type:'button',
+				text:'confirm',
+				callback:function(){ that.destroy(); }
+			},
+			cancel:{
+				type:'button',
+				text:'cancel',
+				callback:function(){ this.save(); }
+			}
+		}
+
+	};
+
+};
+
 Lucille.prototype.getPickerConfig = function(){
 
 	return {

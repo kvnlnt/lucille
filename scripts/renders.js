@@ -24,7 +24,9 @@ Lucille.prototype.render = function(reload) {
 Lucille.prototype.renderContainer = function(){
 
 	var container = this.svg.g();
+
 	container.attr({'class':'main'});
+	container.dblclick(this.renderDeleter, this);
 
 	return container;
 
@@ -234,6 +236,25 @@ Lucille.prototype.renderSettings = function(){
 	var callback = function(settings){ that.updateSettings(settings); };
 	var svg      = this.lucille.g();
 	var pickl    = new Pickl({ svg:svg, callback:callback, config:config });
+
+	return pickl;
+
+};
+
+Lucille.prototype.renderDeleter = function () {
+
+	// remove first if it exists, else it'll keep piling on with each cancel
+	var exists = this.lucille.select('.deleter');
+	if(null !== exists) { exists.remove(); };
+
+	var config   = this.getDeleterConfig();
+	var that     = this;
+	var callback = function(settings){};
+	var svg      = this.lucille.g();
+	var pickl    = new Pickl({ svg:svg, callback:callback, config:config });
+
+	pickl.pickl.addClass('deleter');
+	pickl.display();
 
 	return pickl;
 
