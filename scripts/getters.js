@@ -83,7 +83,7 @@ Lucille.prototype.getPickerConfig = function(){
 				value:'1',
 				enabled:true,
 				options:{
-					'1'  :{ name:'Major',    value: 'maj' },
+					'1'  :{ name:'Major',    value: 'M' },
 					'2'  :{ name:'maj7',     value: 'maj7' },
 					'3'  :{ name:'maj9',     value: 'maj9' },
 					'4'  :{ name:'maj11',    value: 'maj11' },
