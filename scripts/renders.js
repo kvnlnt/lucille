@@ -177,55 +177,50 @@ Lucille.prototype.renderButtons = function(){
 	var nextY      = layout.chart.height / 2;
 	var next       = buttons.g();
 	var nextTarget = next.rect(-25,-25,50,50).attr({'class':'touchTarget'});
-	var nextText   = next.text(0, 0, '');
+	var nextText   = next.text(0, 0, '\uf054');
 
 	next.click(this.displayNext, this);
 	next.attr({ 'class':'button next', 'transform':'translate('+nextX+','+nextY+')' });
-	nextText.node.innerHTML = '&#xf054';
 
 	// prev
 	var prevX      = ((layout.chart.width - layout.fretboard.width) / 2) / 2;
 	var prevY      = layout.chart.height / 2;
 	var prev       = buttons.g();
 	var prevTarget = prev.rect(-25,-25,50,50).attr('class','touchTarget');
-	var prevText   = prev.text(0, 0, '');
+	var prevText   = prev.text(0, 0, '\uf053');
 
 	prev.click(this.displayPrev, this);
 	prev.attr({ 'class':'button prev', 'transform':'translate('+prevX+','+prevY+')' });
-	prevText.node.innerHTML = '&#xf053';
 
 	// play
 	var playX      = layout.chart.width/2;
 	var playY      = layout.chart.height - ((layout.chart.height - layout.fretboard.height) / 2) / 2 + 10;
 	var play       = buttons.g();
 	var playTarget = play.rect(-25,-25,50,50).attr('class','touchTarget');
-	var playText   = play.text(0, 0, '');
+	var playText   = play.text(0, 0, '\uf028');
 
 	play.click(function(){ that.play(); }, this);
 	play.attr({ 'class':'button play', 'transform':'translate('+playX+','+playY+')' });
-	playText.node.innerHTML = '&#xf028';
 
 	// settings
 	var settingsX      = layout.chart.width - ((layout.chart.width - layout.fretboard.width) / 2) / 2;
 	var settingsY      = ((layout.chart.width - layout.fretboard.width) / 2) / 2;
 	var settings       = buttons.g();
 	var settingsTarget = settings.rect(-25,-25,50,50).attr('class','touchTarget');
-	var settingsText   = settings.text(0, 0, '');
+	var settingsText   = settings.text(0, 0, '\uf0c9');
 
 	settings.click(function(){ this.lucille.settings.display(); }, this);
 	settings.attr({ 'class':'button settings', 'transform':'translate('+settingsX+','+settingsY+')' });
-	settingsText.node.innerHTML = '&#xf0c9';
 
 	// collapse
 	var collapseX      = ((layout.chart.width - layout.fretboard.width) / 2) / 2;
 	var collapseY      = ((layout.chart.width - layout.fretboard.width) / 2) / 2;
 	var collapse       = buttons.g();
 	var collapseTarget = collapse.rect(-25,-25,50,50).attr('class','touchTarget');
-	var collapseText   = collapse.text(0, 0, '');
+	var collapseText   = collapse.text(0, 0, '\uf068');
 
 	collapse.click(this.displayMinified, this);
 	collapse.attr({ 'class':'button collapse', 'transform':'translate('+collapseX+','+collapseY+')' });
-	collapseText.node.innerHTML = '&#xf068';
 
 	return buttons.selectAll('.button');
 
