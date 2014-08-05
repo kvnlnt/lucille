@@ -211,9 +211,7 @@ Lucille.prototype.calcSpriteOffsets = function(){
 Lucille.prototype.renderContainer = function(){
 
 	var container = this.svg.g();
-
 	container.attr({'class':'main'});
-	container.dblclick(this.renderDeleter, this);
 
 	return container;
 
@@ -423,25 +421,6 @@ Lucille.prototype.renderSettings = function(){
 	var callback = function(settings){ that.updateSettings(settings); };
 	var svg      = this.lucille.g();
 	var pickl    = new Pickl({ svg:svg, callback:callback, config:config });
-
-	return pickl;
-
-};
-
-Lucille.prototype.renderDeleter = function () {
-
-	// remove first if it exists, else it'll keep piling on with each cancel
-	var exists = this.lucille.select('.deleter');
-	if(null !== exists) { exists.remove(); };
-
-	var config   = this.getDeleterConfig();
-	var that     = this;
-	var callback = function(settings){};
-	var svg      = this.lucille.g();
-	var pickl    = new Pickl({ svg:svg, callback:callback, config:config });
-
-	pickl.pickl.addClass('deleter');
-	pickl.display();
 
 	return pickl;
 
@@ -826,30 +805,6 @@ Lucille.prototype.getPlayer = function(){
 
 };
 
-Lucille.prototype.getDeleterConfig = function(){
-
-	var that = this;
-
-	return {
-
-		title:'Delete',
-		fields:{
-			confirm:{
-				type:'button',
-				text:'confirm',
-				callback:function(){ that.destroy(); }
-			},
-			cancel:{
-				type:'button',
-				text:'cancel',
-				callback:function(){ this.save(); }
-			}
-		}
-
-	};
-
-};
-
 Lucille.prototype.getPickerConfig = function(){
 
 	return {
@@ -943,6 +898,8 @@ Lucille.prototype.getPickerConfig = function(){
 
 Lucille.prototype.getSettingsConfig = function(){
 
+	var that = this;
+
 	return {
 
 		title:'Settings',
@@ -1000,7 +957,12 @@ Lucille.prototype.getSettingsConfig = function(){
 					natural:{ name:'Natural', value:'NATURAL' },
 					fret_by_fret:{ name:'Fret x Fret', value:'FRET_X_FRET'}
 				}
-			}
+			},
+			delete:{
+				type:'button',
+				text:'delete',
+				callback:function(){ that.destroy(); }
+			},
 		}
 
 	};

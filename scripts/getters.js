@@ -48,30 +48,6 @@ Lucille.prototype.getPlayer = function(){
 
 };
 
-Lucille.prototype.getDeleterConfig = function(){
-
-	var that = this;
-
-	return {
-
-		title:'Delete',
-		fields:{
-			confirm:{
-				type:'button',
-				text:'confirm',
-				callback:function(){ that.destroy(); }
-			},
-			cancel:{
-				type:'button',
-				text:'cancel',
-				callback:function(){ this.save(); }
-			}
-		}
-
-	};
-
-};
-
 Lucille.prototype.getPickerConfig = function(){
 
 	return {
@@ -165,6 +141,8 @@ Lucille.prototype.getPickerConfig = function(){
 
 Lucille.prototype.getSettingsConfig = function(){
 
+	var that = this;
+
 	return {
 
 		title:'Settings',
@@ -222,7 +200,12 @@ Lucille.prototype.getSettingsConfig = function(){
 					natural:{ name:'Natural', value:'NATURAL' },
 					fret_by_fret:{ name:'Fret x Fret', value:'FRET_X_FRET'}
 				}
-			}
+			},
+			delete:{
+				type:'button',
+				text:'delete',
+				callback:function(){ that.destroy(); }
+			},
 		}
 
 	};
