@@ -282,11 +282,10 @@ Lucille.prototype.renderMinifiedButtons = function(){
 	buttons      = this.lucille.minified.g().attr('class', 'buttons');
 	button       = buttons.g();
 	buttonTarget = button.rect(-25,-25,50,50).attr('class','touchTarget');
-	buttonText   = button.text(0, 0, '');
+	buttonText   = button.text(0, 0, '\uf067');
 
 	button.click(this.displayMinifiedHidden, this);
 	button.attr({ 'class':'button collapse', 'transform':'translate('+x+','+y+')' });
-	buttonText.node.innerHTML = '&#xf067';
 
 	// play button
 	x            = layout.chart.width - 25;
@@ -294,11 +293,10 @@ Lucille.prototype.renderMinifiedButtons = function(){
 	buttons      = this.lucille.minified.g().attr('class', 'buttons');
 	button       = buttons.g();
 	buttonTarget = button.rect(-25,-25,50,50).attr('class','touchTarget');
-	buttonText   = button.text(0, 0, '');
+	buttonText   = button.text(0, 0, '\uf028');
 
 	button.click(function(){ that.play(); }, this);
 	button.attr({ 'class':'button collapse', 'transform':'translate('+x+','+y+')' });
-	buttonText.node.innerHTML = '&#xf028';
 
 	return buttons;
 
