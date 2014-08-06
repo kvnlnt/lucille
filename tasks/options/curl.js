@@ -12,6 +12,11 @@ module.exports = {
 	'pickl': {
 		src: 'https://raw.githubusercontent.com/kvnlnt/pickl/master/dist/pickl.min.js',
 		dest: 'libs/pickl.js'
+	},
+
+	'tabulous': {
+		src: 'https://raw.githubusercontent.com/kvnlnt/Tabulous/master/dist/tabulous.min.js',
+		dest: 'libs/tabulous.js'
 	}
 
 }

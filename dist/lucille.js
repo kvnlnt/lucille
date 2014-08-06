@@ -7,8 +7,8 @@ var Lucille = function(options){
     defaults.fretboard   = { width:120, height:250 };
     defaults.orientation = 'RIGHTY';
     defaults.instrument  = this.Instrument;
-    defaults.audio       = 'audio/gtr_aco_steel.mp3',
-    defaults.pattern     = 'strum',
+    defaults.audio       = 'audio/gtr_aco_steel.mp3';
+    defaults.pattern     = 'strum';
     defaults.tab         = this.getTab('C','M', this.Instrument.tuning);
     defaults.theme       = 'zen';
 
@@ -22,6 +22,7 @@ var Lucille = function(options){
     this.themeLoad();
     this.render();
     this.display();
+    this.updateTypeText('Major');
 
 };;Lucille.prototype.Fixture = (function(){
 
@@ -416,7 +417,7 @@ Lucille.prototype.renderButtons = function(){
 Lucille.prototype.renderSettings = function(){
 
 
-	var config   = this.getSettingsConfig();
+	var config   = this.configSettings();
 	var that     = this;
 	var callback = function(settings){ that.updateSettings(settings); };
 	var svg      = this.lucille.g();
@@ -428,7 +429,7 @@ Lucille.prototype.renderSettings = function(){
 
 Lucille.prototype.renderPicker = function(){
 
-	var config   = this.getPickerConfig();
+	var config   = this.configPicker();
 	var that     = this;
 	var callback = function(settings){ that.updateChord(settings); };
 	var svg      = this.lucille.g();
@@ -677,7 +678,7 @@ Lucille.prototype.playString = function(n){
 
 	this.orientation       = settings.orientation.value;
 	this.instrument.tuning = settings.tuning.value;
-	this.tab               = this.getTab(this.tab.root, this.tab.type, this.instrument.tuning);
+	this.tab               = this.getTab(this.tab.root, this.tab.type, this.instrument.tuning, settings.algorithm.value);
 	this.audio             = settings.preview.value;
 
 	this.renderFretboardRefresh();
@@ -757,13 +758,14 @@ Lucille.prototype.transTabulousChordToVoicings = function(tabulous){
 
 // };
 
-Lucille.prototype.getTab = function(root, type, tuning){
+Lucille.prototype.getTab = function(root, type, tuning, algorithm){
 
 	// update tab & refresh
-	var tuning   = tuning || this.instrument.tuning;
-	var tabulous = new Tabulous({ root:root, type:type, tuning:tuning });
-	var voicings = this.transTabulousChordToVoicings(tabulous);
-	var tab      = { root:root, type:type, caged:[0, voicings.length-1], voicings:voicings, chord:tabulous.chord };
+	var tuning    = tuning || this.instrument.tuning;
+	var algorithm = algorithm || 'CHAIN';
+	var tabulous  = new Tabulous({ root:root, type:type, tuning:tuning, algorithm:algorithm });
+	var voicings  = this.transTabulousChordToVoicings(tabulous);
+	var tab       = { root:root, type:type, caged:[0, voicings.length-1], voicings:voicings, chord:tabulous.chord };
 
 	return tab;
 
@@ -800,170 +802,6 @@ Lucille.prototype.getPlayer = function(){
 	});
 
 	return audio;
-
-};
-
-Lucille.prototype.getPickerConfig = function(){
-
-	return {
-
-		title:'Chord Picker',
-		fields:{
-			root:{
-				name:'root',
-				value:'c_n',
-				enabled:true,
-				options:{
-					c_n:{ name:'C',  value :'C' },
-					c_s:{ name:'C#', value :'C#' },
-					d_f:{ name:'Db', value :'Db' },
-					d_n:{ name:'D',  value :'D' },
-					d_s:{ name:'D#', value :'D#' },
-					e_f:{ name:'Eb', value :'Eb' },
-					e_n:{ name:'E',  value :'E' },
-					f_n:{ name:'F',  value :'F' },
-					f_s:{ name:'F#', value :'F#' },
-					g_b:{ name:'Gb', value :'Gb' },
-					g_n:{ name:'G',  value :'G' },
-					g_s:{ name:'G#', value :'G#' },
-					a_f:{ name:'Ab', value :'Ab' },
-					a_n:{ name:'A',  value :'A' },
-					a_s:{ name:'A#', value :'A#' },
-					b_b:{ name:'Bb', value :'Bb' },
-					b_n:{ name:'B',  value :'B' }
-				}
-			},
-			type:{
-				name:'type',
-				value:'1',
-				enabled:true,
-				options:{
-					'1'  :{ name:'Major',    value: 'M' },
-					'2'  :{ name:'maj7',     value: 'maj7' },
-					'3'  :{ name:'maj9',     value: 'maj9' },
-					'4'  :{ name:'maj11',    value: 'maj11' },
-					'5'  :{ name:'maj13',    value: 'maj13' },
-					'8'  :{ name:'6',      value: '6' },
-					'9'  :{ name:'add9',   value: 'add9' },
-					'10' :{ name:'6add9',  value: '6add9' },
-					'11' :{ name:'maj7b5',   value: 'maj7b5' },
-					'12' :{ name:'maj7#5',   value: 'maj7#5' },
-					'13' :{ name:'minor',    value: 'm' },
-					'14' :{ name:'m7',       value: 'm7' },
-					'15' :{ name:'m9',       value: 'm9' },
-					'16' :{ name:'m11',      value: 'm11' },
-					'17' :{ name:'m13',      value: 'm13' },
-					'18' :{ name:'m6',       value: 'm6' },
-					'19' :{ name:'madd9',    value: 'madd9' },
-					'20' :{ name:'m6add9',   value: 'm6add9' },
-					'21' :{ name:'mmaj7',    value: 'mmaj7' },
-					'22' :{ name:'mmaj9',    value: 'mmaj9' },
-					'23' :{ name:'m7b5',     value: 'm7b5' },
-					'24' :{ name:'m7#5',     value: 'm7#5' },
-					'25' :{ name:'7',        value: '7' },
-					'26' :{ name:'9',        value: '9' },
-					'27' :{ name:'11', 		 value: '11' },
-					'28' :{ name:'13', 		 value: '13' },
-					'29' :{ name:'7sus4',    value: '7sus4' },
-					'30' :{ name:'7b5',      value: '7b5' },
-					'31' :{ name:'7#5',      value: '7#5' },
-					'32' :{ name:'7b9',      value: '7b9' },
-					'33' :{ name:'7#9',      value: '7#9' },
-					'34' :{ name:'7(b5,b9)', value: '7(b5,b9)' },
-					'35' :{ name:'7(b5,#9)', value: '7(b5,#9)' },
-					'36' :{ name:'7(#5,b9)', value: '7(#5,b9)' },
-					'37' :{ name:'7(#5,#9)', value: '7(#5,#9)' },
-					'38' :{ name:'9b5',      value: '9b5' },
-					'39' :{ name:'9#5',      value: '9#5' },
-					'40' :{ name:'13#11',    value: '13#11' },
-					'41' :{ name:'13b9',     value: '13b9' },
-					'42' :{ name:'11b9', 	 value: '11b9' },
-					'43' :{ name:'aug',      value: 'aug' },
-					'44' :{ name:'dim',      value: 'dim' },
-					'45' :{ name:'dim7',     value: 'dim7' },
-					'46' :{ name:'5',        value: '5' },
-					'47' :{ name:'sus4',     value: 'sus4' },
-					'48' :{ name:'sus2',     value: 'sus2' },
-					'49' :{ name:'sus2sus4', value: 'sus2sus4' },
-					'50' :{ name:'-5',       value: '-5' },
-				}
-			}
-		}
-
-	};
-
-};
-
-Lucille.prototype.getSettingsConfig = function(){
-
-	var that = this;
-
-	return {
-
-		title:'Settings',
-		fields:{
-			orientation:{
-				name:'orientation',
-				value:'righty',
-				enabled:true,
-				options:{
-					righty:{ name :'Right Handed', value :'RIGHTY' },
-					lefty:{  name :'Left Handed',  value :'LEFTY' }
-				}
-			},
-			tuning:{
-				name:'tuning',
-				value:'standard',
-				enabled:true,
-				options:{
-					standard      :{ name:'EADGBE / Standard' 	   , value :['e2','a2','d3','g3','b3','e4'] },
-					drop_d        :{ name:'DADGBE / Drop D'   	   , value :['d2','a2','d3','g3','b3','e4'] },
-					double_drop_d :{ name:'DADGBD / Dbl Drop D'    , value :['d1','a1','d2','g2','b2','d3'] },
-					drop_c        :{ name:'CGCFAD / Drop C'        , value :['c1','g1','c2','f2','a2','d3'] },
-					open_d        :{ name:'DADF#AD / Open D'       , value :['d1','a1','d2','f#2','a2','d3'] },
-					open_d_minor  :{ name:'DADFAD / Open D majinor'  , value :['d1','a1','d2','f2','a2','d3'] },
-					open_g        :{ name:'DGDGBD / Open G'        , value :['d1','g1','d2','g2','b2','d3'] },
-					open_g_minor  :{ name:'DGDGA#D / Open G majinor' , value :['d1','g1','d2','g2','a#2','d3'] },
-					open_c        :{ name:'CGCGCE / Open C'        , value :['c1','g1','c2','g2','c3','e3'] },
-					open_c_minor  :{ name:'CGCGCD# / Open C majinor' , value :['c1','g1','c2','g2','c3','d#3'] },
-					open_e        :{ name:'EBEG#BE / Open E'       , value :['e1','b1','e2','g#2','b2','e3'] },
-					open_a        :{ name:'EAC#EA3 / Open A'       , value :['e1','a1','c#2','e2','a2','e3'] },
-					baritone      :{ name:'ADGCEA / Baritone'      , value :['a0','d1','g1','c2','e2','a2'] },
-					pentatonic    :{ name:'ACDEGA / Pentatonic'    , value :['a1','c2','d2','e2','g2','a3'] },
-					ostrich       :{ name:'DDDDDD / Ostrich'       , value :['d1','d2','d2','d2','d3','d3'] },
-					dobro         :{ name:'GBDGBD / Dobro'         , value :['g1','b1','d2','g2','b2','d3'] },
-					mando_guitar  :{ name:'CGDAEB / majandoguitar'   , value :['c1','g1','d2','a2','e3','b3'] },
-					rusty_cage    :{ name:'BADGBE / Rusty Cage'    , value :['b0','a1','d2','g2','b2','e3'] }
-				}
-			},
-			preview:{
-				name:'preview',
-				value:'gtr_aco_steel',
-				enabled:true,
-				options:{
-					gtr_aco_steel:{ name:'Acoustic Guitar',     value: 'audio/gtr_aco_steel.mp3' },
-					gtr_aco_nylon:{ name:'Classical Guitar',    value: 'audio/gtr_aco_nylon.mp3' },
-					gtr_elec_clean:{ name:'Clean Eletric',      value: 'audio/gtr_elec_clean.mp3' },
-					gtr_elec_dist:{ name:'Distortion Electric', value: 'audio/gtr_elec_dist.mp3' },
-				}
-			},
-			algorithm:{
-				name:'Fingering',
-				value:'natural',
-				enabled:true,
-				options:{
-					natural:{ name:'Natural', value:'NATURAL' },
-					fret_by_fret:{ name:'Fret x Fret', value:'FRET_X_FRET'}
-				}
-			},
-			delete:{
-				type:'button',
-				text:'delete',
-				callback:function(){ that.destroy(); }
-			},
-		}
-
-	};
 
 };;Lucille.prototype.destroy = function(){
 
@@ -1084,5 +922,105 @@ Lucille.prototype.themeLoad = function(){
 	$('head').append(theme);
 
 	return theme;
+
+};;Lucille.prototype.configPicker = function(){
+
+	return {
+
+		title:'Chord Picker',
+		fields:{
+			root:{
+				name:'root',
+				value:'c_n',
+				enabled:true,
+				options:{
+					c_n:{ name:'C',  value :'C' },
+					c_s:{ name:'C#', value :'C#' },
+					d_f:{ name:'Db', value :'Db' },
+					d_n:{ name:'D',  value :'D' },
+					d_s:{ name:'D#', value :'D#' },
+					e_f:{ name:'Eb', value :'Eb' },
+					e_n:{ name:'E',  value :'E' },
+					f_n:{ name:'F',  value :'F' },
+					f_s:{ name:'F#', value :'F#' },
+					g_b:{ name:'Gb', value :'Gb' },
+					g_n:{ name:'G',  value :'G' },
+					g_s:{ name:'G#', value :'G#' },
+					a_f:{ name:'Ab', value :'Ab' },
+					a_n:{ name:'A',  value :'A' },
+					a_s:{ name:'A#', value :'A#' },
+					b_b:{ name:'Bb', value :'Bb' },
+					b_n:{ name:'B',  value :'B' }
+				}
+			},
+			type:{
+				name:'type',
+				value:'1',
+				enabled:true,
+				options:{
+					'1'  :{ name:'Major',    value: 'M' },
+					'13' :{ name:'minor',    value: 'm' }
+				}
+			}
+		}
+
+	};
+
+};
+
+Lucille.prototype.configSettings = function(){
+
+	var that = this;
+
+	return {
+
+		title:'Settings',
+		fields:{
+			orientation:{
+				name:'orientation',
+				value:'righty',
+				enabled:true,
+				options:{
+					righty:{ name :'Right Handed', value :'RIGHTY' },
+					lefty:{  name :'Left Handed',  value :'LEFTY' }
+				}
+			},
+			tuning:{
+				name:'tuning',
+				value:'standard',
+				enabled:true,
+				options:{
+					standard:{ name:'EADGBE / Standard', 	value :['e2','a2','d3','g3','b3','e4'] },
+					drop_d:{ name:'DADGBE / Drop D', 		value :['d2','a2','d3','g3','b3','e4'] }
+				}
+			},
+			preview:{
+				name:'preview',
+				value:'gtr_aco_steel',
+				enabled:true,
+				options:{
+					gtr_aco_steel:{ name:'Acoustic Guitar',     value: 'audio/gtr_aco_steel.mp3' },
+					gtr_aco_nylon:{ name:'Classical Guitar',    value: 'audio/gtr_aco_nylon.mp3' },
+					gtr_elec_clean:{ name:'Clean Eletric',      value: 'audio/gtr_elec_clean.mp3' },
+					gtr_elec_dist:{ name:'Distortion Electric', value: 'audio/gtr_elec_dist.mp3' },
+				}
+			},
+			algorithm:{
+				name:'algorithm',
+				value:'chain',
+				enabled:true,
+				options:{
+					chain:{ name:'chained', value:'CHAIN' },
+					kordfu:{ name:'kordfu', value:'KORDFU' },
+				}
+			},
+			delete:{
+				type:'button',
+				text:'delete',
+				callback:function(){ that.destroy(); }
+			},
+		}
+
+	};
 
 };

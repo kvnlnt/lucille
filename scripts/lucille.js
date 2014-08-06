@@ -7,8 +7,8 @@ var Lucille = function(options){
     defaults.fretboard   = { width:120, height:250 };
     defaults.orientation = 'RIGHTY';
     defaults.instrument  = this.Instrument;
-    defaults.audio       = 'audio/gtr_aco_steel.mp3',
-    defaults.pattern     = 'strum',
+    defaults.audio       = 'audio/gtr_aco_steel.mp3';
+    defaults.pattern     = 'strum';
     defaults.tab         = this.getTab('C','M', this.Instrument.tuning);
     defaults.theme       = 'zen';
 

@@ -2,13 +2,14 @@
 
 // };
 
-Lucille.prototype.getTab = function(root, type, tuning){
+Lucille.prototype.getTab = function(root, type, tuning, algorithm){
 
 	// update tab & refresh
-	var tuning   = tuning || this.instrument.tuning;
-	var tabulous = new Tabulous({ root:root, type:type, tuning:tuning });
-	var voicings = this.transTabulousChordToVoicings(tabulous);
-	var tab      = { root:root, type:type, caged:[0, voicings.length-1], voicings:voicings, chord:tabulous.chord };
+	var tuning    = tuning || this.instrument.tuning;
+	var algorithm = algorithm || 'CHAIN';
+	var tabulous  = new Tabulous({ root:root, type:type, tuning:tuning, algorithm:algorithm });
+	var voicings  = this.transTabulousChordToVoicings(tabulous);
+	var tab       = { root:root, type:type, caged:[0, voicings.length-1], voicings:voicings, chord:tabulous.chord };
 
 	return tab;
 
