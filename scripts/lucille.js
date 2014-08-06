@@ -22,5 +22,6 @@ var Lucille = function(options){
     this.themeLoad();
     this.render();
     this.display();
+    this.updateTypeText('Major');
 
 };

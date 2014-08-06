@@ -229,7 +229,7 @@ Lucille.prototype.renderButtons = function(){
 Lucille.prototype.renderSettings = function(){
 
 
-	var config   = this.getSettingsConfig();
+	var config   = this.configSettings();
 	var that     = this;
 	var callback = function(settings){ that.updateSettings(settings); };
 	var svg      = this.lucille.g();
@@ -241,7 +241,7 @@ Lucille.prototype.renderSettings = function(){
 
 Lucille.prototype.renderPicker = function(){
 
-	var config   = this.getPickerConfig();
+	var config   = this.configPicker();
 	var that     = this;
 	var callback = function(settings){ that.updateChord(settings); };
 	var svg      = this.lucille.g();

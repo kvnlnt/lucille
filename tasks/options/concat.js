@@ -14,7 +14,8 @@ module.exports = {
 			'scripts/translators.js',
 			'scripts/getters.js',
 			'scripts/destroyers.js',
-			'scripts/themes.js'],
+			'scripts/themes.js',
+			'scripts/configurations.js'],
       dest: 'dist/lucille.js',
     },
 }
