@@ -53,7 +53,7 @@ Lucille.prototype.themeLoad = function(){
 			css += 'font-family: \'VarelaRound\';';
 			css += 'font-style: normal;';
 			css += 'font-weight: 400;';
-			css += 'src: local(\'VarelaRound\'), local(\'VarelaRound-Regular\'), url(../fonts/Varela_Round/VarelaRound-Regular.woff) format(\'woff\');';
+			css += 'src: local(\'VarelaRound\'), local(\'VarelaRound-Regular\'), url(fonts/Varela_Round/VarelaRound-Regular.woff) format(\'woff\');';
 			css += '}';
 
 		// general
