@@ -9,7 +9,7 @@ var Lucille = function(options){
     defaults.instrument  = this.Instrument;
     defaults.audio       = 'audio/gtr_aco_steel.mp3';
     defaults.pattern     = 'strum';
-    defaults.tab         = this.getTab('D','M', this.Instrument.tuning);
+    defaults.tab         = this.getTab('F','M', this.Instrument.tuning);
     defaults.theme       = 'zen';
 
     // setup options

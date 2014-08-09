@@ -9,7 +9,7 @@ var Lucille = function(options){
     defaults.instrument  = this.Instrument;
     defaults.audio       = 'audio/gtr_aco_steel.mp3';
     defaults.pattern     = 'strum';
-    defaults.tab         = this.getTab('C','M', this.Instrument.tuning);
+    defaults.tab         = this.getTab('F','M', this.Instrument.tuning);
     defaults.theme       = 'zen';
 
     // setup options
@@ -337,7 +337,7 @@ Lucille.prototype.renderFrettings = function(){
 		var x         = layout.strings.x1[n];
 		var y         = layout.fretboard.height/2;
 		var fretting  = frettings.g().attr({ 'class':'fretting' });
-		var dot       = fretting.circle(x,y,radius).attr('class','dot');
+		var dot       = fretting.circle(x,y,radius).attr('class', 'dot');
 		var string    = fretting.line(x,y,x,that.fretboard.height).attr('class','string');
 		var tabY 	  = layout.strings.y1[n] - 15;
 		var tabFret   = null === voicing[n].fret ? 'X' : voicing[n].fret.toString();
@@ -345,6 +345,7 @@ Lucille.prototype.renderFrettings = function(){
 		var noteY     = layout.strings.y2[n] + 15;
 		var noteNote  = null === voicing[n].note ? 'X' : voicing[n].note;
 		var noteLabel = fretting.text(x, noteY, noteNote).attr('class','note label');
+		var disabled   = voicing[n].obj.inverted;
 
 		fretting.click(function(){ that.playString(n); }, this);
 
@@ -518,19 +519,22 @@ Lucille.prototype.renderMinifiedTitle = function(){
 		var fretting 	= frettings[i];
 		var pos 		= _.indexOf(frets.range, voice.fret);
 		var loc 		= -1 === pos ? 0 : pos;
+		var disabled    = true === voice.obj.inverted;
 
 		// fretting dot
 		var dot 		= fretting.select('.dot');
-		var dotClass 	= -1 === pos ? 'dot hide' : 'dot';
+		var dotDisabled = true === disabled ? 'disabled' : '';
+		var dotClass 	= -1 === pos ? 'dot hide' : 'dot ' + dotDisabled;
 		var dotY 		= frets.y[loc] - (frets.spacing/2);
 
 		dot.attr({ class:dotClass });
 		dot.animate({ cy:dotY }, 700, mina.backout);
 
 		// fretting line
-		var line 		= fretting.select('.string');
-		var lineClass 	= -1 === voice.fret ? 'string hide' : 'string';
-		var lineY 		= 0 === voice.fret ? layout.strings.y1[i] : frets.y[loc] - (frets.spacing/2);
+		var line 		 = fretting.select('.string');
+		var lineDisabled = true === disabled ? 'disabled' : '';
+		var lineClass 	 = -1 === voice.fret ? 'string hide' : 'string ' + lineDisabled;
+		var lineY 		 = 0 === voice.fret ? layout.strings.y1[i] : frets.y[loc] - (frets.spacing/2);
 
 		line.attr({ class:lineClass });
 		line.animate({ y1:lineY }, 700, mina.backout);
@@ -604,7 +608,7 @@ Lucille.prototype.displayMinifiedHidden = function(){
 	var that            = this;
 	var voicing         = _.map(this.calcVoicing(),function(voice){ return voice.note });
 	var currVoicing     = this.getCurrentVoicing();
-	var playableVoicing = _.filter(currVoicing,function(o){ return o.fret > -1});
+	var playableVoicing = _.filter(currVoicing,function(o){ return o.fret > -1 && o.obj.inverted === false });
 	var keys            = _.map(playableVoicing, function(voice){ return voice.obj.key(); });
 	var notes           = _.map(playableVoicing, function(voice){ return voice.obj.toString(); });
 	var offsets         = this.calcSpriteOffsets();
@@ -612,7 +616,7 @@ Lucille.prototype.displayMinifiedHidden = function(){
 	var loopOrder       = 'down' === direction ? _.eachRight : _.each;
 
 	var delay = 65;
-	loopOrder(voicing, function(voice, i){ 
+	loopOrder(playableVoicing, function(voice, i){ 
 		if(null !== voice){
 			window.setTimeout(function(){that.playString(i);}, delay);
 			delay += 65;
@@ -762,8 +766,7 @@ Lucille.prototype.getTab = function(root, type, tuning, algorithm){
 
 	// update tab & refresh
 	var tuning    = tuning || this.instrument.tuning;
-	var algorithm = algorithm || 'CHAIN';
-	var tabulous  = new Tabulous({ root:root, type:type, tuning:tuning, algorithm:algorithm });
+	var tabulous  = new Tabulous({ root:root, type:type, tuning:tuning });
 	var voicings  = this.transTabulousChordToVoicings(tabulous);
 	var tab       = { root:root, type:type, caged:[0, voicings.length-1], voicings:voicings, chord:tabulous.chord };
 
@@ -837,6 +840,7 @@ Lucille.prototype.themes = (function(){
 	themes.zen.background              = '#000000';
 	themes.zen.touchTargetBackground   = '#000000';
 	themes.zen.fontColor               = '#FFFFFF';
+	themes.zen.fontColor50             = '#777777';
 	themes.zen.chordFontColor          = '#FF0000';
 
     return themes;
@@ -903,8 +907,10 @@ Lucille.prototype.themeLoad = function(){
 		// frettings
 
 			css += ".lucille .fretting .string { stroke:"+style.fontColor+"; opacity:1; stroke-width:5; stroke-linecap:round; }";
+			css += ".lucille .fretting .string.disabled { stroke:"+style.fontColor50+"; stroke-width:5; stroke-linecap:round; }";
 			css += ".lucille .fretting .label { font-size:.8rem; opacity:0.6; }";
 			css += ".lucille .fretting .dot { fill:"+style.fontColor+"}";
+			css += ".lucille .fretting .dot.disabled { fill:"+style.fontColor50+"; }";
 
 		// mini view
 
