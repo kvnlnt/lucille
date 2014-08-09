@@ -1,7 +1,12 @@
 module.exports = {
     dist: {
-      files: {
-        'dist/lucille.min.js': ['dist/lucille.js']
-      }
+		options: {
+			beautify : {
+			    ascii_only : true
+			} 		
+		},
+		files: {
+			'dist/lucille.min.js': ['dist/lucille.js']
+		}
     }
 }
