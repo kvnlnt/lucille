@@ -149,7 +149,7 @@ Lucille.prototype.renderFrettings = function(){
 		var x         = layout.strings.x1[n];
 		var y         = layout.fretboard.height/2;
 		var fretting  = frettings.g().attr({ 'class':'fretting' });
-		var dot       = fretting.circle(x,y,radius).attr('class','dot');
+		var dot       = fretting.circle(x,y,radius).attr('class', 'dot');
 		var string    = fretting.line(x,y,x,that.fretboard.height).attr('class','string');
 		var tabY 	  = layout.strings.y1[n] - 15;
 		var tabFret   = null === voicing[n].fret ? 'X' : voicing[n].fret.toString();
@@ -157,6 +157,7 @@ Lucille.prototype.renderFrettings = function(){
 		var noteY     = layout.strings.y2[n] + 15;
 		var noteNote  = null === voicing[n].note ? 'X' : voicing[n].note;
 		var noteLabel = fretting.text(x, noteY, noteNote).attr('class','note label');
+		var disabled   = voicing[n].obj.inverted;
 
 		fretting.click(function(){ that.playString(n); }, this);
 

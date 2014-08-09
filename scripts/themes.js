@@ -21,6 +21,7 @@ Lucille.prototype.themes = (function(){
 	themes.zen.background              = '#000000';
 	themes.zen.touchTargetBackground   = '#000000';
 	themes.zen.fontColor               = '#FFFFFF';
+	themes.zen.fontColor50             = '#777777';
 	themes.zen.chordFontColor          = '#FF0000';
 
     return themes;
@@ -87,8 +88,10 @@ Lucille.prototype.themeLoad = function(){
 		// frettings
 
 			css += ".lucille .fretting .string { stroke:"+style.fontColor+"; opacity:1; stroke-width:5; stroke-linecap:round; }";
+			css += ".lucille .fretting .string.disabled { stroke:"+style.fontColor50+"; stroke-width:5; stroke-linecap:round; }";
 			css += ".lucille .fretting .label { font-size:.8rem; opacity:0.6; }";
 			css += ".lucille .fretting .dot { fill:"+style.fontColor+"}";
+			css += ".lucille .fretting .dot.disabled { fill:"+style.fontColor50+"; }";
 
 		// mini view
 
