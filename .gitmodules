@@ -1,3 +1,6 @@
 [submodule "plukit"]
 	path = plukit
 	url = https://github.com/kvnlnt/plukit.git
+[submodule "libs/plukit"]
+	path = libs/plukit
+	url = https://github.com/kvnlnt/plukit.git
