@@ -7,3 +7,21 @@
 [submodule "modules/pickl"]
 	path = modules/pickl
 	url = https://github.com/kvnlnt/pickl.git
+[submodule "modules/hammerjs"]
+	path = modules/hammerjs
+	url = https://github.com/hammerjs/hammer.js.git
+[submodule "modules/howler"]
+	path = modules/howler
+	url = https://github.com/goldfire/howler.js.git
+[submodule "modules/snapsvg"]
+	path = modules/snapsvg
+	url = https://github.com/adobe-webplatform/Snap.svg.git
+[submodule "modules/lodash"]
+	path = modules/lodash
+	url = https://github.com/lodash/lodash.git
+[submodule "modules/teoria"]
+	path = modules/teoria
+	url = https://github.com/kvnlnt/teoria.git
+[submodule "modules/jquery"]
+	path = modules/jquery
+	url = https://github.com/kvnlnt/jquery-2.1.2.git
