@@ -1,3 +1,4 @@
+- implement cordova sound api
 - alt chord types not rendering
-- add slash note selection for teoria
+- add slash note selection for teoria (maybe not just show the alt notes for now)
 - add top and bottom fret padding
