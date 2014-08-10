@@ -74,10 +74,10 @@ Lucille.prototype.configSettings = function(){
 				value:'gtr_aco_steel',
 				enabled:true,
 				options:{
-					gtr_aco_steel:{ name:'Acoustic Guitar',     value: 'plukit/' + Plukit.guitar.acoustic.steel.mp3 },
-					gtr_aco_nylon:{ name:'Classical Guitar',    value: 'plukit/' + Plukit.guitar.acoustic.nylon.mp3 },
-					gtr_elec_clean:{ name:'Clean Eletric',      value: 'plukit/' + Plukit.guitar.electric.clean.mp3 },
-					gtr_elec_dist:{ name:'Distortion Electric', value: 'plukit/' + Plukit.guitar.electric.dist.mp3 },
+					gtr_aco_steel:{ name:'Acoustic Guitar',     value: 'modules/plukit/' + Plukit.guitar.acoustic.steel.mp3 },
+					gtr_aco_nylon:{ name:'Classical Guitar',    value: 'modules/plukit/' + Plukit.guitar.acoustic.nylon.mp3 },
+					gtr_elec_clean:{ name:'Clean Eletric',      value: 'modules/plukit/' + Plukit.guitar.electric.clean.mp3 },
+					gtr_elec_dist:{ name:'Distortion Electric', value: 'modules/plukit/' + Plukit.guitar.electric.dist.mp3 },
 				}
 			},
 			algorithm:{

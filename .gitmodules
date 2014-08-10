@@ -1,3 +1,9 @@
-[submodule "plukit"]
-	path = plukit
+[submodule "modules/plukit"]
+	path = modules/plukit
 	url = https://github.com/kvnlnt/plukit.git
+[submodule "modules/tabulous"]
+	path = modules/tabulous
+	url = https://github.com/kvnlnt/Tabulous.git
+[submodule "modules/pickl"]
+	path = modules/pickl
+	url = https://github.com/kvnlnt/pickl.git
