@@ -7,7 +7,7 @@ var Lucille = function(options){
     defaults.fretboard   = { width:120, height:250 };
     defaults.orientation = 'RIGHTY';
     defaults.instrument  = this.Instrument;
-    defaults.audio       = 'audio/gtr_aco_steel.mp3';
+    defaults.audio       = 'modules/plukit/' + Plukit.guitar.acoustic.steel.mp3;
     defaults.pattern     = 'strum';
     defaults.tab         = this.getTab('C','M', this.Instrument.tuning);
     defaults.theme       = 'zen';
@@ -1005,10 +1005,10 @@ Lucille.prototype.configSettings = function(){
 				value:'gtr_aco_steel',
 				enabled:true,
 				options:{
-					gtr_aco_steel:{ name:'Acoustic Guitar',     value: 'audio/gtr_aco_steel.mp3' },
-					gtr_aco_nylon:{ name:'Classical Guitar',    value: 'audio/gtr_aco_nylon.mp3' },
-					gtr_elec_clean:{ name:'Clean Eletric',      value: 'audio/gtr_elec_clean.mp3' },
-					gtr_elec_dist:{ name:'Distortion Electric', value: 'audio/gtr_elec_dist.mp3' },
+					gtr_aco_steel:{ name:'Acoustic Guitar',     value: 'modules/plukit/' + Plukit.guitar.acoustic.steel.mp3 },
+					gtr_aco_nylon:{ name:'Classical Guitar',    value: 'modules/plukit/' + Plukit.guitar.acoustic.nylon.mp3 },
+					gtr_elec_clean:{ name:'Clean Eletric',      value: 'modules/plukit/' + Plukit.guitar.electric.clean.mp3 },
+					gtr_elec_dist:{ name:'Distortion Electric', value: 'modules/plukit/' + Plukit.guitar.electric.dist.mp3 },
 				}
 			},
 			algorithm:{
