@@ -7,18 +7,13 @@ var Lucille = function(options){
     defaults.fretboard    = { width:120, height:250 };
     defaults.orientation  = 'RIGHTY';
     defaults.instrument   = this.Instrument;
-    defaults.sampleFile   = PLUKIT.guitar.acoustic.steel.mp3;
-    defaults.samplePath   = 'modules/plukit/';
-    defaults.sampleLength = 2000;
+    defaults.plukit       = new Plukit();
     defaults.pattern      = 'strum';
     defaults.tab          = this.getTab('C','M', this.Instrument.tuning);
     defaults.theme        = 'zen';
 
     // setup options
-    _.extend(this, defaults, options);
-
-    // computed params
-    this.player = this.getPlayer();
+    _.extend(this, defaults, options);    
 
     // initializers
     this.themeLoad();
@@ -629,7 +624,7 @@ Lucille.prototype.playString = function(n){
     }, inc);
 
 	// play audio
-	this.player.play(note);
+	this.plukit.play(note);
 
 	
 
@@ -638,10 +633,9 @@ Lucille.prototype.playString = function(n){
 	this.orientation       = settings.orientation.value;
 	this.instrument.tuning = settings.tuning.value;
 	this.tab               = this.getTab(this.tab.root, this.tab.type, this.instrument.tuning, settings.algorithm.value);
-	this.sampleFile        = settings.preview.value;
 
 	this.renderFretboardRefresh();
-	this.player = this.getPlayer();
+	this.plukit = new Plukit({ sampleFile: settings.preview.value });
 	this.display();
 
 };
@@ -749,18 +743,6 @@ Lucille.prototype.getInstrument = function(instrument, tuning){
 	}
 
 	return instrument;
-
-};
-
-Lucille.prototype.getPlayer = function(){
-
-	var plukit = new Plukit({
-		sampleFile:this.sampleFile,
-		samplePath:this.samplePath,
-		sampleLength:this.sampleLength
-	});
-
-	return plukit;
 
 };;Lucille.prototype.destroy = function(){
 
