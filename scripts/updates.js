@@ -3,10 +3,9 @@ Lucille.prototype.updateSettings = function(settings){
 	this.orientation       = settings.orientation.value;
 	this.instrument.tuning = settings.tuning.value;
 	this.tab               = this.getTab(this.tab.root, this.tab.type, this.instrument.tuning, settings.algorithm.value);
-	this.sampleFile        = settings.preview.value;
 
 	this.renderFretboardRefresh();
-	this.player = this.getPlayer();
+	this.plukit = new Plukit({ sampleFile: settings.preview.value });
 	this.display();
 
 };
