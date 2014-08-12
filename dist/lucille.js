@@ -3,14 +3,16 @@ var Lucille = function(options){
     // params
     var defaults = {};
 
-    defaults.chart       = { width: 320, height: 520 };
-    defaults.fretboard   = { width:120, height:250 };
-    defaults.orientation = 'RIGHTY';
-    defaults.instrument  = this.Instrument;
-    defaults.audio       = 'modules/plukit/' + Plukit.guitar.acoustic.steel.mp3;
-    defaults.pattern     = 'strum';
-    defaults.tab         = this.getTab('C','M', this.Instrument.tuning);
-    defaults.theme       = 'zen';
+    defaults.chart        = { width: 320, height: 520 };
+    defaults.fretboard    = { width:120, height:250 };
+    defaults.orientation  = 'RIGHTY';
+    defaults.instrument   = this.Instrument;
+    defaults.sampleFile   = PLUKIT.guitar.acoustic.steel.mp3;
+    defaults.samplePath   = 'modules/plukit/';
+    defaults.sampleLength = 2000;
+    defaults.pattern      = 'strum';
+    defaults.tab          = this.getTab('C','M', this.Instrument.tuning);
+    defaults.theme        = 'zen';
 
     // setup options
     _.extend(this, defaults, options);
@@ -155,35 +157,6 @@ Lucille.prototype.calcFretLayout = function(){
         range:range,
         spacing:spacing
     }
-
-};
-
-Lucille.prototype.calcSpriteOffsets = function(){
-
-    var keys          = ['c','c#/db','d','d#/eb','e','f','f#/gb','g','g#/ab','a','a#/bb','b'];
-    var offset        = 0;
-    var sprite        = {};
-    var sample_length = 2000;
-    var octaves       = 5;
-    
-    _.times(octaves,function(n){
-
-        var octave = n+1;
-        _.each(keys, function(key){
-
-            var key_notes = key.split('/');
-            sprite[key_notes[0] + octave] = [offset, sample_length];
-            if(key_notes.length > 1){
-                sprite[key_notes[1] + octave] = [offset, sample_length];
-            } 
-            
-            offset += sample_length;
-
-        });
-
-    });
-
-    return sprite;
 
 };
 ;Lucille.prototype.render = function(reload) {
@@ -348,6 +321,7 @@ Lucille.prototype.renderFrettings = function(){
 		var disabled   = voicing[n].obj.inverted;
 
 		fretting.click(function(){ that.playString(n); }, this);
+		string.data('x',x);
 
 	});
 
@@ -611,7 +585,6 @@ Lucille.prototype.displayMinifiedHidden = function(){
 	var playableVoicing = _.filter(currVoicing,function(o){ return o.fret > -1 && o.obj.inverted === false });
 	var keys            = _.map(playableVoicing, function(voice){ return voice.obj.key(); });
 	var notes           = _.map(playableVoicing, function(voice){ return voice.obj.toString(); });
-	var offsets         = this.calcSpriteOffsets();
 	var direction       = direction || 'down';
 	var loopOrder       = 'down' === direction ? _.eachRight : _.each;
 
@@ -627,63 +600,45 @@ Lucille.prototype.displayMinifiedHidden = function(){
 
 Lucille.prototype.playString = function(n){
 
-	var string          = this.lucille.frettings[n].select('.string');
-	var coord           = string.attr('x1');
-	var dir             = 1;
-	var strength        = 5;
-	var currVoicing     = this.getCurrentVoicing();
-	var key             = currVoicing[n].obj.key();
-	var note            = currVoicing[n].obj.toString();
+	// get object
+	var string      = this.lucille.frettings[n].select('.string');
+	var x           = string.data('x');
+	var dir         = 1;
+	var currVoicing = this.getCurrentVoicing();
+	var key         = currVoicing[n].obj.key();
+	var note        = currVoicing[n].obj.toString();
+	var length      = 2000;
+	var number      = 10;
+	var inc         = 50;
+	var complete    = 0;
+	var variance    = 3;
+	var reset       = function(){ clearInterval(vibrate); string.attr({x1:x, x2:x}); };
 
-	// console.log('play', key, note);
+	// reset anim
+	reset();
 
-	// play note
+	// start animation
+	var vibrate     = setInterval(function() {
+		dir = dir == 1 ? 0 : 1;
+		complete = number / length;
+		var factor = (1 - complete) * variance; // invert percent complete
+		var playX = dir == 1 ? x-factor : x+factor; // get current x
+		number += inc; // increment number
+        string.attr({x1:playX, x2:playX});
+        if (number >= length) reset();
+    }, inc);
+
+	// play audio
 	this.player.play(note);
 
-	// prevent over clicks
-	if(void 0 === string.data('active')){
-		string.data('active', false);
-	}
-
-	// start vibration
-	var start = function (val){
-
-		// vars
-		var x    = coord;
-		var up   = parseInt(coord) + val;
-		var down = parseInt(coord) - val;
-
-		// set to active
-		string.data('active', true);
-
-		// update coord
-		x = dir == 1 ? up : down;
-
-		// attrs
-		string.attr({ x1: x, x2:x });
-
-		// flip direction
-		dir = dir == 1 ? 0 : 1;
-
-	};
-
-	// reset on completion
-	var end = function(){
-		string.attr({ x1:coord, x2:coord });
-		string.data('active', false);
-	};
-
-	// if not currently active, animate
-	if(false === string.data('active')){
-		Snap.animate(strength, 1, start, strength * 200, mina.easein, end);
-	}
+	
 
 };;Lucille.prototype.updateSettings = function(settings){
 
 	this.orientation       = settings.orientation.value;
 	this.instrument.tuning = settings.tuning.value;
 	this.tab               = this.getTab(this.tab.root, this.tab.type, this.instrument.tuning, settings.algorithm.value);
-	this.audio             = settings.preview.value;
+	this.sampleFile        = settings.preview.value;
 
 	this.renderFretboardRefresh();
 	this.player = this.getPlayer();
@@ -799,12 +754,13 @@ Lucille.prototype.getInstrument = function(instrument, tuning){
 
 Lucille.prototype.getPlayer = function(){
 
-	var audio = new Howl({
-	  urls: [this.audio],
-	  sprite: this.calcSpriteOffsets()
+	var plukit = new Plukit({
+		sampleFile:this.sampleFile,
+		samplePath:this.samplePath,
+		sampleLength:this.sampleLength
 	});
 
-	return audio;
+	return plukit;
 
 };;Lucille.prototype.destroy = function(){
 
@@ -1005,10 +961,10 @@ Lucille.prototype.configSettings = function(){
 				value:'gtr_aco_steel',
 				enabled:true,
 				options:{
-					gtr_aco_steel:{ name:'Acoustic Guitar',     value: 'modules/plukit/' + Plukit.guitar.acoustic.steel.mp3 },
-					gtr_aco_nylon:{ name:'Classical Guitar',    value: 'modules/plukit/' + Plukit.guitar.acoustic.nylon.mp3 },
-					gtr_elec_clean:{ name:'Clean Eletric',      value: 'modules/plukit/' + Plukit.guitar.electric.clean.mp3 },
-					gtr_elec_dist:{ name:'Distortion Electric', value: 'modules/plukit/' + Plukit.guitar.electric.dist.mp3 },
+					gtr_aco_steel:{ name:'Acoustic Guitar',     value: PLUKIT.guitar.acoustic.steel.mp3 },
+					gtr_aco_nylon:{ name:'Classical Guitar',    value: PLUKIT.guitar.acoustic.nylon.mp3 },
+					gtr_elec_clean:{ name:'Clean Eletric',      value: PLUKIT.guitar.electric.clean.mp3 },
+					gtr_elec_dist:{ name:'Distortion Electric', value: PLUKIT.guitar.electric.dist.mp3 },
 				}
 			},
 			algorithm:{
