@@ -50,7 +50,7 @@ Lucille.prototype.playString = function(n){
     }, inc);
 
 	// play audio
-	this.player.play(note);
+	this.plukit.play(note);
 
 	
 

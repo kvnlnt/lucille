@@ -36,15 +36,3 @@ Lucille.prototype.getInstrument = function(instrument, tuning){
 	return instrument;
 
 };
-
-Lucille.prototype.getPlayer = function(){
-
-	var plukit = new Plukit({
-		sampleFile:this.sampleFile,
-		samplePath:this.samplePath,
-		sampleLength:this.sampleLength
-	});
-
-	return plukit;
-
-};
