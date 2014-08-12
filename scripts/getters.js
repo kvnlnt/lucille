@@ -39,11 +39,12 @@ Lucille.prototype.getInstrument = function(instrument, tuning){
 
 Lucille.prototype.getPlayer = function(){
 
-	var audio = new Howl({
-	  urls: [this.audio],
-	  sprite: this.calcSpriteOffsets()
+	var plukit = new Plukit({
+		sampleFile:this.sampleFile,
+		samplePath:this.samplePath,
+		sampleLength:this.sampleLength
 	});
 
-	return audio;
+	return plukit;
 
 };

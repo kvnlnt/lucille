@@ -160,6 +160,7 @@ Lucille.prototype.renderFrettings = function(){
 		var disabled   = voicing[n].obj.inverted;
 
 		fretting.click(function(){ that.playString(n); }, this);
+		string.data('x',x);
 
 	});
 

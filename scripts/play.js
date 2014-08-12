@@ -6,7 +6,6 @@ Lucille.prototype.play = function(direction){
 	var playableVoicing = _.filter(currVoicing,function(o){ return o.fret > -1 && o.obj.inverted === false });
 	var keys            = _.map(playableVoicing, function(voice){ return voice.obj.key(); });
 	var notes           = _.map(playableVoicing, function(voice){ return voice.obj.toString(); });
-	var offsets         = this.calcSpriteOffsets();
 	var direction       = direction || 'down';
 	var loopOrder       = 'down' === direction ? _.eachRight : _.each;
 
@@ -22,55 +21,37 @@ Lucille.prototype.play = function(direction){
 
 Lucille.prototype.playString = function(n){
 
-	var string          = this.lucille.frettings[n].select('.string');
-	var coord           = string.attr('x1');
-	var dir             = 1;
-	var strength        = 5;
-	var currVoicing     = this.getCurrentVoicing();
-	var key             = currVoicing[n].obj.key();
-	var note            = currVoicing[n].obj.toString();
+	// get object
+	var string      = this.lucille.frettings[n].select('.string');
+	var x           = string.data('x');
+	var dir         = 1;
+	var currVoicing = this.getCurrentVoicing();
+	var key         = currVoicing[n].obj.key();
+	var note        = currVoicing[n].obj.toString();
+	var length      = 2000;
+	var number      = 10;
+	var inc         = 50;
+	var complete    = 0;
+	var variance    = 3;
+	var reset       = function(){ clearInterval(vibrate); string.attr({x1:x, x2:x}); };
 
-	// console.log('play', key, note);
+	// reset anim
+	reset();
 
-	// play note
+	// start animation
+	var vibrate     = setInterval(function() {
+		dir = dir == 1 ? 0 : 1;
+		complete = number / length;
+		var factor = (1 - complete) * variance; // invert percent complete
+		var playX = dir == 1 ? x-factor : x+factor; // get current x
+		number += inc; // increment number
+        string.attr({x1:playX, x2:playX});
+        if (number >= length) reset();
+    }, inc);
+
+	// play audio
 	this.player.play(note);
 
-	// prevent over clicks
-	if(void 0 === string.data('active')){
-		string.data('active', false);
-	}
-
-	// start vibration
-	var start = function (val){
-
-		// vars
-		var x    = coord;
-		var up   = parseInt(coord) + val;
-		var down = parseInt(coord) - val;
-
-		// set to active
-		string.data('active', true);
-
-		// update coord
-		x = dir == 1 ? up : down;
-
-		// attrs
-		string.attr({ x1: x, x2:x });
-
-		// flip direction
-		dir = dir == 1 ? 0 : 1;
-
-	};
-
-	// reset on completion
-	var end = function(){
-		string.attr({ x1:coord, x2:coord });
-		string.data('active', false);
-	};
-
-	// if not currently active, animate
-	if(false === string.data('active')){
-		Snap.animate(strength, 1, start, strength * 200, mina.easein, end);
-	}
+	
 
 };
