@@ -209,6 +209,7 @@ Lucille.prototype.renderBackground = function(){
 
 	});
 
+
 	return background;
 
 };
@@ -315,7 +316,7 @@ Lucille.prototype.renderFrettings = function(){
 		var noteLabel = fretting.text(x, noteY, noteNote).attr('class','note label');
 		var disabled   = voicing[n].obj.inverted;
 
-		fretting.click(function(){ that.playString(n); }, this);
+		fretting.mouseover(function(){ that.playString(n); }, this);
 		string.data('x',x);
 
 	});
@@ -597,31 +598,32 @@ Lucille.prototype.playString = function(n){
 
 	// get object
 	var string      = this.lucille.frettings[n].select('.string');
-	var x           = string.data('x');
-	var dir         = 1;
 	var currVoicing = this.getCurrentVoicing();
 	var key         = currVoicing[n].obj.key();
 	var note        = currVoicing[n].obj.toString();
-	var length      = 2000;
-	var number      = 10;
-	var inc         = 50;
-	var complete    = 0;
-	var variance    = 3;
-	var reset       = function(){ clearInterval(vibrate); string.attr({x1:x, x2:x}); };
+	var reset       = function(){ clearInterval(vibrate); string.attr({ 'stroke-opacity': 1, 'strokeWidth': 5 }); };
+	var interval    = 50;
+	var playLength  = 2000;
+	var playHead    = 0;
 
 	// reset anim
 	reset();
 
 	// start animation
-	var vibrate     = setInterval(function() {
-		dir = dir == 1 ? 0 : 1;
-		complete = number / length;
-		var factor = (1 - complete) * variance; // invert percent complete
-		var playX = dir == 1 ? x-factor : x+factor; // get current x
-		number += inc; // increment number
-        string.attr({x1:playX, x2:playX});
-        if (number >= length) reset();
-    }, inc);
+	var buzz = function(){
+
+		playHead += interval;
+
+        var percentComplete = playHead / playLength;
+        var opacity         = percentComplete < 0.5 ? 0.5 : percentComplete;
+        var strokeWidth     = (1 - percentComplete) < 0.5 ? 5 : (1 - percentComplete) * 10;
+
+        string.attr({ 'stroke-opacity':opacity, 'stroke-width':strokeWidth });
+        if (playHead >= playLength) reset();
+        
+    };
+
+	var vibrate = setInterval(buzz, interval);
 
 	// play audio
 	this.plukit.play(note);

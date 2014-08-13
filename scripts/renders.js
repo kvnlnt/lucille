@@ -53,6 +53,7 @@ Lucille.prototype.renderBackground = function(){
 
 	});
 
+
 	return background;
 
 };
@@ -159,7 +160,7 @@ Lucille.prototype.renderFrettings = function(){
 		var noteLabel = fretting.text(x, noteY, noteNote).attr('class','note label');
 		var disabled   = voicing[n].obj.inverted;
 
-		fretting.click(function(){ that.playString(n); }, this);
+		fretting.mouseover(function(){ that.playString(n); }, this);
 		string.data('x',x);
 
 	});
