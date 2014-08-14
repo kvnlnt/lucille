@@ -20,7 +20,7 @@ Lucille.prototype.trackSwipes = function(){
             // loop each string and see if current xOffset is close to one (within some margin based off of layout.string.spacing)
             _.each(stringsX, function(stringX, i){
 
-                var threshold = (x - layout.strings.spacing/4) < stringX && (x + layout.strings.spacing/4) > stringX;
+                var threshold = (x - layout.strings.spacing/3) < stringX && (x + layout.strings.spacing/3) > stringX;
                 if(threshold) that.playString(i);
 
             });
