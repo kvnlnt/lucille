@@ -20,6 +20,8 @@ var Lucille = function(options){
     this.render();
     this.display();
     this.updateTypeText('Major');
+    this.updateMinifiedTitle('C', 'Major');
+    this.trackSwipes();
 
 };;Lucille.prototype.Fixture = (function(){
 
@@ -316,7 +318,7 @@ Lucille.prototype.renderFrettings = function(){
 		var noteLabel = fretting.text(x, noteY, noteNote).attr('class','note label');
 		var disabled   = voicing[n].obj.inverted;
 
-		fretting.mouseover(function(){ that.playString(n); }, this);
+		fretting.click(function(){ that.playString(n); }, this);
 		string.data('x',x);
 
 	});
@@ -354,10 +356,11 @@ Lucille.prototype.renderButtons = function(){
 	// play
 	var playX      = layout.chart.width/2;
 	var playY      = layout.chart.height - ((layout.chart.height - layout.fretboard.height) / 2) / 2 + 10;
-	var play       = buttons.g();
+	var play       = buttons.g().attr('class','play');
 	var playTarget = play.rect(-25,-25,50,50).attr('class','touchTarget');
 	var playText   = play.text(0, 0, '\uf028');
 
+	play.data('active', false);
 	play.click(function(){ that.play(); }, this);
 	play.attr({ 'class':'button play', 'transform':'translate('+playX+','+playY+')' });
 
@@ -575,22 +578,37 @@ Lucille.prototype.displayMinifiedHidden = function(){
 
 ;Lucille.prototype.play = function(direction){
 
-	var that            = this;
-	var voicing         = _.map(this.calcVoicing(),function(voice){ return voice.note });
-	var currVoicing     = this.getCurrentVoicing();
-	var playableVoicing = _.filter(currVoicing,function(o){ return o.fret > -1 && o.obj.inverted === false });
-	var keys            = _.map(playableVoicing, function(voice){ return voice.obj.key(); });
-	var notes           = _.map(playableVoicing, function(voice){ return voice.obj.toString(); });
-	var direction       = direction || 'down';
-	var loopOrder       = 'down' === direction ? _.eachRight : _.each;
+	var that       = this;
+	var playButton = this.lucille.buttons[2];
 
-	var delay = 65;
-	loopOrder(playableVoicing, function(voice, i){ 
-		if(null !== voice){
-			window.setTimeout(function(){that.playString(i);}, delay);
-			delay += 65;
-		}
-	});
+	// don't allow reclicks
+	if(!playButton.data('active')){
+
+		// set to active to prevent reclicks
+		playButton.data('active', true);
+
+		// and expire after 2 seconds to allow reclicks
+		setTimeout(function(){ that.lucille.buttons[2].data('active', false); }, 2000);
+		
+		// calc stuff
+		var voicing         = _.map(this.calcVoicing(),function(voice){ return voice.note });
+		var currVoicing     = this.getCurrentVoicing();
+		var playableVoicing = _.filter(currVoicing,function(o){ return o.fret > -1 && o.obj.inverted === false });
+		var keys            = _.map(playableVoicing, function(voice){ return voice.obj.key(); });
+		var notes           = _.map(playableVoicing, function(voice){ return voice.obj.toString(); });
+		var direction       = direction || 'down';
+		var loopOrder       = 'down' === direction ? _.eachRight : _.each;
+
+		var delay = 65;
+		loopOrder(playableVoicing, function(voice, i){ 
+			if(null !== voice){
+				window.setTimeout(function(){that.playString(i);}, delay);
+				delay += 65;
+			}
+		});
+
+	}
+	
 
 };
 
@@ -623,6 +641,7 @@ Lucille.prototype.playString = function(n){
         
     };
 
+    // start string buzz
 	var vibrate = setInterval(buzz, interval);
 
 	// play audio
@@ -745,6 +764,46 @@ Lucille.prototype.getInstrument = function(instrument, tuning){
 	}
 
 	return instrument;
+
+};;Lucille.prototype.trackSwipes = function(){
+
+    var that       = this;
+    var tracking   = false;
+    var layout     = this.calcLayout();
+    var fretboardX = (layout.chart.width - layout.fretboard.width)/2;
+    var fretboardY = (layout.chart.height - layout.fretboard.height)/2 + 15;
+    var stringsX   = _.map(this.lucille.frettings, function(fretting){ return parseInt(fretting.select('.string').attr('x1')) + fretboardX; });
+
+    var isStrummed    = function(x,y){ 
+
+        // check if over fretboard
+        var onFretboard =   x > fretboardX && 
+                            y > fretboardY && 
+                            x < fretboardX + that.fretboard.width && 
+                            y < fretboardY + that.fretboard.height;
+
+        if(onFretboard){
+
+            // loop each string and see if current xOffset is close to one (within some margin based off of layout.string.spacing)
+            _.each(stringsX, function(stringX, i){
+
+                var threshold = (x - layout.strings.spacing/4) < stringX && (x + layout.strings.spacing/4) > stringX;
+                if(threshold) that.playString(i);
+
+            });
+
+        }
+
+    };
+
+
+    var startTracking = function(){ tracking = true; };
+    var stopTracking  = function(){ tracking = false; };
+    var swipes        = function(e){ if(tracking) isStrummed(e.offsetX, e.offsetY); }; 
+
+    this.lucille.background.mousedown(startTracking);
+    this.lucille.background.mousemove(swipes);
+    this.lucille.background.mouseup(stopTracking);
 
 };;Lucille.prototype.destroy = function(){
 

@@ -160,7 +160,7 @@ Lucille.prototype.renderFrettings = function(){
 		var noteLabel = fretting.text(x, noteY, noteNote).attr('class','note label');
 		var disabled   = voicing[n].obj.inverted;
 
-		fretting.mouseover(function(){ that.playString(n); }, this);
+		fretting.click(function(){ that.playString(n); }, this);
 		string.data('x',x);
 
 	});
@@ -198,10 +198,11 @@ Lucille.prototype.renderButtons = function(){
 	// play
 	var playX      = layout.chart.width/2;
 	var playY      = layout.chart.height - ((layout.chart.height - layout.fretboard.height) / 2) / 2 + 10;
-	var play       = buttons.g();
+	var play       = buttons.g().attr('class','play');
 	var playTarget = play.rect(-25,-25,50,50).attr('class','touchTarget');
 	var playText   = play.text(0, 0, '\uf028');
 
+	play.data('active', false);
 	play.click(function(){ that.play(); }, this);
 	play.attr({ 'class':'button play', 'transform':'translate('+playX+','+playY+')' });
 

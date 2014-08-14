@@ -1,21 +1,36 @@
 Lucille.prototype.play = function(direction){
 
-	var that            = this;
-	var voicing         = _.map(this.calcVoicing(),function(voice){ return voice.note });
-	var currVoicing     = this.getCurrentVoicing();
-	var playableVoicing = _.filter(currVoicing,function(o){ return o.fret > -1 && o.obj.inverted === false });
-	var keys            = _.map(playableVoicing, function(voice){ return voice.obj.key(); });
-	var notes           = _.map(playableVoicing, function(voice){ return voice.obj.toString(); });
-	var direction       = direction || 'down';
-	var loopOrder       = 'down' === direction ? _.eachRight : _.each;
+	var that       = this;
+	var playButton = this.lucille.buttons[2];
 
-	var delay = 65;
-	loopOrder(playableVoicing, function(voice, i){ 
-		if(null !== voice){
-			window.setTimeout(function(){that.playString(i);}, delay);
-			delay += 65;
-		}
-	});
+	// don't allow reclicks
+	if(!playButton.data('active')){
+
+		// set to active to prevent reclicks
+		playButton.data('active', true);
+
+		// and expire after 2 seconds to allow reclicks
+		setTimeout(function(){ that.lucille.buttons[2].data('active', false); }, 2000);
+		
+		// calc stuff
+		var voicing         = _.map(this.calcVoicing(),function(voice){ return voice.note });
+		var currVoicing     = this.getCurrentVoicing();
+		var playableVoicing = _.filter(currVoicing,function(o){ return o.fret > -1 && o.obj.inverted === false });
+		var keys            = _.map(playableVoicing, function(voice){ return voice.obj.key(); });
+		var notes           = _.map(playableVoicing, function(voice){ return voice.obj.toString(); });
+		var direction       = direction || 'down';
+		var loopOrder       = 'down' === direction ? _.eachRight : _.each;
+
+		var delay = 65;
+		loopOrder(playableVoicing, function(voice, i){ 
+			if(null !== voice){
+				window.setTimeout(function(){that.playString(i);}, delay);
+				delay += 65;
+			}
+		});
+
+	}
+	
 
 };
 
@@ -48,6 +63,7 @@ Lucille.prototype.playString = function(n){
         
     };
 
+    // start string buzz
 	var vibrate = setInterval(buzz, interval);
 
 	// play audio

@@ -20,5 +20,7 @@ var Lucille = function(options){
     this.render();
     this.display();
     this.updateTypeText('Major');
+    this.updateMinifiedTitle('C', 'Major');
+    this.trackSwipes();
 
 };
