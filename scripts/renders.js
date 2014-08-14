@@ -36,24 +36,6 @@ Lucille.prototype.renderBackground = function(){
 	var background = this.lucille.rect(0,0,this.chart.width,this.chart.height);
 	background.attr({'class':'background'});
 
-	// swipe play
-	var hammertime = new Hammer(background.node, { distance:50	});
-
-	hammertime.on('swiperight', function(ev) { 
-
-		var direction = 'RIGHTY' === that.orientation ? 'down' : 'up';
-		that.play(direction);
-
-	});
-
-	hammertime.on('swipeleft', function(ev) { 
-
-		var direction = 'RIGHTY' === that.orientation ? 'up' : 'down';
-		that.play(direction);
-
-	});
-
-
 	return background;
 
 };

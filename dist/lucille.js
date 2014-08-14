@@ -194,24 +194,6 @@ Lucille.prototype.renderBackground = function(){
 	var background = this.lucille.rect(0,0,this.chart.width,this.chart.height);
 	background.attr({'class':'background'});
 
-	// swipe play
-	var hammertime = new Hammer(background.node, { distance:50	});
-
-	hammertime.on('swiperight', function(ev) { 
-
-		var direction = 'RIGHTY' === that.orientation ? 'down' : 'up';
-		that.play(direction);
-
-	});
-
-	hammertime.on('swipeleft', function(ev) { 
-
-		var direction = 'RIGHTY' === that.orientation ? 'up' : 'down';
-		that.play(direction);
-
-	});
-
-
 	return background;
 
 };
@@ -797,8 +779,8 @@ Lucille.prototype.getInstrument = function(instrument, tuning){
     };
 
 
-    var startTracking = function(){ tracking = true; };
-    var stopTracking  = function(){ tracking = false; };
+    var startTracking = function(){ tracking = true; alert('track start'); };
+    var stopTracking  = function(){ tracking = false; alert('track end'); };
     var swipes        = function(e){ if(tracking) isStrummed(e.offsetX, e.offsetY); }; 
 
     this.lucille.background.touchstart(startTracking);

@@ -30,8 +30,8 @@ Lucille.prototype.trackSwipes = function(){
     };
 
 
-    var startTracking = function(){ tracking = true; };
-    var stopTracking  = function(){ tracking = false; };
+    var startTracking = function(){ tracking = true; alert('track start'); };
+    var stopTracking  = function(){ tracking = false; alert('track end'); };
     var swipes        = function(e){ if(tracking) isStrummed(e.offsetX, e.offsetY); }; 
 
     this.lucille.background.touchstart(startTracking);
