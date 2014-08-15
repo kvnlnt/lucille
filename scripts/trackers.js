@@ -33,6 +33,6 @@ Lucille.prototype.trackSwipes = function(){
 
     };
 
-    this.lucille.background.drag(drag);
+    // this.lucille.background.drag(drag);
 
 };
