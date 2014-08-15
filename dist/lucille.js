@@ -782,7 +782,7 @@ Lucille.prototype.getInstrument = function(instrument, tuning){
 
     };
 
-    this.lucille.background.drag(drag);
+    // this.lucille.background.drag(drag);
 
 };;Lucille.prototype.destroy = function(){
 
