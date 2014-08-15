@@ -63,12 +63,12 @@ Lucille.prototype.playString = function(n){
         
     };
 
-    // start string buzz
-	var vibrate = setInterval(buzz, interval);
-
-	// play audio
-	this.plukit.play(note);
-
-	
+    // start string buzz if not active
+    if(false === string.data('active')){
+    	var vibrate = setInterval(buzz, interval);
+		this.plukit.play(note);
+    	string.data('active',true);
+    	setTimeout(function(){ string.data('active',false); }, playLength);
+    }	
 
 };

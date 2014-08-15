@@ -133,7 +133,7 @@ Lucille.prototype.renderFrettings = function(){
 		var y         = layout.fretboard.height/2;
 		var fretting  = frettings.g().attr({ 'class':'fretting' });
 		var dot       = fretting.circle(x,y,radius).attr('class', 'dot');
-		var string    = fretting.line(x,y,x,that.fretboard.height).attr('class','string');
+		var string    = fretting.line(x,y,x,that.fretboard.height).attr('class','string').data('active',false);
 		var tabY 	  = layout.strings.y1[n] - 15;
 		var tabFret   = null === voicing[n].fret ? 'X' : voicing[n].fret.toString();
 		var tabLabel  = fretting.text(x, tabY, tabFret).attr('class','tab label');
