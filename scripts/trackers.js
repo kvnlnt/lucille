@@ -7,7 +7,11 @@ Lucille.prototype.trackSwipes = function(){
     var fretboardY = (layout.chart.height - layout.fretboard.height)/2 + 15;
     var stringsX   = _.map(this.lucille.frettings, function(fretting){ return parseInt(fretting.select('.string').attr('x1')) + fretboardX; });
 
-    var isStrummed    = function(x,y){ 
+    var drag = function(dx,dy,px,py,e){
+
+        var x = e.offsetX;
+        var y = e.offsetY;
+        // console.log(dx,dy,x,y,e, relX, relY);
 
         // check if over fretboard
         var onFretboard =   x > fretboardX && 
@@ -29,13 +33,6 @@ Lucille.prototype.trackSwipes = function(){
 
     };
 
-
-    var startTracking = function(){ tracking = true; alert('track start'); };
-    var stopTracking  = function(){ tracking = false; alert('track end'); };
-    var swipes        = function(e){ if(tracking) isStrummed(e.offsetX, e.offsetY); }; 
-
-    this.lucille.background.touchstart(startTracking);
-    this.lucille.background.touchmove(swipes);
-    this.lucille.background.touchend(stopTracking);
+    this.lucille.background.drag(drag);
 
 };
