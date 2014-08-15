@@ -635,7 +635,7 @@ Lucille.prototype.playString = function(n){
 
 	this.orientation       = settings.orientation.value;
 	this.instrument.tuning = settings.tuning.value;
-	this.tab               = this.getTab(this.tab.root, this.tab.type, this.instrument.tuning, settings.algorithm.value);
+	this.tab               = this.getTab(this.tab.root, this.tab.type, this.instrument.tuning);
 
 	this.renderFretboardRefresh();
 	this.plukit = new Plukit({ sampleFile: settings.preview.value });
@@ -714,7 +714,7 @@ Lucille.prototype.transTabulousChordToVoicings = function(tabulous){
 
 // };
 
-Lucille.prototype.getTab = function(root, type, tuning, algorithm){
+Lucille.prototype.getTab = function(root, type, tuning){
 
 	// update tab & refresh
 	var tuning    = tuning || this.instrument.tuning;
@@ -740,7 +740,7 @@ Lucille.prototype.getInstrument = function(instrument, tuning){
 		case 'Guitar':
 		instrument = this.Instrument.guitar;
 		break;
-		case 'majandolin':
+		case 'Mandolin':
 		instrument = this.Instrument.mandolin;
 		break;
 	}
@@ -781,6 +781,32 @@ Lucille.prototype.getInstrument = function(instrument, tuning){
         }
 
     };
+
+    // var mouse = {x: 0, y: 0};
+
+    // // document.addEventListener('mousemove', function(e){ 
+    // //     mouse.x = e.clientX || e.pageX; 
+    // //     mouse.y = e.clientY || e.pageY 
+    // // }, false);
+
+    // document.addEventListener('touchstart', function(e){
+    //    if( navigator.userAgent.match(/Android/i) ) {
+    //         e.preventDefault();
+    //       }
+    // }, false);
+
+    // document.addEventListener('touchmove', function(e){
+    //     var x = e.touches[0].pageX;
+    //     var y = e.touches[0].pageY;
+    //     mouse.x = x; 
+    //     mouse.y = e.clientY || y;
+    // }, false);
+
+    // var checkMouse = function () {
+    //     $("#debug").html(mouse.x + ',' + mouse.y);
+    // };
+
+    // window.setInterval(checkMouse, 100);
 
     // this.lucille.background.drag(drag);
 
@@ -987,15 +1013,6 @@ Lucille.prototype.configSettings = function(){
 					gtr_aco_nylon:{ name:'Classical Guitar',    value: PLUKIT.guitar.acoustic.nylon.mp3 },
 					gtr_elec_clean:{ name:'Clean Eletric',      value: PLUKIT.guitar.electric.clean.mp3 },
 					gtr_elec_dist:{ name:'Distortion Electric', value: PLUKIT.guitar.electric.dist.mp3 },
-				}
-			},
-			algorithm:{
-				name:'algorithm',
-				value:'chain',
-				enabled:true,
-				options:{
-					chain:{ name:'chained', value:'CHAIN' },
-					kordfu:{ name:'kordfu', value:'KORDFU' },
 				}
 			},
 			delete:{

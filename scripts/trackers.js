@@ -33,6 +33,32 @@ Lucille.prototype.trackSwipes = function(){
 
     };
 
+    // var mouse = {x: 0, y: 0};
+
+    // // document.addEventListener('mousemove', function(e){ 
+    // //     mouse.x = e.clientX || e.pageX; 
+    // //     mouse.y = e.clientY || e.pageY 
+    // // }, false);
+
+    // document.addEventListener('touchstart', function(e){
+    //    if( navigator.userAgent.match(/Android/i) ) {
+    //         e.preventDefault();
+    //       }
+    // }, false);
+
+    // document.addEventListener('touchmove', function(e){
+    //     var x = e.touches[0].pageX;
+    //     var y = e.touches[0].pageY;
+    //     mouse.x = x; 
+    //     mouse.y = e.clientY || y;
+    // }, false);
+
+    // var checkMouse = function () {
+    //     $("#debug").html(mouse.x + ',' + mouse.y);
+    // };
+
+    // window.setInterval(checkMouse, 100);
+
     // this.lucille.background.drag(drag);
 
 };

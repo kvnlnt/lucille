@@ -2,7 +2,7 @@
 
 // };
 
-Lucille.prototype.getTab = function(root, type, tuning, algorithm){
+Lucille.prototype.getTab = function(root, type, tuning){
 
 	// update tab & refresh
 	var tuning    = tuning || this.instrument.tuning;
@@ -28,7 +28,7 @@ Lucille.prototype.getInstrument = function(instrument, tuning){
 		case 'Guitar':
 		instrument = this.Instrument.guitar;
 		break;
-		case 'majandolin':
+		case 'Mandolin':
 		instrument = this.Instrument.mandolin;
 		break;
 	}

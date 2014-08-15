@@ -80,15 +80,6 @@ Lucille.prototype.configSettings = function(){
 					gtr_elec_dist:{ name:'Distortion Electric', value: PLUKIT.guitar.electric.dist.mp3 },
 				}
 			},
-			algorithm:{
-				name:'algorithm',
-				value:'chain',
-				enabled:true,
-				options:{
-					chain:{ name:'chained', value:'CHAIN' },
-					kordfu:{ name:'kordfu', value:'KORDFU' },
-				}
-			},
 			delete:{
 				type:'button',
 				text:'delete',
