@@ -5,8 +5,7 @@ Lucille.prototype.updateSettings = function(settings){
 	this.tab               = this.getTab(this.tab.root, this.tab.type, this.instrument.tuning);
 
 	this.renderFretboardRefresh();
-	this.plukit.sampleFile          = settings.preview.value;
-	this.plukit.settings.sampleFile = settings.preview.value;
+	this.plukit = new Plukit({ sampleFile:settings.preview.value, samplePath:this.plukit.settings.samplePath, device:this.plukit.settings.device });
 	this.display();
 
 };
