@@ -1,7 +1,12 @@
 module.exports = function(grunt) {
   
+    // simple build task
     grunt.registerTask('build', [
-        'concat', 'uglify'
+        'useminPrepare',
+        'copy:html',
+        'concat:generated',
+        'uglify:generated',
+        'usemin'
     ]);
     
 };
