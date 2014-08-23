@@ -2,22 +2,13 @@ Lucille.prototype.updateSettings = function(settings){
 
 	this.orientation       = settings.orientation.value;
 	this.instrument.tuning = settings.tuning.value;
-	this.tab               = this.getTab(this.tab.root, this.tab.type, this.instrument.tuning);
-
-	this.renderFretboardRefresh();
-	this.plukit = new Plukit({ sampleFile:settings.preview.value, samplePath:this.plukit.settings.samplePath, device:this.plukit.settings.device });
-	this.display();
-
-};
-
-Lucille.prototype.updateChord = function(settings){
-
-	// update ui
 	this.updateRootText(settings.root.name);
 	this.updateTypeText(settings.type.name);
 	this.updateMinifiedTitle(settings.root.name, settings.type.name);
 	this.tab = this.getTab(settings.root.value, settings.type.value, this.instrument.tuning);
+
 	this.renderFretboardRefresh();
+	this.plukit = new Plukit({ sampleFile:settings.preview.value, samplePath:this.plukit.settings.samplePath, device:this.plukit.settings.device });
 	this.display();
 
 };

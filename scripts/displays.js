@@ -47,6 +47,13 @@ Lucille.prototype.display = function(){
 
 	});
 
+	// log
+	if(typeof analytics !== "undefined"){
+		var label = this.tab.root + this.tab.type + this.tab.caged[0];
+		analytics.trackEvent('Display', 'Voicing', label);
+	}
+	
+
 };
 
 Lucille.prototype.displayNext = function(){
