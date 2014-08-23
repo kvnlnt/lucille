@@ -11,7 +11,6 @@ Lucille.prototype.render = function(reload) {
 	this.lucille.frettings  = this.renderFrettings();
 	this.lucille.buttons    = this.renderButtons();
 	this.lucille.settings   = this.renderSettings();
-	this.lucille.picker     = this.renderPicker();
 
 	// render minified version
 	this.lucille.minified   = this.renderMinified();
@@ -44,12 +43,10 @@ Lucille.prototype.renderChord = function(){
 
 	var x          = (this.chart.width - 100) / 2;
 	var y          = 10;
-	var chord      = this.lucille.g().attr({ 'class':'chord button', 'transform':'translate('+x+','+y+')'});
-	var background = chord.rect(0,0,100,100).attr('class','touchTarget');
+	var chord      = this.lucille.g().attr({ 'class':'chord', 'transform':'translate('+x+','+y+')'});
+	var background = chord.rect(0,0,100,100);
 	var root       = chord.text(50, 50, this.tab.root).attr('class','root');
 	var type       = chord.text(50, 90, this.tab.type).attr('class','type');
-
-	chord.click(function(){ this.lucille.picker.display(); }, this);
 
 	return chord;
 
@@ -193,7 +190,7 @@ Lucille.prototype.renderButtons = function(){
 	var settingsY      = ((layout.chart.width - layout.fretboard.width) / 2) / 2;
 	var settings       = buttons.g();
 	var settingsTarget = settings.rect(-25,-25,50,50).attr('class','touchTarget');
-	var settingsText   = settings.text(0, 0, '\uf0c9');
+	var settingsText   = settings.text(0, 0, '\uf013');
 
 	settings.click(function(){ this.lucille.settings.display(); }, this);
 	settings.attr({ 'class':'button settings', 'transform':'translate('+settingsX+','+settingsY+')' });
@@ -218,18 +215,6 @@ Lucille.prototype.renderSettings = function(){
 	var config   = this.configSettings();
 	var that     = this;
 	var callback = function(settings){ that.updateSettings(settings); };
-	var svg      = this.lucille.g();
-	var pickl    = new Pickl({ svg:svg, callback:callback, config:config });
-
-	return pickl;
-
-};
-
-Lucille.prototype.renderPicker = function(){
-
-	var config   = this.configPicker();
-	var that     = this;
-	var callback = function(settings){ that.updateChord(settings); };
 	var svg      = this.lucille.g();
 	var pickl    = new Pickl({ svg:svg, callback:callback, config:config });
 

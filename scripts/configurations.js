@@ -1,8 +1,10 @@
-Lucille.prototype.configPicker = function(){
+Lucille.prototype.configSettings = function(){
+
+	var that = this;
 
 	return {
 
-		title:'Chord Picker',
+		title:'Settings',
 		fields:{
 			root:{
 				name:'root',
@@ -36,21 +38,7 @@ Lucille.prototype.configPicker = function(){
 					'1'  :{ name:'Major',    value: 'M' },
 					'13' :{ name:'minor',    value: 'm' }
 				}
-			}
-		}
-
-	};
-
-};
-
-Lucille.prototype.configSettings = function(){
-
-	var that = this;
-
-	return {
-
-		title:'Settings',
-		fields:{
+			},
 			orientation:{
 				name:'orientation',
 				value:'righty',
