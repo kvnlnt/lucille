@@ -9,7 +9,7 @@ var Lucille = function(options){
     defaults.instrument   = this.Instrument;
     defaults.plukit       = new Plukit();
     defaults.pattern      = 'strum';
-    defaults.tab          = this.getTab('C','M', this.Instrument.tuning);
+    defaults.tab          = this.getTab('C#','M', this.Instrument.tuning);
     defaults.theme        = 'zen';
 
     // setup options

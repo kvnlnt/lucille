@@ -20,12 +20,19 @@ Lucille.prototype.transToTabulousChordType = function(type) {
 Lucille.prototype.transTabulousChordToVoicings = function(tabulous){
 
 	// loop voicings
+	var notes    = _.map(tabulous.notes, function(note){ return note.toString(true)});
 	var voicings = _.map(tabulous.voicings, function(voicing, x){ 
 
 		// loop voicing frettings
 		return _.map(voicing.data, function(fretting, y){
 
-			var note = null === fretting ? null : fretting.toString(true).charAt(0).toUpperCase() + fretting.toString(true).charAt(1);
+			var isNoteInChord 	= _.contains(notes, fretting.toString(true));
+			var hasEnharmonic 	= _.filter(fretting.enharmonics(), function(enharmonic){ return _.contains(notes, enharmonic.toString(true))});
+			var note 			= null;
+
+			if(isNoteInChord) note = fretting.toString(true);
+			if(hasEnharmonic.length) note = hasEnharmonic.toString(true);
+			note = note.charAt(0).toUpperCase() + note.charAt(1);
 
 			return {
 				fret:voicing.voicing[y],
