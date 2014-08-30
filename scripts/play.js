@@ -22,10 +22,12 @@ Lucille.prototype.play = function(direction){
 		var loopOrder       = 'down' === direction ? _.eachRight : _.each;
 
 		var delay = 65;
-		loopOrder(playableVoicing, function(voice, i){ 
-			if(null !== voice){
-				window.setTimeout(function(){that.playString(i);}, delay);
-				delay += 65;
+		loopOrder(currVoicing, function(voice, i){ 
+			if(null !== voice.obj){
+                if(false === voice.obj.inverted){
+                    window.setTimeout(function(){that.playString(i);}, delay);
+                    delay += 65;
+                }	
 			}
 		});
 

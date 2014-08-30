@@ -26,13 +26,17 @@ Lucille.prototype.transTabulousChordToVoicings = function(tabulous){
 		// loop voicing frettings
 		return _.map(voicing.data, function(fretting, y){
 
-			var isNoteInChord 	= _.contains(notes, fretting.toString(true));
-			var hasEnharmonic 	= _.filter(fretting.enharmonics(), function(enharmonic){ return _.contains(notes, enharmonic.toString(true))});
-			var note 			= null;
+			if(null === fretting){
+				var note = null;
+			} else {
+				var isNoteInChord 	= _.contains(notes, fretting.toString(true));
+				var hasEnharmonic 	= _.filter(fretting.enharmonics(), function(enharmonic){ return _.contains(notes, enharmonic.toString(true))});
+				var note 			= null;
 
-			if(isNoteInChord) note = fretting.toString(true);
-			if(hasEnharmonic.length) note = hasEnharmonic.toString(true);
-			note = note.charAt(0).toUpperCase() + note.charAt(1);
+				if(isNoteInChord) note = fretting.toString(true);
+				if(hasEnharmonic.length) note = hasEnharmonic.toString(true);
+				note = note.charAt(0).toUpperCase() + note.charAt(1);
+			}
 
 			return {
 				fret:voicing.voicing[y],
