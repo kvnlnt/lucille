@@ -35,11 +35,11 @@ Lucille.prototype.configSettings = function(){
 				value:'1',
 				enabled:true,
 				options:{
-					'1' :{ name:'Major', value:'M',  enable:['maj_extend'], disable:['min_extend', 'sus_extend'] },
-					'2' :{ name:'minor', value:'m',  enable:['min_extend'], disable:['maj_extend', 'sus_extend'] },
-					'3' :{ name:'sus', 	value:'sus', enable:['sus_extend'], disable:['maj_extend', 'min_extend'] },
-					'4' :{ name:'dim', 	value:'dim', enable:['dim_extend'], disable:['maj_extend', 'min_extend', 'sus_extend'] },
-					'5' :{ name:'aug', 	value:'aug', enable:['aug_extend'], disable:['maj_extend', 'min_extend', 'sus_extend'] },
+					'1' :{ name:'Major', value:'M',   enable:['maj_extend'], disable:['min_extend', 'sus_extend'] },
+					'2' :{ name:'minor', value:'m',   enable:['min_extend'], disable:['maj_extend', 'sus_extend'] },
+					'3' :{ name:'sus', 	 value:'sus', enable:['sus_extend'], disable:['maj_extend', 'min_extend'] },
+					'4' :{ name:'dim', 	 value:'dim', enable:['dim_extend'], disable:['maj_extend', 'min_extend', 'sus_extend'] },
+					'5' :{ name:'aug', 	 value:'aug', enable:['aug_extend'], disable:['maj_extend', 'min_extend', 'sus_extend'] },
 				}
 			},
 			maj_extend:{
@@ -78,7 +78,7 @@ Lucille.prototype.configSettings = function(){
 				value:'0',
 				enabled:false,
 				options:{
-					'0' :{ name:'2',	 value:'' },
+					'0' :{ name:'2',	 value:'2' },
 					'1' :{ name:'4',	 value:'4' },
 				}
 			},
