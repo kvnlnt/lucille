@@ -15,7 +15,7 @@ Lucille.prototype.play = function(direction){
 		// calc stuff
 		var voicing         = _.map(this.calcVoicing(),function(voice){ return voice.note });
 		var currVoicing     = this.getCurrentVoicing();
-		var playableVoicing = _.filter(currVoicing,function(o){ return o.fret > -1 && o.obj.inverted === false });
+		var playableVoicing = _.filter(currVoicing,function(o){ return o.fret > -1 && o.obj.active === false });
 		var keys            = _.map(playableVoicing, function(voice){ return voice.obj.key(); });
 		var notes           = _.map(playableVoicing, function(voice){ return voice.obj.toString(); });
 		var direction       = direction || 'down';
@@ -24,7 +24,7 @@ Lucille.prototype.play = function(direction){
 		var delay = 65;
 		loopOrder(currVoicing, function(voice, i){ 
 			if(null !== voice.obj){
-                if(false === voice.obj.inverted){
+                if(true === voice.obj.active){
                     window.setTimeout(function(){that.playString(i);}, delay);
                     delay += 65;
                 }	

@@ -137,7 +137,7 @@ Lucille.prototype.renderFrettings = function(){
 		var noteY     = layout.strings.y2[n] + 15;
 		var noteNote  = null === voicing[n].note ? 'X' : voicing[n].note;
 		var noteLabel = fretting.text(x, noteY, noteNote).attr('class','note label');
-		var disabled  = null === voicing[n].obj || voicing[n].obj.inverted;
+		var disabled  = null === voicing[n].obj || voicing[n].obj.active;
 
 		fretting.click(function(){ that.playString(n); }, this);
 		string.data('x',x);

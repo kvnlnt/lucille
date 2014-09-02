@@ -13,7 +13,7 @@ Lucille.prototype.display = function(){
 		var fretting 	= frettings[i];
 		var pos 		= _.indexOf(frets.range, voice.fret);
 		var loc 		= -1 === pos ? 0 : pos;
-		var disabled    = null === voice.obj || true === voice.obj.inverted;
+		var disabled    = null === voice.obj || false === voice.obj.active;
 
 		// fretting dot
 		var dot 		= fretting.select('.dot');
