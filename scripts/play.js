@@ -15,16 +15,16 @@ Lucille.prototype.play = function(direction){
 		// calc stuff
 		var voicing         = _.map(this.calcVoicing(),function(voice){ return voice.note });
 		var currVoicing     = this.getCurrentVoicing();
-		var playableVoicing = _.filter(currVoicing,function(o){ return o.fret > -1 && o.obj.active === false });
-		var keys            = _.map(playableVoicing, function(voice){ return voice.obj.key(); });
-		var notes           = _.map(playableVoicing, function(voice){ return voice.obj.toString(); });
+		var playableVoicing = _.filter(currVoicing,function(o){ return o.fret > -1 && o.obj.isActive === false });
+		var keys            = _.map(playableVoicing, function(voice){ return voice.obj.teoria.key(); });
+		var notes           = _.map(playableVoicing, function(voice){ return voice.obj.teoria.toString(); });
 		var direction       = direction || 'down';
 		var loopOrder       = 'down' === direction ? _.eachRight : _.each;
 
 		var delay = 65;
 		loopOrder(currVoicing, function(voice, i){ 
 			if(null !== voice.obj){
-                if(true === voice.obj.active){
+                if(true === voice.obj.isActive){
                     window.setTimeout(function(){that.playString(i);}, delay);
                     delay += 65;
                 }	
@@ -41,8 +41,8 @@ Lucille.prototype.playString = function(n){
 	// get object
 	var string      = this.lucille.frettings[n].select('.string');
 	var currVoicing = this.getCurrentVoicing();
-	var key         = currVoicing[n].obj.key();
-	var note        = currVoicing[n].obj.toString();
+	var key         = currVoicing[n].obj.teoria.key();
+	var note        = currVoicing[n].obj.teoria.toString();
 	var reset       = function(){ clearInterval(vibrate); string.attr({ 'stroke-opacity': 1, 'strokeWidth': 5 }); };
 	var interval    = 50;
 	var playLength  = 2000;

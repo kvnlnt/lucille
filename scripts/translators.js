@@ -29,11 +29,11 @@ Lucille.prototype.transTabulousChordToVoicings = function(tabulous){
 			if(null === fretting){
 				var note = null;
 			} else {
-				var isNoteInChord 	= _.contains(notes, fretting.toString(true));
-				var hasEnharmonic 	= _.filter(fretting.enharmonics(), function(enharmonic){ return _.contains(notes, enharmonic.toString(true))});
+				var isNoteInChord 	= _.contains(notes, fretting.teoria.toString(true));
+				var hasEnharmonic 	= _.filter(fretting.teoria.enharmonics(), function(enharmonic){ return _.contains(notes, enharmonic.toString(true))});
 				var note 			= null;
 
-				if(isNoteInChord) note = fretting.toString(true);
+				if(isNoteInChord) note = fretting.teoria.toString(true);
 				if(hasEnharmonic.length) note = hasEnharmonic.toString(true);
 				note = note.charAt(0).toUpperCase() + note.charAt(1);
 			}
