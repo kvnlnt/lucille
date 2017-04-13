@@ -59,11 +59,15 @@
 </head>
 
 <body>
+    <h1>kordfu</h1>
     <script type="text/javascript">
-    var lucille = new Lucille();
+    (function() {
+        var lucille = new Lucille();
+        document.querySelector('h1').addEventListener('click', function(){
+            new Lucille();
+        });
+    }());
     </script>
-    <div id="debug" style="float:right">test
-    </div>
 </body>
 
 </html>

@@ -44,6 +44,7 @@ Lucille.prototype.themeLoad = function(){
 
 		// backgrounds
 
+			css += 'html, body { background: '+style.background+'}';
 			css += '.lucille .background { fill: '+style.background+'; }';
 			css += '.lucille .touchTarget { fill: '+style.touchTargetBackground+'; cursor:pointer; }';
 
@@ -58,7 +59,8 @@ Lucille.prototype.themeLoad = function(){
 
 		// general
 
-			css += ".lucille { font-family:'VarelaRound'; font-size: 1rem; }";
+			css += "h1 { cursor: pointer; color: white; font-family:'VarelaRound'; font-size:2rem; display:block; text-align: center; border-bottom:1px solid #222222; line-height:3rem; }";
+			css += ".lucille { border: 1px solid #222222; font-family:'VarelaRound'; font-size: 1rem; display:block; margin:2px auto; }";
 
 		// text basic
 
