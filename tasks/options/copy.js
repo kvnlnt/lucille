@@ -5,4 +5,14 @@ module.exports = {
         dest: 'dist/index.html'
     },
 
+    fonts: {
+        src: 'fonts/**',
+        dest: 'dist/'
+    },
+
+    plukit: {
+        src:'modules/plukit/**',
+        dest: 'dist/'
+    }
+
 }
